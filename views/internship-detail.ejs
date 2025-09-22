@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internship Details | Internship Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#F97316',
+                        neutral: {
+                            50: '#F9FAFB',
+                            100: '#F3F4F6',
+                            200: '#E5E7EB',
+                            300: '#D1D5DB',
+                            400: '#9CA3AF',
+                            500: '#6B7280',
+                            600: '#4B5563',
+                            700: '#374151',
+                            800: '#1F2937',
+                            900: '#111827',
+                        },
+                        success: '#10B981',
+                        warning: '#FBBF24',
+                        error: '#EF4444',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                },
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow-sm {
+                text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            }
+        }
+    </style>
+</head>
+<body class="bg-neutral-50 min-h-screen font-sans">
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-white border-b border-neutral-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-md bg-primary flex items-center justify-center">
+                            <i class="fa fa-graduation-cap text-white"></i>
+                        </div>
+                        <span class="text-lg font-bold text-neutral-800">InternConnect</span>
+                    </a>
+                    
+                    <nav class="hidden md:ml-10 md:flex md:space-x-8">
+                        <a href="/" class="text-neutral-600 hover:text-primary px-3 py-2 text-sm font-medium">Home</a>
+                        <a href="/internships" class="text-primary border-b-2 border-primary px-3 py-2 text-sm font-medium">Internships</a>
+                        <a href="/dashboard" class="text-neutral-600 hover:text-primary px-3 py-2 text-sm font-medium">Dashboard</a>
+                    </nav>
+                </div>
+                
+                <div class="flex items-center">
+                    <% if (user) { %>
+                        <div class="ml-3 relative">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-sm font-medium text-neutral-700">Hi, <%= user.name %></span>
+                                <div class="h-8 w-8 rounded-full bg-neutral-200 flex items-center justify-center">
+                                    <span class="text-neutral-600 text-sm font-medium"><%= user.name.charAt(0).toUpperCase() %></span>
+                                </div>
+                            </div>
+                        </div>
+                    <% } else { %>
+                        <div class="space-x-2">
+                            <a href="/login" class="inline-flex items-center px-3 py-2 border border-neutral-300 text-sm leading-4 font-medium rounded-md text-neutral-700 bg-white hover:text-primary hover:border-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                Log in
+                            </a>
+                            <a href="/signup" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                Sign up
+                            </a>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Back Button -->
+        <div class="mb-6">
+            <a href="/internships" class="inline-flex items-center text-neutral-600 hover:text-primary transition-colors">
+                <i class="fa fa-arrow-left mr-2"></i>
+                <span>Back to Internships</span>
+            </a>
+        </div>
+
+        <!-- Internship Not Found State -->
+        <div id="not-found" class="hidden py-16 flex flex-col items-center justify-center text-center bg-white rounded-lg shadow-sm border border-neutral-200">
+            <div class="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center mb-4">
+                <i class="fa fa-folder-open text-neutral-400 text-xl"></i>
+            </div>
+            <h3 class="text-lg font-semibold text-neutral-800 mb-2">Internship Not Found</h3>
+            <p class="text-neutral-600 max-w-md mb-6">We couldn't find the internship you're looking for. It might have been removed or the URL is incorrect.</p>
+            <a href="/internships" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                Browse All Internships
+            </a>
+        </div>
+
+        <!-- Internship Content -->
+        <div id="internship-content" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Main Column -->
+            <div class="lg:col-span-2">
+                <!-- Internship Header -->
+                <div class="bg-white rounded-lg shadow-sm border border-neutral-200 p-6 mb-6">
+                    <div class="flex flex-col md:flex-row md:items-start md:justify-between">
+                        <div class="flex items-start space-x-4 mb-4 md:mb-0">
+                            <img
+                                id="company-logo"
+                                src=""
+                                alt="Company logo"
+                                class="w-16 h-16 rounded-lg object-cover border border-neutral-200"
+                            >
+                            <div>
+                                <h1 id="internship-title" class="text-2xl font-bold text-neutral-900 mb-1"></h1>
+                                <p id="company-name" class="text-lg font-medium text-neutral-700 mb-1"></p>
+                                <div id="internship-type" class="inline-block px-3 py-1 rounded-full text-xs font-medium border"></div>
+                            </div>
+                        </div>
+                        <div id="apply-button-container" class="flex-shrink-0">
+                            <!-- Apply button will be inserted here based on user status -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Info Section -->
+                <div class="bg-white rounded-lg shadow-sm border border-neutral-200 p-6 mb-6">
+                    <h2 class="text-lg font-semibold text-neutral-800 mb-4">Quick Info</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-8 w-8 rounded-md bg-primary/10 flex items-center justify-center">
+                                <i class="fa fa-map-marker text-primary"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-neutral-500">Location</h3>
+                                <p id="location" class="text-neutral-900"></p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-8 w-8 rounded-md bg-primary/10 flex items-center justify-center">
+                                <i class="fa fa-clock-o text-primary"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-neutral-500">Duration</h3>
+                                <p id="duration" class="text-neutral-900"></p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-8 w-8 rounded-md bg-primary/10 flex items-center justify-center">
+                                <i class="fa fa-dollar text-primary"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-neutral-500">Stipend</h3>
+                                <p id="stipend" class="text-neutral-900"></p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-8 w-8 rounded-md bg-primary/10 flex items-center justify-center">
+                                <i class="fa fa-calendar text-primary"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-neutral-500">Apply By</h3>
+                                <p id="deadline" class="text-neutral-900"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Description Section -->
+                <div class="bg-white rounded-lg shadow-sm border border-neutral-200 p-6 mb-6">
+                    <h2 class="text-lg font-semibold text-neutral-800 mb-4">Description</h2>
+                    <div id="description" class="prose prose-neutral max-w-none text-neutral-700"></div>
+                </div>
+
+                <!-- Requirements Section -->
+                <div class="bg-white rounded-lg shadow-sm border border-neutral-200 p-6 mb-6">
+                    <h2 class="text-lg font-semibold text-neutral-800 mb-4">Requirements</h2>
+                    <ul id="requirements" class="space-y-2 text-neutral-700"></ul>
+                </div>
+
+                <!-- Skills Section -->
+                <div class="bg-white rounded-lg shadow-sm border border-neutral-200 p-6 mb-6">
+                    <h2 class="text-lg font-semibold text-neutral-800 mb-4">Skills</h2>
+                    <div id="skills" class="flex flex-wrap gap-2"></div>
+                </div>
+
+                <!-- Application Form -->
+                <div id="application-form" class="hidden bg-white rounded-lg shadow-sm border border-neutral-200 p-6 mb-6">
+                    <h2 class="text-lg font-semibold text-neutral-800 mb-4">Apply for This Internship</h2>
+                    <form id="apply-form">
+                        <div class="space-y-4">
+                            <div>
+                                <label for="full-name" class="block text-sm font-medium text-neutral-700 mb-1">Full Name</label>
+                                <input type="text" id="full-name" name="fullName" 
+                                    class="block w-full px-3 py-2 border border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" 
+                                    required
+                                >
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-neutral-700 mb-1">Email Address</label>
+                                <input type="email" id="email" name="email" 
+                                    class="block w-full px-3 py-2 border border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" 
+                                    required
+                                >
+                            </div>
+                            <div>
+                                <label for="resume" class="block text-sm font-medium text-neutral-700 mb-1">Upload Resume (PDF)</label>
+                                <input type="file" id="resume" name="resume" accept=".pdf" 
+                                    class="block w-full px-3 py-2 border border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                                    required
+                                >
+                            </div>
+                            <div>
+                                <label for="cover-letter" class="block text-sm font-medium text-neutral-700 mb-1">Cover Letter (Optional)</label>
+                                <textarea id="cover-letter" name="coverLetter" rows="4" 
+                                    class="block w-full px-3 py-2 border border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                                    placeholder="Why are you interested in this internship?"
+                                ></textarea>
+                            </div>
+                            <div class="pt-2">
+                                <button type="submit" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                    Submit Application
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Application Success -->
+                <div id="application-success" class="hidden bg-white rounded-lg shadow-sm border border-neutral-200 p-6 mb-6">
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mb-4">
+                            <i class="fa fa-check text-success text-xl"></i>
+                        </div>
+                        <h2 class="text-lg font-semibold text-neutral-800 mb-2">Application Submitted Successfully!</h2>
+                        <p class="text-neutral-600 max-w-md mb-6">Thank you for applying. We'll review your application and get back to you soon.</p>
+                        <a href="/dashboard" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                            View Your Applications
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="lg:col-span-1">
+                <!-- Company Info Card -->
+                <div class="bg-white rounded-lg shadow-sm border border-neutral-200 p-6 mb-6 sticky top-24">
+                    <h2 class="text-lg font-semibold text-neutral-800 mb-4">About the Company</h2>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-8 w-8 rounded-md bg-primary/10 flex items-center justify-center">
+                                <i class="fa fa-building text-primary"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-neutral-500">Company</h3>
+                                <p id="company-name-sidebar" class="text-neutral-900"></p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-8 w-8 rounded-md bg-primary/10 flex items-center justify-center">
+                                <i class="fa fa-globe text-primary"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-neutral-500">Website</h3>
+                                <a href="#" id="company-website" class="text-primary hover:text-primary/80">Visit Website</a>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-8 w-8 rounded-md bg-primary/10 flex items-center justify-center">
+                                <i class="fa fa-users text-primary"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-neutral-500">Size</h3>
+                                <p id="company-size" class="text-neutral-900">500-1000 employees</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-8 w-8 rounded-md bg-primary/10 flex items-center justify-center">
+                                <i class="fa fa-industry text-primary"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-neutral-500">Industry</h3>
+                                <p id="company-industry" class="text-neutral-900"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Share this Internship -->
+                <div class="bg-white rounded-lg shadow-sm border border-neutral-200 p-6">
+                    <h2 class="text-lg font-semibold text-neutral-800 mb-4">Share this Internship</h2>
+                    <div class="flex space-x-4">
+                        <a href="#" class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 hover:bg-blue-200 transition-colors">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                        <a href="#" class="flex-shrink-0 h-10 w-10 rounded-full bg-sky-100 flex items-center justify-center text-sky-500 hover:bg-sky-200 transition-colors">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-700 flex items-center justify-center text-white hover:bg-blue-800 transition-colors">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="flex-shrink-0 h-10 w-10 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-600 hover:bg-neutral-200 transition-colors">
+                            <i class="fa fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Internships Section -->
+        <div id="related-internships" class="mt-12">
+            <h2 class="text-xl font-bold text-neutral-900 mb-6">Related Internships</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="related-internships-grid">
+                <!-- Related internship cards will be inserted here dynamically -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-neutral-200 mt-12">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <div class="w-8 h-8 rounded-md bg-primary flex items-center justify-center">
+                        <i class="fa fa-graduation-cap text-white"></i>
+                    </div>
+                    <span class="text-lg font-bold text-neutral-800">InternConnect</span>
+                </div>
+                <div class="flex space-x-6 mb-4 md:mb-0">
+                    <a href="#" class="text-neutral-600 hover:text-primary">
+                        <i class="fa fa-facebook"></i>
+                    </a>
+                    <a href="#" class="text-neutral-600 hover:text-primary">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-neutral-600 hover:text-primary">
+                        <i class="fa fa-linkedin"></i>
+                    </a>
+                    <a href="#" class="text-neutral-600 hover:text-primary">
+                        <i class="fa fa-instagram"></i>
+                    </a>
+                </div>
+                <div class="text-sm text-neutral-500">
+                    &copy; 2025 InternConnect. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Mock data for internships
+        const internships = [
+            {
+                id: '1',
+                title: 'Frontend Developer Intern',
+                company: 'TechVision Inc.',
+                location: 'San Francisco, CA',
+                duration: '6 months',
+                stipend: '$3,000/month',
+                description: 'Work with our frontend team to build responsive and accessible web applications using React and TypeScript. Help implement new features and improve existing ones while following best practices. You will collaborate with designers and backend developers to create seamless user experiences and learn from experienced professionals in the field.',
+                requirements: [
+                    'Familiarity with React and TypeScript',
+                    'Understanding of responsive design principles',
+                    'Basic knowledge of CSS/SCSS',
+                    'Strong problem-solving skills',
+                    'Enthusiasm to learn new technologies'
+                ],
+                skills: ['JavaScript', 'React', 'TypeScript', 'HTML/CSS', 'Responsive Design'],
+                type: 'Remote',
+                postedDate: '2025-01-15',
+                applicationDeadline: '2025-02-20',
+                companyLogo: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=64&h=64&fit=crop&crop=center',
+                website: 'https://techvision.example.com',
+                industry: 'Technology'
+            },
+            {
+                id: '2',
+                title: 'Data Science Intern',
+                company: 'DataAnalytics Group',
+                location: 'New York, NY',
+                duration: '4 months',
+                stipend: '$3,500/month',
+                description: 'Assist our data science team in analyzing large datasets, building predictive models, and creating data visualizations. Work with Python, SQL, and various data science libraries. This is an excellent opportunity to apply your academic knowledge to real-world problems and gain hands-on experience in the data science field.',
+                requirements: [
+                    'Proficiency in Python and SQL',
+                    'Understanding of statistical concepts',
+                    'Experience with data analysis',
+                    'Strong mathematical foundation',
+                    'Ability to work with large datasets'
+                ],
+                skills: ['Python', 'SQL', 'Data Analysis', 'Machine Learning', 'Statistics'],
+                type: 'Full-time',
+                postedDate: '2025-01-12',
+                applicationDeadline: '2025-02-15',
+                companyLogo: 'https://images.unsplash.com/photo-1535320903710-d993d3d77d29?w=64&h=64&fit=crop&crop=center',
+                website: 'https://dataanalytics.example.com',
+                industry: 'Analytics'
+            },
+            {
+                id: '3',
+                title: 'UX/UI Design Intern',
+                company: 'Creative Solutions',
+                location: 'Remote',
+                duration: '3 months',
+                stipend: '$2,800/month',
+                description: 'Collaborate with product managers and developers to create user-centered designs for our digital products. Participate in user research, wireframing, prototyping, and user testing. This internship will provide you with practical experience in the design process and exposure to industry-standard tools and methodologies.',
+                requirements: [
+                    'Familiarity with design tools (Figma, Adobe XD)',
+                    'Understanding of user-centered design principles',
+                    'Basic knowledge of UI design patterns',
+                    'Creative thinking and problem-solving',
+                    'Attention to detail'
+                ],
+                skills: ['UX Design', 'UI Design', 'Figma', 'User Research', 'Prototyping'],
+                type: 'Part-time',
+                postedDate: '2025-01-10',
+                applicationDeadline: '2025-02-10',
+                companyLogo: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=64&h=64&fit=crop&crop=center',
+                website: 'https://creativesolutions.example.com',
+                industry: 'Design'
+            },
+            {
+                id: '4',
+                title: 'Backend Developer Intern',
+                company: 'Innovative Systems',
+                location: 'Chicago, IL',
+                duration: '5 months',
+                stipend: '$3,200/month',
+                description: 'Join our backend engineering team to develop and maintain server-side applications, APIs, and databases. Work with Node.js, Express, and MongoDB to build scalable solutions. You will have the opportunity to contribute to real projects and learn from experienced engineers in a collaborative environment.',
+                requirements: [
+                    'Experience with Node.js or similar backend technologies',
+                    'Understanding of RESTful APIs',
+                    'Basic knowledge of database systems',
+                    'Problem-solving and debugging skills',
+                    'Familiarity with version control'
+                ],
+                skills: ['Node.js', 'Express', 'MongoDB', 'REST APIs', 'Git'],
+                type: 'Full-time',
+                postedDate: '2025-01-08',
+                applicationDeadline: '2025-02-08',
+                companyLogo: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=64&h=64&fit=crop&crop=center',
+                website: 'https://innovativesystems.example.com',
+                industry: 'Technology'
+            },
+            {
+                id: '5',
+                title: 'Marketing Intern',
+                company: 'GrowthGenius',
+                location: 'Remote',
+                duration: '4 months',
+                stipend: '$2,500/month',
+                description: 'Support our marketing team in executing digital marketing campaigns, content creation, social media management, and market research. Help analyze campaign performance and generate insights. This internship will give you exposure to various aspects of digital marketing and help you develop valuable skills in a fast-paced environment.',
+                requirements: [
+                    'Interest in digital marketing',
+                    'Strong written and verbal communication',
+                    'Basic understanding of social media platforms',
+                    'Organizational and time management skills',
+                    'Customer-focused mindset'
+                ],
+                skills: ['Product Strategy', 'Market Research', 'Agile', 'User Stories', 'Analytics'],
+                type: 'Full-time',
+                postedDate: '2025-01-11',
+                applicationDeadline: '2025-02-18',
+                companyLogo: 'https://images.unsplash.com/photo-1549923746-c502d488b3ea?w=64&h=64&fit=crop&crop=center',
+                website: 'https://growthgenius.example.com',
+                industry: 'Marketing'
+            },
+            {
+                id: '6',
+                title: 'Cybersecurity Intern',
+                company: 'SecureNet Solutions',
+                location: 'Boston, MA',
+                duration: '5 months',
+                stipend: '$3,600/month',
+                description: 'Learn about cybersecurity fundamentals while assisting our security team with threat analysis, vulnerability assessments, and security documentation. This internship provides hands-on experience in the cybersecurity field and exposure to industry-standard tools and practices.',
+                requirements: [
+                    'Computer Science or Cybersecurity focus',
+                    'Understanding of networking fundamentals',
+                    'Interest in security tools and practices',
+                    'Strong attention to detail',
+                    'Ethical mindset and discretion'
+                ],
+                skills: ['Network Security', 'Vulnerability Assessment', 'SIEM Tools', 'Risk Analysis', 'Compliance'],
+                type: 'Full-time',
+                postedDate: '2025-01-13',
+                applicationDeadline: '2025-02-12',
+                companyLogo: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=64&h=64&fit=crop&crop=center',
+                website: 'https://securenetsolutions.example.com',
+                industry: 'Cybersecurity'
+            }
+        ];
+
+        // Get the current user from the session (passed from the server)
+        const currentUser = <%- JSON.stringify(user || null) %>;
+
+        // Function to get URL parameters
+        function getURLParams() {
+            const params = {};
+            const urlParams = new URLSearchParams(window.location.search);
+            for (const [key, value] of urlParams.entries()) {
+                params[key] = value;
+            }
+            return params;
+        }
+
+        // Function to format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric', 
+                year: 'numeric' 
+            });
+        }
+
+        // Function to get type color
+        function getTypeColor(type) {
+            switch (type) {
+                case 'Remote':
+                    return 'bg-green-100 text-green-800 border-green-200';
+                case 'Part-time':
+                    return 'bg-blue-100 text-blue-800 border-blue-200';
+                default:
+                    return 'bg-gray-100 text-gray-800 border-gray-200';
+            }
+        }
+
+        // Function to load internship data
+        function loadInternshipData() {
+            const params = getURLParams();
+            const internshipId = params.id || window.location.pathname.split('/').pop();
+            const internship = internships.find(item => item.id === internshipId);
+
+            if (!internship) {
+                document.getElementById('internship-content').classList.add('hidden');
+                document.getElementById('related-internships').classList.add('hidden');
+                document.getElementById('not-found').classList.remove('hidden');
+                return;
+            }
+
+            // Populate internship details
+            document.getElementById('company-logo').src = internship.companyLogo || '';
+            document.getElementById('company-logo').alt = `${internship.company} logo`;
+            document.getElementById('internship-title').textContent = internship.title;
+            document.getElementById('company-name').textContent = internship.company;
+            document.getElementById('internship-type').textContent = internship.type;
+            document.getElementById('internship-type').className = `inline-block px-3 py-1 rounded-full text-xs font-medium border ${getTypeColor(internship.type)}`;
+            document.getElementById('location').textContent = internship.location;
+            document.getElementById('duration').textContent = internship.duration;
+            document.getElementById('stipend').textContent = internship.stipend;
+            document.getElementById('deadline').textContent = formatDate(internship.applicationDeadline);
+            document.getElementById('description').textContent = internship.description;
+            document.getElementById('company-name-sidebar').textContent = internship.company;
+            document.getElementById('company-website').href = internship.website || '#';
+            document.getElementById('company-industry').textContent = internship.industry || 'Technology';
+
+            // Populate requirements
+            const requirementsList = document.getElementById('requirements');
+            internship.requirements.forEach(req => {
+                const li = document.createElement('li');
+                li.className = 'flex items-start';
+                li.innerHTML = `
+                    <i class="fa fa-check-circle text-success mt-0.5 mr-2"></i>
+                    <span>${req}</span>
+                `;
+                requirementsList.appendChild(li);
+            });
+
+            // Populate skills
+            const skillsContainer = document.getElementById('skills');
+            internship.skills.forEach(skill => {
+                const skillTag = document.createElement('span');
+                skillTag.className = 'px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-medium rounded-full';
+                skillTag.textContent = skill;
+                skillsContainer.appendChild(skillTag);
+            });
+
+            // Handle apply button based on user status
+            const applyButtonContainer = document.getElementById('apply-button-container');
+            const isApplied = currentUser && currentUser.appliedInternships && currentUser.appliedInternships.includes(internshipId);
+
+            if (isApplied) {
+                applyButtonContainer.innerHTML = `
+                    <span class="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 text-sm font-medium rounded-md border border-green-200">
+                        <i class="fa fa-check mr-2"></i>
+                        Applied ✓
+                    </span>
+                `;
+            } else if (currentUser) {
+                applyButtonContainer.innerHTML = `
+                    <button id="apply-button" class="inline-flex items-center px-4 py-2 bg-orange-500 text-white text-sm font-medium rounded-md hover:bg-orange-600 transition-colors">
+                        <i class="fa fa-paper-plane mr-2"></i>
+                        Apply Now
+                    </button>
+                `;
+
+                // Add click event to apply button
+                document.getElementById('apply-button').addEventListener('click', () => {
+                    document.getElementById('application-form').classList.remove('hidden');
+                    // Scroll to form
+                    document.getElementById('application-form').scrollIntoView({ behavior: 'smooth' });
+                    // Pre-fill form with user data if available
+                    if (currentUser.name) {
+                        document.getElementById('full-name').value = currentUser.name;
+                    }
+                    if (currentUser.email) {
+                        document.getElementById('email').value = currentUser.email;
+                    }
+                });
+
+                // Handle form submission
+                document.getElementById('apply-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    // In a real application, you would send the form data to the server
+                    // For now, we'll just simulate a successful submission
+                    document.getElementById('application-form').classList.add('hidden');
+                    document.getElementById('application-success').classList.remove('hidden');
+                });
+            } else {
+                applyButtonContainer.innerHTML = `
+                    <a href="/login" class="inline-flex items-center px-4 py-2 bg-primary text-white text-sm font-medium rounded-md hover:bg-primary/90 transition-colors">
+                        <i class="fa fa-sign-in mr-2"></i>
+                        Log in to Apply
+                    </a>
+                `;
+            }
+
+            // Load related internships
+            loadRelatedInternships(internship);
+        }
+
+        // Function to load related internships
+        function loadRelatedInternships(currentInternship) {
+            // Filter to get related internships (same industry or similar skills)
+            const related = internships.filter(internship => 
+                internship.id !== currentInternship.id && 
+                (internship.industry === currentInternship.industry ||
+                internship.skills.some(skill => currentInternship.skills.includes(skill)))
+            ).slice(0, 3); // Limit to 3 related internships
+
+            const grid = document.getElementById('related-internships-grid');
+            
+            if (related.length === 0) {
+                document.getElementById('related-internships').classList.add('hidden');
+                return;
+            }
+
+            // Render related internship cards
+            related.forEach(internship => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-lg shadow-sm border border-neutral-200 hover:shadow-md transition-all duration-200 hover:border-neutral-300 group';
+                card.innerHTML = `
+                    <div class="p-6">
+                        <!-- Header -->
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-start space-x-3">
+                                ${internship.companyLogo ? `
+                                    <img
+                                        src="${internship.companyLogo}"
+                                        alt="${internship.company} logo"
+                                        class="w-12 h-12 rounded-lg object-cover border border-neutral-200"
+                                    >` : ''}
+                                <div>
+                                    <h3 class="text-lg font-semibold text-neutral-900 group-hover:text-primary transition-colors">
+                                        ${internship.title}
+                                    </h3>
+                                    <p class="text-neutral-600 font-medium">${internship.company}</p>
+                                </div>
+                            </div>
+                            <div class="px-2 py-1 rounded-md text-xs font-medium border ${getTypeColor(internship.type)}">
+                                ${internship.type}
+                            </div>
+                        </div>
+
+                        <!-- Details -->
+                        <div class="space-y-2 mb-4">
+                            <div class="flex items-center text-neutral-600 text-sm">
+                                <i class="fa fa-map-marker mr-2 text-neutral-400"></i>
+                                ${internship.location}
+                            </div>
+                            <div class="flex items-center text-neutral-600 text-sm">
+                                <i class="fa fa-dollar mr-2 text-neutral-400"></i>
+                                ${internship.stipend}
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="flex items-center justify-end pt-4 border-t border-neutral-100">
+                            <a
+                                href="/internship/${internship.id}"
+                                class="inline-flex items-center text-primary hover:text-primary/80 text-sm font-medium transition-colors"
+                            >
+                                <span>View Details</span>
+                                <i class="fa fa-external-link text-xs ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            loadInternshipData();
+        });
+    </script>
+</body>
+</html>

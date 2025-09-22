@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InternshipHub - Find Your Perfect Internship</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4f46e5',
+                        secondary: '#f97316',
+                        tertiary: '#10b981',
+                        dark: '#111827',
+                        light: '#f3f4f6'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-gradient {
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+            }
+        }
+    </style>
+</head>
+<body class="font-inter bg-gray-50 text-dark">
+    <!-- Navigation -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="flex-shrink-0 flex items-center">
+                        <div class="h-8 w-8 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold">
+                            IH
+                        </div>
+                        <span class="ml-2 text-xl font-bold text-dark">InternshipHub</span>
+                    </a>
+                    <nav class="ml-10 flex space-x-8">
+                        <a href="/" class="text-primary border-b-2 border-primary inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            Home
+                        </a>
+                        <a href="/internships" class="text-gray-500 hover:text-dark inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            Internships
+                        </a>
+                        <a href="#how-it-works" class="text-gray-500 hover:text-dark inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            How It Works
+                        </a>
+                        <a href="#testimonials" class="text-gray-500 hover:text-dark inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            Success Stories
+                        </a>
+                    </nav>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/login" class="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors text-sm font-medium">
+                        Sign In
+                    </a>
+                    <a href="/signup" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors text-sm font-medium">
+                        Join Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative bg-gradient-to-br from-indigo-50 via-white to-orange-50 py-20 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto text-center">
+                <!-- Main Headline -->
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
+                    Find Your Perfect 
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
+                        Internship
+                    </span>
+                </h1>
+                
+                <p class="text-xl text-gray-600 mb-10 max-w-2xl mx-auto">
+                    Discover amazing internship opportunities from top companies. Launch your career with hands-on experience and real-world projects.
+                </p>
+
+                <!-- Search Form -->
+                <form action="/internships" method="get" class="max-w-3xl mx-auto">
+                    <div class="flex flex-col sm:flex-row gap-4 p-6 bg-white rounded-2xl shadow-lg border border-gray-200">
+                        <div class="flex-1 relative">
+                            <i class="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input
+                                type="text"
+                                name="search"
+                                placeholder="Job title, company, or keyword"
+                                class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-gray-900 placeholder-gray-500"
+                            />
+                        </div>
+                        
+                        <div class="flex-1 relative">
+                            <i class="fa fa-map-marker absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input
+                                type="text"
+                                name="location"
+                                placeholder="City, state, or remote"
+                                class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-gray-900 placeholder-gray-500"
+                            />
+                        </div>
+                        
+                        <button
+                            type="submit"
+                            class="px-8 py-3 bg-gradient-to-r from-primary to-primary/90 text-white font-medium rounded-lg hover:from-primary/90 hover:to-primary/80 transition-all transform hover:scale-105 shadow-md hover:shadow-lg"
+                        >
+                            <span class="flex items-center space-x-2 justify-center">
+                                <i class="fa fa-search"></i>
+                                <span>Search</span>
+                            </span>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Stats -->
+                <div class="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-2xl mx-auto">
+                    <div class="text-center">
+                        <div class="flex items-center justify-center w-12 h-12 bg-indigo-100 rounded-lg mx-auto mb-3">
+                            <i class="fa fa-briefcase text-xl text-primary"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900">500+</h3>
+                        <p class="text-gray-600">Active Internships</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="flex items-center justify-center w-12 h-12 bg-orange-100 rounded-lg mx-auto mb-3">
+                            <i class="fa fa-map-marker text-xl text-secondary"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900">50+</h3>
+                        <p class="text-gray-600">Cities Covered</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="flex items-center justify-center w-12 h-12 bg-green-100 rounded-lg mx-auto mb-3">
+                            <i class="fa fa-search text-xl text-tertiary"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900">10k+</h3>
+                        <p class="text-gray-600">Students Placed</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Internships -->
+        <section class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Featured Internships</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Explore our handpicked selection of top internship opportunities from leading companies.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Internship Card 1 -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-all duration-200 hover:border-gray-300 group">
+                        <div class="p-6">
+                            <!-- Header -->
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex items-start space-x-3">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=64&h=64&fit=crop&crop=center"
+                                        alt="TechCorp Solutions logo"
+                                        class="w-12 h-12 rounded-lg object-cover border border-gray-200"
+                                    />
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-gray-900 group-hover:text-primary transition-colors">
+                                            Software Engineering Intern
+                                        </h3>
+                                        <p class="text-gray-600 font-medium">TechCorp Solutions</p>
+                                    </div>
+                                </div>
+                                <div class="px-2 py-1 rounded-md text-xs font-medium border bg-gray-100 text-gray-800 border-gray-200">
+                                    Full-time
+                                </div>
+                            </div>
+
+                            <!-- Details -->
+                            <div class="space-y-2 mb-4">
+                                <div class="flex items-center text-gray-600 text-sm">
+                                    <i class="fa fa-map-marker mr-2 text-gray-400"></i>
+                                    San Francisco, CA
+                                </div>
+                                <div class="flex items-center text-gray-600 text-sm">
+                                    <i class="fa fa-clock-o mr-2 text-gray-400"></i>
+                                    3 months
+                                </div>
+                                <div class="flex items-center text-gray-600 text-sm">
+                                    <i class="fa fa-usd mr-2 text-gray-400"></i>
+                                    $4,000/month
+                                </div>
+                                <div class="flex items-center text-gray-600 text-sm">
+                                    <i class="fa fa-calendar mr-2 text-gray-400"></i>
+                                    Apply by Feb 15, 2025
+                                </div>
+                            </div>
+
+                            <!-- Description -->
+                            <p class="text-gray-700 text-sm mb-4 line-clamp-3">
+                                Join our dynamic engineering team to work on cutting-edge web applications. You will be involved in full-stack development, working with React, Node.js, and cloud technologies.
+                            </p>
+
+                            <!-- Skills -->
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 bg-indigo-50 text-primary text-xs font-medium rounded-md">
+                                    React
+                                </span>
+                                <span class="px-2 py-1 bg-indigo-50 text-primary text-xs font-medium rounded-md">
+                                    Node.js
+                                </span>
+                                <span class="px-2 py-1 bg-indigo-50 text-primary text-xs font-medium rounded-md">
+                                    JavaScript
+                                </span>
+                                <span class="px-2 py-1 bg-gray-50 text-gray-600 text-xs font-medium rounded-md">
+                                    +2 more
+                                </span>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                                <p class="text-xs text-gray-500">
+                                    Posted Jan 10, 2025
+                                </p>
+                                <div class="flex items-center space-x-3">
+                                    <a href="/internship/1" class="flex items-center space-x-1 text-primary hover:text-primary/90 text-sm font-medium transition-colors">
+                                        <span>View Details</span>
+                                        <i class="fa fa-external-link"></i>
+                                    </a>
+                                    <a href="/internship/1" class="px-4 py-2 bg-secondary text-white text-sm font-medium rounded-md hover:bg-secondary/90 transition-colors">
+                                        Apply Now
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Internship Card 2 -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-all duration-200 hover:border-gray-300 group">
+                        <div class="p-6">
+                            <!-- Header -->
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex items-start space-x-3">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=64&h=64&fit=crop&crop=center"
+                                        alt="Analytics Pro logo"
+                                        class="w-12 h-12 rounded-lg object-cover border border-gray-200"
+                                    />
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-gray-900 group-hover:text-primary transition-colors">
+                                            Data Science Intern
+                                        </h3>
+                                        <p class="text-gray-600 font-medium">Analytics Pro</p>
+                                    </div>
+                                </div>
+                                <div class="px-2 py-1 rounded-md text-xs font-medium border bg-gray-100 text-gray-800 border-gray-200">
+                                    Full-time
+                                </div>
+                            </div>
+
+                            <!-- Details -->
+                            <div class="space-y-2 mb-4">
+                                <div class="flex items-center text-gray-600 text-sm">
+                                    <i class="fa fa-map-marker mr-2 text-gray-400"></i>
+                                    New York, NY
+                                </div>
+                                <div class="flex items-center text-gray-600 text-sm">
+                                    <i class="fa fa-clock-o mr-2 text-gray-400"></i>
+                                    4 months
+                                </div>
+                                <div class="flex items-center text-gray-600 text-sm">
+                                    <i class="fa fa-usd mr-2 text-gray-400"></i>
+                                    $3,800/month
+                                </div>
+                                <div class="flex items-center text-gray-600 text-sm">
+                                    <i class="fa fa-calendar mr-2 text-gray-400"></i>
+                                    Apply by Feb 20, 2025
+                                </div>
+                            </div>
+
+                            <!-- Description -->
+                            <p class="text-gray-700 text-sm mb-4 line-clamp-3">
+                                Work with our data science team to analyze large datasets, build predictive models, and create data visualizations that drive business decisions.
+                            </p>
+
+                            <!-- Skills -->
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 bg-indigo-50 text-primary text-xs font-medium rounded-md">
+                                    Python
+                                </span>
+                                <span class="px-2 py-1 bg-indigo-50 text-primary text-xs font-medium rounded-md">
+                                    SQL
+                                </span>
+                                <span class="px-2 py-1 bg-indigo-50 text-primary text-xs font-medium rounded-md">
+                                    Machine Learning
+                                </span>
+                                <span class="px-2 py-1 bg-gray-50 text-gray-600 text-xs font-medium rounded-md">
+                                    +2 more
+                                </span>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                                <p class="text-xs text-gray-500">
+                                    Posted Jan 8, 2025
+                                </p>
+                                <div class="flex items-center space-x-3">
+                                    <a href="/internship/2" class="flex items-center space-x-1 text-primary hover:text-primary/90 text-sm font-medium transition-colors">
+                                        <span>View Details</span>
+                                        <i class="fa fa-external-link"></i>
+                                    </a>
+                                    <a href="/internship/2" class="px-4 py-2 bg-secondary text-white text-sm font-medium rounded-md hover:bg-secondary/90 transition-colors">
+                                        Apply Now
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Internship Card 3 -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-all duration-200 hover:border-gray-300 group">
+                        <div class="p-6">
+                            <!-- Header -->
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex items-start space-x-3">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1561736778-92e52a7769ef?w=64&h=64&fit=crop&crop=center"
+                                        alt="Creative Studio logo"
+                                        class="w-12 h-12 rounded-lg object-cover border border-gray-200"
+                                    />
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-gray-900 group-hover:text-primary transition-colors">
+                                            UX/UI Design Intern
+                                        </h3>
+                                        <p class="text-gray-600 font-medium">Creative Studio</p>
+                                    </div>
+                                </div>
+                                <div class="px-2 py-1 rounded-md text-xs font-medium border bg-green-100 text-green-800 border-green-200">
+                                    Remote
+                                </div>
+                            </div>
+
+                            <!-- Details -->
+                            <div class="space-y-2 mb-4">
+                                <div class="flex items-center text-gray-600 text-sm">
+                                    <i class="fa fa-map-marker mr-2 text-gray-400"></i>
+                                    Remote
+                                </div>
+                                <div class="flex items-center text-gray-600 text-sm">
+                                    <i class="fa fa-clock-o mr-2 text-gray-400"></i>
+                                    6 months
+                                </div>
+                                <div class="flex items-center text-gray-600 text-sm">
+                                    <i class="fa fa-usd mr-2 text-gray-400"></i>
+                                    $2,800/month
+                                </div>
+                                <div class="flex items-center text-gray-600 text-sm">
+                                    <i class="fa fa-calendar mr-2 text-gray-400"></i>
+                                    Apply by Feb 10, 2025
+                                </div>
+                            </div>
+
+                            <!-- Description -->
+                            <p class="text-gray-700 text-sm mb-4 line-clamp-3">
+                                Collaborate with our design team to create user-centered designs for mobile and web applications. Work on user research, wireframing, and prototyping.
+                            </p>
+
+                            <!-- Skills -->
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 bg-indigo-50 text-primary text-xs font-medium rounded-md">
+                                    Figma
+                                </span>
+                                <span class="px-2 py-1 bg-indigo-50 text-primary text-xs font-medium rounded-md">
+                                    Adobe XD
+                                </span>
+                                <span class="px-2 py-1 bg-indigo-50 text-primary text-xs font-medium rounded-md">
+                                    User Research
+                                </span>
+                                <span class="px-2 py-1 bg-gray-50 text-gray-600 text-xs font-medium rounded-md">
+                                    +2 more
+                                </span>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                                <p class="text-xs text-gray-500">
+                                    Posted Jan 12, 2025
+                                </p>
+                                <div class="flex items-center space-x-3">
+                                    <a href="/internship/3" class="flex items-center space-x-1 text-primary hover:text-primary/90 text-sm font-medium transition-colors">
+                                        <span>View Details</span>
+                                        <i class="fa fa-external-link"></i>
+                                    </a>
+                                    <a href="/internship/3" class="px-4 py-2 bg-secondary text-white text-sm font-medium rounded-md hover:bg-secondary/90 transition-colors">
+                                        Apply Now
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-10">
+                    <a href="/internships" class="inline-flex items-center px-6 py-3 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium">
+                        <span>View All Internships</span>
+                        <i class="fa fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section id="how-it-works" class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">How It Works</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Finding your perfect internship has never been easier. Follow these simple steps to kickstart your career.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Step 1 -->
+                    <div class="bg-white rounded-lg shadow-sm p-8 text-center border border-gray-200 hover:shadow-md transition-all duration-200">
+                        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fa fa-user-plus text-2xl text-primary"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Create Your Profile</h3>
+                        <p class="text-gray-600">Sign up and complete your profile with your skills, education, and experience to attract top employers.</p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="bg-white rounded-lg shadow-sm p-8 text-center border border-gray-200 hover:shadow-md transition-all duration-200">
+                        <div class="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fa fa-search text-2xl text-secondary"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Browse & Apply</h3>
+                        <p class="text-gray-600">Discover internships that match your interests and qualifications. Apply directly through our platform.</p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="bg-white rounded-lg shadow-sm p-8 text-center border border-gray-200 hover:shadow-md transition-all duration-200">
+                        <div class="w-16 h-16 bg-tertiary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fa fa-handshake-o text-2xl text-tertiary"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Launch Your Career</h3>
+                        <p class="text-gray-600">Connect with employers, attend interviews, and secure your dream internship to gain valuable experience.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Success Stories -->
+        <section id="testimonials" class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Success Stories</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Hear from students who found their perfect internships through our platform.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Testimonial 1 -->
+                    <div class="bg-gray-50 rounded-lg p-8 border border-gray-200">
+                        <div class="flex items-center mb-6">
+                            <img
+                                src="https://randomuser.me/api/portraits/women/44.jpg"
+                                alt="Sarah Johnson"
+                                class="w-12 h-12 rounded-full object-cover mr-4"
+                            />
+                            <div>
+                                <h4 class="font-bold text-gray-900">Sarah Johnson</h4>
+                                <p class="text-sm text-gray-600">Software Engineering Intern at TechCorp</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 italic mb-4">
+                            "InternshipHub helped me find the perfect software engineering internship. The platform was easy to use, and I got hired within two weeks of applying!"
+                        </p>
+                        <div class="text-yellow-400">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 2 -->
+                    <div class="bg-gray-50 rounded-lg p-8 border border-gray-200">
+                        <div class="flex items-center mb-6">
+                            <img
+                                src="https://randomuser.me/api/portraits/men/32.jpg"
+                                alt="Michael Chen"
+                                class="w-12 h-12 rounded-full object-cover mr-4"
+                            />
+                            <div>
+                                <h4 class="font-bold text-gray-900">Michael Chen</h4>
+                                <p class="text-sm text-gray-600">Data Science Intern at Analytics Pro</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 italic mb-4">
+                            "The internship I found through InternshipHub turned into a full-time job offer after graduation. I couldn't be happier with my experience!"
+                        </p>
+                        <div class="text-yellow-400">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 3 -->
+                    <div class="bg-gray-50 rounded-lg p-8 border border-gray-200">
+                        <div class="flex items-center mb-6">
+                            <img
+                                src="https://randomuser.me/api/portraits/women/68.jpg"
+                                alt="Emily Rodriguez"
+                                class="w-12 h-12 rounded-full object-cover mr-4"
+                            />
+                            <div>
+                                <h4 class="font-bold text-gray-900">Emily Rodriguez</h4>
+                                <p class="text-sm text-gray-600">UX/UI Design Intern at Creative Studio</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 italic mb-4">
+                            "As an international student, I was worried about finding an internship. InternshipHub made the process seamless, and I found an amazing remote opportunity!"
+                        </p>
+                        <div class="text-yellow-400">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-half-o"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-primary to-primary/90 text-white">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl font-bold mb-6">Ready to Find Your Dream Internship?</h2>
+                <p class="text-xl mb-10 text-white/90 max-w-2xl mx-auto">
+                    Join thousands of students who have already launched their careers with InternshipHub.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="/signup" class="px-8 py-3 bg-white text-primary rounded-lg hover:bg-white/90 transition-all transform hover:scale-105 shadow-md hover:shadow-lg font-medium">
+                        Sign Up Free
+                    </a>
+                    <a href="/internships" class="px-8 py-3 bg-transparent border-2 border-white text-white rounded-lg hover:bg-white/10 transition-colors font-medium">
+                        Browse Internships
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-dark text-white pt-16 pb-8 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="h-8 w-8 rounded-lg bg-gradient-to-br from-white to-primary flex items-center justify-center text-primary font-bold">
+                            IH
+                        </div>
+                        <span class="ml-2 text-xl font-bold text-white">InternshipHub</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Connecting students with top internship opportunities to launch their careers.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fa fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-bold mb-4">For Students</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/internships" class="text-gray-400 hover:text-white transition-colors">Browse Internships</a></li>
+                        <li><a href="#how-it-works" class="text-gray-400 hover:text-white transition-colors">How It Works</a></li>
+                        <li><a href="#testimonials" class="text-gray-400 hover:text-white transition-colors">Success Stories</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Career Resources</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-bold mb-4">For Employers</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Post an Internship</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Browse Candidates</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Pricing</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Enterprise Solutions</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contact Sales</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Contact Us</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fa fa-map-marker mt-1 mr-3 text-gray-400"></i>
+                            <span class="text-gray-400">123 Internship St, Suite 456<br>San Francisco, CA 94105</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-envelope mr-3 text-gray-400"></i>
+                            <a href="mailto:contact@internshiphub.com" class="text-gray-400 hover:text-white transition-colors">contact@internshiphub.com</a>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-phone mr-3 text-gray-400"></i>
+                            <a href="tel:+15551234567" class="text-gray-400 hover:text-white transition-colors">+1 (555) 123-4567</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm mb-4 md:mb-0">
+                        &copy; {new Date().getFullYear()} InternshipHub. All rights reserved.
+                    </p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Privacy Policy</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Terms of Service</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
