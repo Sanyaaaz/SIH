@@ -1,398 +1,234 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
-    <link rel="stylesheet" href="/css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-    <%- include('partials/header') %>
-    
-    <main class="main-content">
-        <div class="container">
-            <!-- Dashboard Header -->
-            <div class="dashboard-header">
-                <h1>Industry Partner Dashboard</h1>
-                <div class="company-info">
-                    <span class="company-name"><%= companyName %></span>
-                    <span class="status-indicator active">Active</span>
-                </div>
-            </div>
+<%- include('partials/header') %>
 
-            <!-- Dashboard Stats -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-briefcase"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3>12</h3>
-                        <p>Active Internships</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3>85</h3>
-                        <p>Applications Received</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3>4.8</h3>
-                        <p>Health Score</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3>23</h3>
-                        <p>Shortlisted</p>
-                    </div>
-                </div>
-            </div>
+<main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+    <!-- Welcome Section -->
+    <div class="mb-8">
+        <h1 class="text-2xl font-bold text-brand-heading">Welcome back, TechCorp Industries!</h1>
+        <p class="text-brand-text mt-1">Here's what's happening with your internship programs today.</p>
+    </div>
 
-            <!-- Main Dashboard Sections -->
-            <div class="dashboard-sections">
-                <!-- Post Internship Section -->
-                <section class="dashboard-section" id="post-internship">
-                    <div class="section-header">
-                        <h2><i class="fas fa-plus-circle"></i> Post New Internship</h2>
-                        <button class="btn-toggle" onclick="toggleSection('post-form')">
-                            <i class="fas fa-chevron-down"></i>
-                        </button>
-                    </div>
-                    <div class="section-content" id="post-form">
-                        <form class="internship-form" id="internshipForm">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="roleTitle">Role Title</label>
-                                    <input type="text" id="roleTitle" name="roleTitle" placeholder="e.g. Frontend Developer Intern" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="duration">Duration</label>
-                                    <select id="duration" name="duration" required>
-                                        <option value="">Select Duration</option>
-                                        <option value="1-month">1 Month</option>
-                                        <option value="2-months">2 Months</option>
-                                        <option value="3-months">3 Months</option>
-                                        <option value="6-months">6 Months</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="description">Job Description</label>
-                                <textarea id="description" name="description" placeholder="Describe the role, responsibilities, and what the intern will learn..." rows="4" required></textarea>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="skills">Skills Required</label>
-                                <input type="text" id="skills" name="skills" placeholder="e.g. HTML, CSS, JavaScript, React" required>
-                                <small>Separate multiple skills with commas</small>
-                            </div>
-                            
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="stipend">Stipend (₹/month)</label>
-                                    <input type="number" id="stipend" name="stipend" placeholder="e.g. 15000" min="0">
-                                </div>
-                                <div class="form-group">
-                                    <label for="mode">Work Mode</label>
-                                    <select id="mode" name="mode" required>
-                                        <option value="">Select Mode</option>
-                                        <option value="remote">Remote</option>
-                                        <option value="on-site">On-site</option>
-                                        <option value="hybrid">Hybrid</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group checkbox-group">
-                                <label class="checkbox-label">
-                                    <input type="checkbox" id="apiListing" name="apiListing">
-                                    <span class="checkmark"></span>
-                                    Allow API listing for auto-sync on other job portals
-                                </label>
-                            </div>
-                            
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-paper-plane"></i> Post Internship
-                            </button>
-                        </form>
-                    </div>
-                </section>
-
-                <!-- Manage Applications Section -->
-                <section class="dashboard-section" id="manage-applications">
-                    <div class="section-header">
-                        <h2><i class="fas fa-clipboard-list"></i> Manage Applications</h2>
-                        <div class="section-controls">
-                            <select class="filter-dropdown" id="statusFilter">
-                                <option value="all">All Applications</option>
-                                <option value="pending">Pending Review</option>
-                                <option value="shortlisted">Shortlisted</option>
-                                <option value="rejected">Rejected</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="section-content">
-                        <div class="applications-table-wrapper">
-                            <table class="applications-table">
-                                <thead>
-                                    <tr>
-                                        <th>Student Name</th>
-                                        <th>Role Applied</th>
-                                        <th>Resume</th>
-                                        <th>Readiness Score</th>
-                                        <th>Applied Date</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="application-row" data-status="pending">
-                                        <td>
-                                            <div class="student-info">
-                                                <div class="avatar">AS</div>
-                                                <div>
-                                                    <strong>Ankit Sharma</strong>
-                                                    <small>ankit.sharma@email.com</small>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>Frontend Developer Intern</td>
-                                        <td>
-                                            <a href="#" class="resume-link">
-                                                <i class="fas fa-file-pdf"></i> View Resume
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <div class="score-badge high">8.5/10</div>
-                                        </td>
-                                        <td>Dec 15, 2024</td>
-                                        <td>
-                                            <div class="action-buttons">
-                                                <button class="btn btn-success btn-sm" onclick="shortlistApplication(this)">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
-                                                <button class="btn btn-danger btn-sm" onclick="rejectApplication(this)">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                                <button class="btn btn-primary btn-sm" onclick="scheduleChat(this)">
-                                                    <i class="fas fa-comments"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="application-row" data-status="pending">
-                                        <td>
-                                            <div class="student-info">
-                                                <div class="avatar">PM</div>
-                                                <div>
-                                                    <strong>Priya Mehta</strong>
-                                                    <small>priya.mehta@email.com</small>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>Backend Developer Intern</td>
-                                        <td>
-                                            <a href="#" class="resume-link">
-                                                <i class="fas fa-file-pdf"></i> View Resume
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <div class="score-badge medium">7.2/10</div>
-                                        </td>
-                                        <td>Dec 14, 2024</td>
-                                        <td>
-                                            <div class="action-buttons">
-                                                <button class="btn btn-success btn-sm" onclick="shortlistApplication(this)">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
-                                                <button class="btn btn-danger btn-sm" onclick="rejectApplication(this)">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                                <button class="btn btn-primary btn-sm" onclick="scheduleChat(this)">
-                                                    <i class="fas fa-comments"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="application-row" data-status="shortlisted">
-                                        <td>
-                                            <div class="student-info">
-                                                <div class="avatar">RK</div>
-                                                <div>
-                                                    <strong>Rahul Kumar</strong>
-                                                    <small>rahul.kumar@email.com</small>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>Full Stack Developer Intern</td>
-                                        <td>
-                                            <a href="#" class="resume-link">
-                                                <i class="fas fa-file-pdf"></i> View Resume
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <div class="score-badge high">9.1/10</div>
-                                        </td>
-                                        <td>Dec 13, 2024</td>
-                                        <td>
-                                            <div class="action-buttons">
-                                                <span class="status-badge shortlisted">Shortlisted</span>
-                                                <button class="btn btn-primary btn-sm" onclick="scheduleChat(this)">
-                                                    <i class="fas fa-comments"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="application-row" data-status="pending">
-                                        <td>
-                                            <div class="student-info">
-                                                <div class="avatar">SG</div>
-                                                <div>
-                                                    <strong>Sneha Gupta</strong>
-                                                    <small>sneha.gupta@email.com</small>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>UI/UX Designer Intern</td>
-                                        <td>
-                                            <a href="#" class="resume-link">
-                                                <i class="fas fa-file-pdf"></i> View Resume
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <div class="score-badge medium">6.8/10</div>
-                                        </td>
-                                        <td>Dec 12, 2024</td>
-                                        <td>
-                                            <div class="action-buttons">
-                                                <button class="btn btn-success btn-sm" onclick="shortlistApplication(this)">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
-                                                <button class="btn btn-danger btn-sm" onclick="rejectApplication(this)">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                                <button class="btn btn-primary btn-sm" onclick="scheduleChat(this)">
-                                                    <i class="fas fa-comments"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Health Score Feedback Section -->
-                <section class="dashboard-section" id="health-score">
-                    <div class="section-header">
-                        <h2><i class="fas fa-heart-pulse"></i> Internship Health Score</h2>
-                    </div>
-                    <div class="section-content">
-                        <div class="health-score-wrapper">
-                            <div class="current-score-card">
-                                <div class="score-circle">
-                                    <div class="score-value">4.8</div>
-                                    <div class="score-label">Current Score</div>
-                                </div>
-                                <div class="score-details">
-                                    <div class="score-breakdown">
-                                        <div class="score-item">
-                                            <span>Student Satisfaction</span>
-                                            <div class="progress-bar">
-                                                <div class="progress" style="width: 90%"></div>
-                                            </div>
-                                            <span>4.5/5</span>
-                                        </div>
-                                        <div class="score-item">
-                                            <span>Learning Quality</span>
-                                            <div class="progress-bar">
-                                                <div class="progress" style="width: 95%"></div>
-                                            </div>
-                                            <span>4.8/5</span>
-                                        </div>
-                                        <div class="score-item">
-                                            <span>Mentorship</span>
-                                            <div class="progress-bar">
-                                                <div class="progress" style="width: 96%"></div>
-                                            </div>
-                                            <span>4.9/5</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="feedback-form-card">
-                                <h3>Submit Feedback</h3>
-                                <form class="feedback-form" id="feedbackForm">
-                                    <div class="form-group">
-                                        <label for="internName">Intern Name</label>
-                                        <select id="internName" name="internName" required>
-                                            <option value="">Select Intern</option>
-                                            <option value="rahul-kumar">Rahul Kumar</option>
-                                            <option value="ankit-sharma">Ankit Sharma</option>
-                                            <option value="priya-mehta">Priya Mehta</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <div class="form-row">
-                                        <div class="form-group">
-                                            <label for="performance">Performance Rating</label>
-                                            <select id="performance" name="performance" required>
-                                                <option value="">Rate Performance</option>
-                                                <option value="5">Excellent (5)</option>
-                                                <option value="4">Good (4)</option>
-                                                <option value="3">Average (3)</option>
-                                                <option value="2">Below Average (2)</option>
-                                                <option value="1">Poor (1)</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="communication">Communication</label>
-                                            <select id="communication" name="communication" required>
-                                                <option value="">Rate Communication</option>
-                                                <option value="5">Excellent (5)</option>
-                                                <option value="4">Good (4)</option>
-                                                <option value="3">Average (3)</option>
-                                                <option value="2">Below Average (2)</option>
-                                                <option value="1">Poor (1)</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="feedback">Additional Feedback</label>
-                                        <textarea id="feedback" name="feedback" placeholder="Share your experience and suggestions..." rows="3"></textarea>
-                                    </div>
-                                    
-                                    <button type="submit" class="btn btn-secondary">
-                                        <i class="fas fa-paper-plane"></i> Submit Feedback
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+    <!-- Quick Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200 hover:shadow-md transition-shadow">
+            <div class="flex items-center">
+                <div class="p-2 bg-brand-primary bg-opacity-10 rounded-lg">
+                    <i class="fas fa-briefcase text-brand-primary text-xl"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-brand-text">Active Internships</p>
+                    <p class="text-2xl font-bold text-brand-heading">12</p>
+                </div>
             </div>
         </div>
-    </main>
+        
+        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200 hover:shadow-md transition-shadow">
+            <div class="flex items-center">
+                <div class="p-2 bg-brand-secondary bg-opacity-10 rounded-lg">
+                    <i class="fas fa-users text-brand-secondary text-xl"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-brand-text">Total Applications</p>
+                    <p class="text-2xl font-bold text-brand-heading">248</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200 hover:shadow-md transition-shadow">
+            <div class="flex items-center">
+                <div class="p-2 bg-brand-success bg-opacity-10 rounded-lg">
+                    <i class="fas fa-user-check text-brand-success text-xl"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-brand-text">Shortlisted</p>
+                    <p class="text-2xl font-bold text-brand-heading">56</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200 hover:shadow-md transition-shadow">
+            <div class="flex items-center">
+                <div class="p-2 bg-purple-100 rounded-lg">
+                    <i class="fas fa-chart-line text-purple-600 text-xl"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-brand-text">Health Score</p>
+                    <p class="text-2xl font-bold text-brand-heading">8.5/10</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <%- include('partials/footer') %>
-    
-    <script src="/js/dashboard.js"></script>
-</body>
-</html>
+    <!-- Quick Actions -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+            <h2 class="text-lg font-semibold text-brand-heading mb-4">Quick Actions</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <a href="/post-internship" class="group p-4 border border-gray-200 rounded-lg hover:border-brand-primary hover:shadow-sm transition-all">
+                    <div class="flex items-center">
+                        <i class="fas fa-plus text-brand-primary text-lg group-hover:scale-110 transition-transform"></i>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-brand-heading">Post Internship</p>
+                            <p class="text-xs text-brand-text">Create new opportunity</p>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="/manage-applications" class="group p-4 border border-gray-200 rounded-lg hover:border-brand-secondary hover:shadow-sm transition-all">
+                    <div class="flex items-center">
+                        <i class="fas fa-list text-brand-secondary text-lg group-hover:scale-110 transition-transform"></i>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-brand-heading">Manage Applications</p>
+                            <p class="text-xs text-brand-text">Review candidates</p>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="/analytics" class="group p-4 border border-gray-200 rounded-lg hover:border-purple-500 hover:shadow-sm transition-all">
+                    <div class="flex items-center">
+                        <i class="fas fa-chart-bar text-purple-600 text-lg group-hover:scale-110 transition-transform"></i>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-brand-heading">View Analytics</p>
+                            <p class="text-xs text-brand-text">Performance insights</p>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="/feedback" class="group p-4 border border-gray-200 rounded-lg hover:border-brand-success hover:shadow-sm transition-all">
+                    <div class="flex items-center">
+                        <i class="fas fa-star text-brand-success text-lg group-hover:scale-110 transition-transform"></i>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-brand-heading">Health Score</p>
+                            <p class="text-xs text-brand-text">Submit feedback</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+            <h2 class="text-lg font-semibold text-brand-heading mb-4">Recent Activity</h2>
+            <div class="space-y-4">
+                <div class="flex items-center p-3 bg-blue-50 rounded-lg">
+                    <i class="fas fa-user-plus text-brand-primary"></i>
+                    <div class="ml-3">
+                        <p class="text-sm font-medium text-brand-heading">Sarah Johnson applied</p>
+                        <p class="text-xs text-brand-text">Frontend Developer Intern • 2 hours ago</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center p-3 bg-orange-50 rounded-lg">
+                    <i class="fas fa-briefcase text-brand-secondary"></i>
+                    <div class="ml-3">
+                        <p class="text-sm font-medium text-brand-heading">New internship posted</p>
+                        <p class="text-xs text-brand-text">Backend Developer Intern • 5 hours ago</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center p-3 bg-green-50 rounded-lg">
+                    <i class="fas fa-check-circle text-brand-success"></i>
+                    <div class="ml-3">
+                        <p class="text-sm font-medium text-brand-heading">Michael Chen shortlisted</p>
+                        <p class="text-xs text-brand-text">Data Science Intern • 1 day ago</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center p-3 bg-purple-50 rounded-lg">
+                    <i class="fas fa-star text-purple-600"></i>
+                    <div class="ml-3">
+                        <p class="text-sm font-medium text-brand-heading">Health Score updated</p>
+                        <p class="text-xs text-brand-text">Now at 8.5/10 • 2 days ago</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Active Internships Overview -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex justify-between items-center">
+                <h2 class="text-lg font-semibold text-brand-heading">Active Internships</h2>
+                <a href="/post-internship" class="text-brand-primary hover:text-brand-primary/80 text-sm font-medium transition-colors">
+                    Post New <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+        </div>
+        <div class="overflow-hidden">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-brand-text uppercase tracking-wider">Role</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-brand-text uppercase tracking-wider">Applications</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-brand-text uppercase tracking-wider">Mode</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-brand-text uppercase tracking-wider">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-medium text-brand-heading">Frontend Developer</div>
+                            <div class="text-sm text-brand-text">3 months • ₹15,000/month</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm text-brand-heading">34 applications</div>
+                            <div class="text-sm text-brand-text">8 shortlisted</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                                Remote
+                            </span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-brand-success bg-opacity-10 text-brand-success">
+                                Active
+                            </span>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-medium text-brand-heading">Data Science Intern</div>
+                            <div class="text-sm text-brand-text">6 months • ₹20,000/month</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm text-brand-heading">28 applications</div>
+                            <div class="text-sm text-brand-text">12 shortlisted</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800">
+                                Hybrid
+                            </span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-brand-success bg-opacity-10 text-brand-success">
+                                Active
+                            </span>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-medium text-brand-heading">Marketing Intern</div>
+                            <div class="text-sm text-brand-text">4 months • ₹12,000/month</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm text-brand-heading">19 applications</div>
+                            <div class="text-sm text-brand-text">5 shortlisted</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                                On-site
+                            </span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-brand-success bg-opacity-10 text-brand-success">
+                                Active
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<%- include('partials/footer') %>

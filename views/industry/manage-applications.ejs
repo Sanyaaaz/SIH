@@ -1,0 +1,368 @@
+<%- include('partials/header') %>
+
+<main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+    <div class="mb-8">
+        <h1 class="text-2xl font-bold text-brand-heading">Manage Applications</h1>
+        <p class="text-brand-text mt-1">Review and manage student applications for your internships.</p>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+        <div class="flex flex-wrap gap-4 items-center justify-between">
+            <div class="flex flex-wrap gap-4">
+                <select class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary">
+                    <option>All Internships</option>
+                    <option>Frontend Developer</option>
+                    <option>Data Science Intern</option>
+                    <option>Marketing Intern</option>
+                    <option>Backend Developer</option>
+                </select>
+                
+                <select class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary">
+                    <option>All Status</option>
+                    <option>Pending</option>
+                    <option>Shortlisted</option>
+                    <option>Rejected</option>
+                </select>
+                
+                <input type="text" placeholder="Search by name..." 
+                       class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary">
+            </div>
+            
+            <div class="text-sm text-brand-text">
+                Showing <span class="font-medium">248</span> applications
+            </div>
+        </div>
+    </div>
+
+    <!-- Applications Table -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-brand-text uppercase tracking-wider">
+                            Candidate
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-brand-text uppercase tracking-wider">
+                            Applied For
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-brand-text uppercase tracking-wider">
+                            Readiness Score
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-brand-text uppercase tracking-wider">
+                            Resume
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-brand-text uppercase tracking-wider">
+                            Status
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-brand-text uppercase tracking-wider">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <!-- Application Row 1 -->
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center">
+                                <img class="h-10 w-10 rounded-full" src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=32&h=32&fit=crop&crop=face" alt="">
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-brand-heading">Sarah Johnson</div>
+                                    <div class="text-sm text-brand-text">sarah.johnson@email.com</div>
+                                    <div class="text-xs text-brand-text">Applied 2 hours ago</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm text-brand-heading">Frontend Developer</div>
+                            <div class="text-xs text-brand-text">Remote • 3 months</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center">
+                                <div class="w-16 bg-gray-200 rounded-full h-2 mr-2">
+                                    <div class="bg-brand-success h-2 rounded-full" style="width: 85%"></div>
+                                </div>
+                                <span class="text-sm font-medium text-brand-heading">8.5/10</span>
+                            </div>
+                            <div class="text-xs text-brand-text mt-1">Excellent match</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <a href="#" class="text-brand-primary hover:text-brand-primary/80 text-sm font-medium flex items-center">
+                                <i class="fas fa-file-pdf mr-1"></i>
+                                View Resume
+                            </a>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                Pending
+                            </span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex space-x-2">
+                                <button onclick="shortlistCandidate('Sarah Johnson')" 
+                                        class="text-brand-success hover:text-brand-success/80 text-sm font-medium">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button onclick="rejectCandidate('Sarah Johnson')" 
+                                        class="text-red-600 hover:text-red-500 text-sm font-medium">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                                <button onclick="openChat('Sarah Johnson')" 
+                                        class="text-brand-primary hover:text-brand-primary/80 text-sm font-medium">
+                                    <i class="fas fa-comment"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Application Row 2 -->
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center">
+                                <img class="h-10 w-10 rounded-full" src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=32&h=32&fit=crop&crop=face" alt="">
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-brand-heading">Michael Chen</div>
+                                    <div class="text-sm text-brand-text">michael.chen@email.com</div>
+                                    <div class="text-xs text-brand-text">Applied 5 hours ago</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm text-brand-heading">Data Science Intern</div>
+                            <div class="text-xs text-brand-text">Hybrid • 6 months</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center">
+                                <div class="w-16 bg-gray-200 rounded-full h-2 mr-2">
+                                    <div class="bg-brand-success h-2 rounded-full" style="width: 92%"></div>
+                                </div>
+                                <span class="text-sm font-medium text-brand-heading">9.2/10</span>
+                            </div>
+                            <div class="text-xs text-brand-text mt-1">Perfect match</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <a href="#" class="text-brand-primary hover:text-brand-primary/80 text-sm font-medium flex items-center">
+                                <i class="fas fa-file-pdf mr-1"></i>
+                                View Resume
+                            </a>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-brand-success bg-opacity-10 text-brand-success">
+                                Shortlisted
+                            </span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex space-x-2">
+                                <button disabled class="text-gray-400 text-sm font-medium cursor-not-allowed">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button onclick="rejectCandidate('Michael Chen')" 
+                                        class="text-red-600 hover:text-red-500 text-sm font-medium">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                                <button onclick="openChat('Michael Chen')" 
+                                        class="text-brand-primary hover:text-brand-primary/80 text-sm font-medium">
+                                    <i class="fas fa-comment"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Application Row 3 -->
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center">
+                                <img class="h-10 w-10 rounded-full" src="https://images.pexels.com/photos/762020/pexels-photo-762020.jpeg?auto=compress&cs=tinysrgb&w=32&h=32&fit=crop&crop=face" alt="">
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-brand-heading">Emily Rodriguez</div>
+                                    <div class="text-sm text-brand-text">emily.rodriguez@email.com</div>
+                                    <div class="text-xs text-brand-text">Applied 1 day ago</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm text-brand-heading">Marketing Intern</div>
+                            <div class="text-xs text-brand-text">On-site • 4 months</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center">
+                                <div class="w-16 bg-gray-200 rounded-full h-2 mr-2">
+                                    <div class="bg-yellow-500 h-2 rounded-full" style="width: 70%"></div>
+                                </div>
+                                <span class="text-sm font-medium text-brand-heading">7.0/10</span>
+                            </div>
+                            <div class="text-xs text-brand-text mt-1">Good match</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <a href="#" class="text-brand-primary hover:text-brand-primary/80 text-sm font-medium flex items-center">
+                                <i class="fas fa-file-pdf mr-1"></i>
+                                View Resume
+                            </a>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                Pending
+                            </span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex space-x-2">
+                                <button onclick="shortlistCandidate('Emily Rodriguez')" 
+                                        class="text-brand-success hover:text-brand-success/80 text-sm font-medium">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button onclick="rejectCandidate('Emily Rodriguez')" 
+                                        class="text-red-600 hover:text-red-500 text-sm font-medium">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                                <button onclick="openChat('Emily Rodriguez')" 
+                                        class="text-brand-primary hover:text-brand-primary/80 text-sm font-medium">
+                                    <i class="fas fa-comment"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Application Row 4 -->
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center">
+                                <img class="h-10 w-10 rounded-full" src="https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=32&h=32&fit=crop&crop=face" alt="">
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-brand-heading">Alex Kumar</div>
+                                    <div class="text-sm text-brand-text">alex.kumar@email.com</div>
+                                    <div class="text-xs text-brand-text">Applied 1 day ago</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm text-brand-heading">Backend Developer</div>
+                            <div class="text-xs text-brand-text">Remote • 5 months</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center">
+                                <div class="w-16 bg-gray-200 rounded-full h-2 mr-2">
+                                    <div class="bg-orange-500 h-2 rounded-full" style="width: 60%"></div>
+                                </div>
+                                <span class="text-sm font-medium text-brand-heading">6.0/10</span>
+                            </div>
+                            <div class="text-xs text-brand-text mt-1">Fair match</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <a href="#" class="text-brand-primary hover:text-brand-primary/80 text-sm font-medium flex items-center">
+                                <i class="fas fa-file-pdf mr-1"></i>
+                                View Resume
+                            </a>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
+                                Rejected
+                            </span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex space-x-2">
+                                <button disabled class="text-gray-400 text-sm font-medium cursor-not-allowed">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button disabled class="text-gray-400 text-sm font-medium cursor-not-allowed">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                                <button onclick="openChat('Alex Kumar')" 
+                                        class="text-brand-primary hover:text-brand-primary/80 text-sm font-medium">
+                                    <i class="fas fa-comment"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Application Row 5 -->
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center">
+                                <img class="h-10 w-10 rounded-full" src="https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg?auto=compress&cs=tinysrgb&w=32&h=32&fit=crop&crop=face" alt="">
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-brand-heading">Jessica Park</div>
+                                    <div class="text-sm text-brand-text">jessica.park@email.com</div>
+                                    <div class="text-xs text-brand-text">Applied 2 days ago</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm text-brand-heading">Frontend Developer</div>
+                            <div class="text-xs text-brand-text">Remote • 3 months</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center">
+                                <div class="w-16 bg-gray-200 rounded-full h-2 mr-2">
+                                    <div class="bg-brand-success h-2 rounded-full" style="width: 88%"></div>
+                                </div>
+                                <span class="text-sm font-medium text-brand-heading">8.8/10</span>
+                            </div>
+                            <div class="text-xs text-brand-text mt-1">Excellent match</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <a href="#" class="text-brand-primary hover:text-brand-primary/80 text-sm font-medium flex items-center">
+                                <i class="fas fa-file-pdf mr-1"></i>
+                                View Resume
+                            </a>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-brand-success bg-opacity-10 text-brand-success">
+                                Shortlisted
+                            </span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex space-x-2">
+                                <button disabled class="text-gray-400 text-sm font-medium cursor-not-allowed">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button onclick="rejectCandidate('Jessica Park')" 
+                                        class="text-red-600 hover:text-red-500 text-sm font-medium">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                                <button onclick="openChat('Jessica Park')" 
+                                        class="text-brand-primary hover:text-brand-primary/80 text-sm font-medium">
+                                    <i class="fas fa-comment"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6 mt-6 rounded-lg shadow-sm border border-gray-200">
+        <div class="flex-1 flex justify-between sm:hidden">
+            <button class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-brand-text bg-white hover:bg-gray-50">
+                Previous
+            </button>
+            <button class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-brand-text bg-white hover:bg-gray-50">
+                Next
+            </button>
+        </div>
+        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+            <div>
+                <p class="text-sm text-brand-text">
+                    Showing <span class="font-medium">1</span> to <span class="font-medium">5</span> of <span class="font-medium">248</span> results
+                </p>
+            </div>
+            <div>
+                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                    <button class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-brand-text hover:bg-gray-50">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-brand-primary text-sm font-medium text-white">1</button>
+                    <button class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-brand-text hover:bg-gray-50">2</button>
+                    <button class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-brand-text hover:bg-gray-50">3</button>
+                    <button class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-brand-text hover:bg-gray-50">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </div>
+</main>
+
+<%- include('partials/footer') %>

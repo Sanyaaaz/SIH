@@ -1,0 +1,77 @@
+<footer class="bg-white border-t border-gray-200 mt-12">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <div class="text-sm text-brand-text">
+                    © 2024 InternConnect. All rights reserved.
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-brand-text hover:text-brand-heading text-sm transition-colors">Help</a>
+                    <a href="#" class="text-brand-text hover:text-brand-heading text-sm transition-colors">Support</a>
+                    <a href="#" class="text-brand-text hover:text-brand-heading text-sm transition-colors">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Add active navigation highlighting
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+            
+            navLinks.forEach(link => {
+                link.classList.remove('border-brand-primary', 'text-brand-heading');
+                link.classList.add('border-transparent', 'text-brand-text');
+                
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('border-brand-primary', 'text-brand-heading');
+                    link.classList.remove('border-transparent', 'text-brand-text');
+                }
+            });
+            
+            mobileNavLinks.forEach(link => {
+                link.classList.remove('bg-brand-primary', 'bg-opacity-10', 'border-brand-primary', 'text-brand-primary');
+                link.classList.add('border-transparent', 'text-brand-text');
+                
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('bg-brand-primary', 'bg-opacity-10', 'border-brand-primary', 'text-brand-primary');
+                    link.classList.remove('border-transparent', 'text-brand-text');
+                }
+            });
+        });
+
+        // Form interactions
+        function showSuccessMessage(message) {
+            const successDiv = document.createElement('div');
+            successDiv.className = 'fixed top-4 right-4 bg-brand-success text-white px-6 py-3 rounded-lg shadow-lg transform transition-transform translate-x-full';
+            successDiv.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-check-circle mr-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            document.body.appendChild(successDiv);
+            
+            setTimeout(() => successDiv.classList.remove('translate-x-full'), 100);
+            setTimeout(() => {
+                successDiv.classList.add('translate-x-full');
+                setTimeout(() => document.body.removeChild(successDiv), 300);
+            }, 3000);
+        }
+        
+        // Button click handlers
+        function shortlistCandidate(name) {
+            showSuccessMessage(`${name} has been shortlisted!`);
+        }
+        
+        function rejectCandidate(name) {
+            showSuccessMessage(`${name} application has been rejected.`);
+        }
+        
+        function openChat(name) {
+            showSuccessMessage(`Opening chat with ${name}...`);
+        }
+    </script>
+</body>
+</html>

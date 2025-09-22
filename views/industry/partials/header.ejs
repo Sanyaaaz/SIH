@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof title !== 'undefined' ? title : 'Industry Partner Dashboard' %></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-primary': '#4F46E5',
+                        'brand-secondary': '#F97316', 
+                        'brand-bg': '#F9FAFB',
+                        'brand-heading': '#111827',
+                        'brand-text': '#374151',
+                        'brand-success': '#22C55E'
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-brand-bg min-h-screen">
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-xl font-bold text-brand-primary">InternConnect</h1>
+                    </div>
+                    <div class="hidden md:ml-8 md:flex md:space-x-8">
+                        <a href="/" class="nav-link border-brand-primary text-brand-heading border-b-2 py-4 px-1 text-sm font-medium">
+                            Dashboard
+                        </a>
+                        <a href="/post-internship" class="nav-link border-transparent text-brand-text hover:border-gray-300 hover:text-brand-heading border-b-2 py-4 px-1 text-sm font-medium transition-colors">
+                            Post Internship
+                        </a>
+                        <a href="/manage-applications" class="nav-link border-transparent text-brand-text hover:border-gray-300 hover:text-brand-heading border-b-2 py-4 px-1 text-sm font-medium transition-colors">
+                            Applications
+                        </a>
+                        <a href="/analytics" class="nav-link border-transparent text-brand-text hover:border-gray-300 hover:text-brand-heading border-b-2 py-4 px-1 text-sm font-medium transition-colors">
+                            Analytics
+                        </a>
+                        <a href="/feedback" class="nav-link border-transparent text-brand-text hover:border-gray-300 hover:text-brand-heading border-b-2 py-4 px-1 text-sm font-medium transition-colors">
+                            Feedback
+                        </a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <button class="bg-white p-1 rounded-full text-brand-text hover:text-brand-heading focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2">
+                            <i class="fas fa-bell text-lg"></i>
+                        </button>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <img class="h-8 w-8 rounded-full" src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=32&h=32&fit=crop&crop=face" alt="Profile">
+                        <span class="text-sm font-medium text-brand-heading">TechCorp Industries</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div class="md:hidden">
+            <div class="pt-2 pb-3 space-y-1">
+                <a href="/" class="mobile-nav-link bg-brand-primary bg-opacity-10 border-brand-primary text-brand-primary block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Dashboard</a>
+                <a href="/post-internship" class="mobile-nav-link border-transparent text-brand-text hover:bg-gray-50 hover:border-gray-300 hover:text-brand-heading block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Post Internship</a>
+                <a href="/manage-applications" class="mobile-nav-link border-transparent text-brand-text hover:bg-gray-50 hover:border-gray-300 hover:text-brand-heading block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Applications</a>
+                <a href="/analytics" class="mobile-nav-link border-transparent text-brand-text hover:bg-gray-50 hover:border-gray-300 hover:text-brand-heading block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Analytics</a>
+                <a href="/feedback" class="mobile-nav-link border-transparent text-brand-text hover:bg-gray-50 hover:border-gray-300 hover:text-brand-heading block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Feedback</a>
+            </div>
+        </div>
+    </nav>

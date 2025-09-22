@@ -1,0 +1,207 @@
+<%- include('partials/header') %>
+
+<main class="max-w-4xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+    <div class="mb-8">
+        <h1 class="text-2xl font-bold text-brand-heading">Post New Internship</h1>
+        <p class="text-brand-text mt-1">Create a new internship opportunity for students.</p>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+        <form class="p-6 space-y-6" onsubmit="handleSubmit(event)">
+            <!-- Role Title -->
+            <div>
+                <label for="role-title" class="block text-sm font-medium text-brand-heading mb-2">
+                    Role Title <span class="text-red-500">*</span>
+                </label>
+                <input type="text" id="role-title" name="roleTitle" required
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary"
+                       placeholder="e.g. Frontend Developer Intern">
+            </div>
+
+            <!-- Description -->
+            <div>
+                <label for="description" class="block text-sm font-medium text-brand-heading mb-2">
+                    Job Description <span class="text-red-500">*</span>
+                </label>
+                <textarea id="description" name="description" rows="5" required
+                          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary"
+                          placeholder="Describe the role, responsibilities, and what the intern will learn..."></textarea>
+            </div>
+
+            <!-- Skills Required -->
+            <div>
+                <label for="skills" class="block text-sm font-medium text-brand-heading mb-2">
+                    Skills Required <span class="text-red-500">*</span>
+                </label>
+                <input type="text" id="skills" name="skills" required
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary"
+                       placeholder="e.g. React, JavaScript, HTML/CSS, Git">
+                <p class="text-xs text-brand-text mt-1">Separate skills with commas</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Duration -->
+                <div>
+                    <label for="duration" class="block text-sm font-medium text-brand-heading mb-2">
+                        Duration <span class="text-red-500">*</span>
+                    </label>
+                    <select id="duration" name="duration" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary">
+                        <option value="">Select Duration</option>
+                        <option value="1">1 Month</option>
+                        <option value="2">2 Months</option>
+                        <option value="3">3 Months</option>
+                        <option value="4">4 Months</option>
+                        <option value="5">5 Months</option>
+                        <option value="6">6 Months</option>
+                        <option value="12">12 Months</option>
+                    </select>
+                </div>
+
+                <!-- Stipend -->
+                <div>
+                    <label for="stipend" class="block text-sm font-medium text-brand-heading mb-2">
+                        Stipend (₹/month)
+                    </label>
+                    <input type="number" id="stipend" name="stipend" min="0"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary"
+                           placeholder="e.g. 15000">
+                    <p class="text-xs text-brand-text mt-1">Leave blank for unpaid internships</p>
+                </div>
+            </div>
+
+            <!-- Work Mode -->
+            <div>
+                <label class="block text-sm font-medium text-brand-heading mb-3">
+                    Work Mode <span class="text-red-500">*</span>
+                </label>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-primary hover:bg-brand-primary hover:bg-opacity-5 transition-all">
+                        <input type="radio" name="workMode" value="remote" class="sr-only">
+                        <div class="radio-custom mr-3"></div>
+                        <div>
+                            <div class="text-sm font-medium text-brand-heading">Remote</div>
+                            <div class="text-xs text-brand-text">Work from anywhere</div>
+                        </div>
+                    </label>
+                    
+                    <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-primary hover:bg-brand-primary hover:bg-opacity-5 transition-all">
+                        <input type="radio" name="workMode" value="onsite" class="sr-only">
+                        <div class="radio-custom mr-3"></div>
+                        <div>
+                            <div class="text-sm font-medium text-brand-heading">On-site</div>
+                            <div class="text-xs text-brand-text">Office location required</div>
+                        </div>
+                    </label>
+                    
+                    <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-primary hover:bg-brand-primary hover:bg-opacity-5 transition-all">
+                        <input type="radio" name="workMode" value="hybrid" class="sr-only">
+                        <div class="radio-custom mr-3"></div>
+                        <div>
+                            <div class="text-sm font-medium text-brand-heading">Hybrid</div>
+                            <div class="text-xs text-brand-text">Mix of remote & office</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- API Listing Option -->
+            <div class="border border-gray-200 rounded-lg p-4 bg-blue-50">
+                <div class="flex items-start">
+                    <input type="checkbox" id="api-listing" name="apiListing"
+                           class="mt-1 h-4 w-4 text-brand-primary focus:ring-brand-primary border-gray-300 rounded">
+                    <div class="ml-3">
+                        <label for="api-listing" class="text-sm font-medium text-brand-heading cursor-pointer">
+                            Enable API Listing
+                        </label>
+                        <p class="text-xs text-brand-text mt-1">
+                            Allow this internship to be automatically synced and listed on other job portals like Naukri, Indeed, etc.
+                            This will increase visibility and attract more candidates.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+                <button type="button" 
+                        class="px-6 py-2 border border-gray-300 text-brand-text rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 transition-colors">
+                    Save as Draft
+                </button>
+                <button type="submit"
+                        class="px-6 py-2 bg-brand-secondary text-white rounded-md hover:bg-brand-secondary/90 focus:outline-none focus:ring-2 focus:ring-brand-secondary focus:ring-offset-2 transition-colors">
+                    Post Internship
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+
+<style>
+    .radio-custom {
+        width: 16px;
+        height: 16px;
+        border: 2px solid #D1D5DB;
+        border-radius: 50%;
+        position: relative;
+    }
+    
+    input[type="radio"]:checked + .radio-custom {
+        border-color: #4F46E5;
+    }
+    
+    input[type="radio"]:checked + .radio-custom::after {
+        content: '';
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #4F46E5;
+        position: absolute;
+        top: 2px;
+        left: 2px;
+    }
+</style>
+
+<script>
+    function handleSubmit(event) {
+        event.preventDefault();
+        
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData.entries());
+        
+        // Validate required fields
+        if (!data.roleTitle || !data.description || !data.skills || !data.duration || !data.workMode) {
+            alert('Please fill in all required fields');
+            return;
+        }
+        
+        // Show success message
+        showSuccessMessage('Internship posted successfully!');
+        
+        // Reset form
+        event.target.reset();
+        
+        // Remove radio button selections
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.checked = false;
+            radio.parentElement.classList.remove('border-brand-primary', 'bg-brand-primary', 'bg-opacity-5');
+        });
+    }
+
+    // Handle radio button styling
+    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Remove selection from all radio buttons in the same group
+            document.querySelectorAll(`input[name="${this.name}"]`).forEach(r => {
+                r.parentElement.classList.remove('border-brand-primary', 'bg-brand-primary', 'bg-opacity-5');
+            });
+            
+            // Add selection to current radio button
+            if (this.checked) {
+                this.parentElement.classList.add('border-brand-primary', 'bg-brand-primary', 'bg-opacity-5');
+            }
+        });
+    });
+</script>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,429 @@
+
+<%- include('partials/header') %>
+
+<!-- do not consider this code -- khushi
+<main class="max-w-4xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+    <div class="mb-8">
+        <h1 class="text-2xl font-bold text-brand-heading">Internship Health Score Feedback</h1>
+        <p class="text-brand-text mt-1">Help us improve our internship matching algorithm by providing feedback.</p>
+    </div>
+
+    <!-- Current Health Score Card -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-8">
+        <div class="p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-lg font-semibold text-brand-heading mb-2">Current Internship Quality Index</h2>
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center">
+                            <div class="text-4xl font-bold text-brand-heading">8.5</div>
+                            <div class="text-xl text-brand-text ml-1">/10</div>
+                        </div>
+                        <div class="text-sm text-brand-text">
+                            <div class="text-brand-success font-medium">Excellent Rating</div>
+                            <div>Based on 23 feedback submissions</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <div class="w-24 h-24 relative">
+                        <svg class="w-24 h-24 transform -rotate-90" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="45" stroke="#E5E7EB" stroke-width="8" fill="none"></circle>
+                            <circle cx="50" cy="50" r="45" stroke="#22C55E" stroke-width="8" fill="none" stroke-dasharray="283" stroke-dashoffset="56" stroke-linecap="round"></circle>
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="text-xl font-bold text-brand-heading">85%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback Form -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div class="p-6 border-b border-gray-200">
+            <h2 class="text-lg font-semibold text-brand-heading">Submit New Feedback</h2>
+            <p class="text-sm text-brand-text mt-1">Your feedback helps improve our matching algorithm and overall experience.</p>
+        </div>
+        
+        <form class="p-6 space-y-6" onsubmit="handleFeedbackSubmit(event)">
+            <!-- Overall Satisfaction -->
+            <div>
+                <label class="block text-sm font-medium text-brand-heading mb-3">
+                    Overall Satisfaction with Internship Program
+                </label>
+                <div class="flex space-x-2">
+                    <button type="button" class="rating-btn w-12 h-12 rounded-full border-2 border-gray-300 text-gray-400 hover:border-brand-primary hover:text-brand-primary focus:outline-none focus:border-brand-primary focus:text-brand-primary transition-colors" data-rating="1">
+                        <i class="fas fa-star"></i>
+                    </button>
+                    <button type="button" class="rating-btn w-12 h-12 rounded-full border-2 border-gray-300 text-gray-400 hover:border-brand-primary hover:text-brand-primary focus:outline-none focus:border-brand-primary focus:text-brand-primary transition-colors" data-rating="2">
+                        <i class="fas fa-star"></i>
+                    </button>
+                    <button type="button" class="rating-btn w-12 h-12 rounded-full border-2 border-gray-300 text-gray-400 hover:border-brand-primary hover:text-brand-primary focus:outline-none focus:border-brand-primary focus:text-brand-primary transition-colors" data-rating="3">
+                        <i class="fas fa-star"></i>
+                    </button>
+                    <button type="button" class="rating-btn w-12 h-12 rounded-full border-2 border-gray-300 text-gray-400 hover:border-brand-primary hover:text-brand-primary focus:outline-none focus:border-brand-primary focus:text-brand-primary transition-colors" data-rating="4">
+                        <i class="fas fa-star"></i>
+                    </button>
+                    <button type="button" class="rating-btn w-12 h-12 rounded-full border-2 border-gray-300 text-gray-400 hover:border-brand-primary hover:text-brand-primary focus:outline-none focus:border-brand-primary focus:text-brand-primary transition-colors" data-rating="5">
+                        <i class="fas fa-star"></i>
+                    </button>
+                </div>
+                <input type="hidden" name="overallRating" id="overallRating" required>
+            </div>
+
+            <!-- Quality of Candidates -->
+            <div>
+                <label for="candidateQuality" class="block text-sm font-medium text-brand-heading mb-2">
+                    Quality of Candidates (1-10)
+                </label>
+                <div class="flex items-center space-x-4">
+                    <input type="range" id="candidateQuality" name="candidateQuality" min="1" max="10" value="5" 
+                           class="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider">
+                    <span id="candidateQualityValue" class="text-lg font-semibold text-brand-heading w-8">5</span>
+                </div>
+            </div>
+
+            <!-- Application Process -->
+            <div>
+                <label for="applicationProcess" class="block text-sm font-medium text-brand-heading mb-2">
+                    Application Process Efficiency (1-10)
+                </label>
+                <div class="flex items-center space-x-4">
+                    <input type="range" id="applicationProcess" name="applicationProcess" min="1" max="10" value="5" 
+                           class="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider">
+                    <span id="applicationProcessValue" class="text-lg font-semibold text-brand-heading w-8">5</span>
+                </div>
+            </div>
+
+            <!-- Matching Accuracy -->
+            <div>
+                <label for="matchingAccuracy" class="block text-sm font-medium text-brand-heading mb-2">
+                    Skill Matching Accuracy (1-10)
+                </label>
+                <div class="flex items-center space-x-4">
+                    <input type="range" id="matchingAccuracy" name="matchingAccuracy" min="1" max="10" value="5" 
+                           class="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider">
+                    <span id="matchingAccuracyValue" class="text-lg font-semibold text-brand-heading w-8">5</span>
+                </div>
+            </div>
+
+            <!-- Most Helpful Features -->
+            <div>
+                <label class="block text-sm font-medium text-brand-heading mb-3">
+                    Most Helpful Features (Select all that apply)
+                </label>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <label class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-primary hover:bg-brand-primary hover:bg-opacity-5 transition-all">
+                        <input type="checkbox" name="helpfulFeatures" value="readinessScore" class="sr-only">
+                        <div class="checkbox-custom mr-3"></div>
+                        <span class="text-sm text-brand-text">Student Readiness Score</span>
+                    </label>
+                    
+                    <label class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-primary hover:bg-brand-primary hover:bg-opacity-5 transition-all">
+                        <input type="checkbox" name="helpfulFeatures" value="skillMatching" class="sr-only">
+                        <div class="checkbox-custom mr-3"></div>
+                        <span class="text-sm text-brand-text">Skill-based Matching</span>
+                    </label>
+                    
+                    <label class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-primary hover:bg-brand-primary hover:bg-opacity-5 transition-all">
+                        <input type="checkbox" name="helpfulFeatures" value="resumeAccess" class="sr-only">
+                        <div class="checkbox-custom mr-3"></div>
+                        <span class="text-sm text-brand-text">Easy Resume Access</span>
+                    </label>
+                    
+                    <label class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-primary hover:bg-brand-primary hover:bg-opacity-5 transition-all">
+                        <input type="checkbox" name="helpfulFeatures" value="chatFeature" class="sr-only">
+                        <div class="checkbox-custom mr-3"></div>
+                        <span class="text-sm text-brand-text">Direct Chat Feature</span>
+                    </label>
+                    
+                    <label class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-primary hover:bg-brand-primary hover:bg-opacity-5 transition-all">
+                        <input type="checkbox" name="helpfulFeatures" value="analytics" class="sr-only">
+                        <div class="checkbox-custom mr-3"></div>
+                        <span class="text-sm text-brand-text">Analytics Dashboard</span>
+                    </label>
+                    
+                    <label class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-primary hover:bg-brand-primary hover:bg-opacity-5 transition-all">
+                        <input type="checkbox" name="helpfulFeatures" value="apiIntegration" class="sr-only">
+                        <div class="checkbox-custom mr-3"></div>
+                        <span class="text-sm text-brand-text">API Integration</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Areas for Improvement -->
+            <div>
+                <label for="improvements" class="block text-sm font-medium text-brand-heading mb-2">
+                    Areas for Improvement
+                </label>
+                <textarea id="improvements" name="improvements" rows="4"
+                          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary"
+                          placeholder="What features would you like to see improved or added?"></textarea>
+            </div>
+
+            <!-- Would Recommend -->
+            <div>
+                <label class="block text-sm font-medium text-brand-heading mb-3">
+                    Would you recommend InternConnect to other companies?
+                </label>
+                <div class="flex space-x-4">
+                    <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-success hover:bg-brand-success hover:bg-opacity-5 transition-all">
+                        <input type="radio" name="recommend" value="yes" class="sr-only">
+                        <div class="radio-custom mr-3"></div>
+                        <div>
+                            <div class="text-sm font-medium text-brand-heading">Yes, definitely!</div>
+                            <div class="text-xs text-brand-text">I would recommend it</div>
+                        </div>
+                    </label>
+                    
+                    <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-yellow-500 hover:bg-yellow-50 transition-all">
+                        <input type="radio" name="recommend" value="maybe" class="sr-only">
+                        <div class="radio-custom mr-3"></div>
+                        <div>
+                            <div class="text-sm font-medium text-brand-heading">Maybe</div>
+                            <div class="text-xs text-brand-text">With some improvements</div>
+                        </div>
+                    </label>
+                    
+                    <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-red-500 hover:bg-red-50 transition-all">
+                        <input type="radio" name="recommend" value="no" class="sr-only">
+                        <div class="radio-custom mr-3"></div>
+                        <div>
+                            <div class="text-sm font-medium text-brand-heading">No</div>
+                            <div class="text-xs text-brand-text">Not satisfied enough</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+                <button type="button" 
+                        class="px-6 py-2 border border-gray-300 text-brand-text rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 transition-colors">
+                    Save as Draft
+                </button>
+                <button type="submit"
+                        class="px-6 py-2 bg-brand-secondary text-white rounded-md hover:bg-brand-secondary/90 focus:outline-none focus:ring-2 focus:ring-brand-secondary focus:ring-offset-2 transition-colors">
+                    Submit Feedback
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Recent Feedback -->
+    <div class="mt-8 bg-white rounded-lg shadow-sm border border-gray-200">
+        <div class="p-6 border-b border-gray-200">
+            <h2 class="text-lg font-semibold text-brand-heading">Your Recent Feedback</h2>
+        </div>
+        <div class="p-6">
+            <div class="space-y-4">
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex items-center space-x-2">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="text-sm font-medium text-brand-heading">Overall: 5/5</span>
+                        </div>
+                        <span class="text-xs text-brand-text">2 days ago</span>
+                    </div>
+                    <p class="text-sm text-brand-text">Great platform! The skill matching is very accurate and the candidate quality has been excellent. Would love to see more analytics features.</p>
+                </div>
+                
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex items-center space-x-2">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <span class="text-sm font-medium text-brand-heading">Overall: 4/5</span>
+                        </div>
+                        <span class="text-xs text-brand-text">1 week ago</span>
+                    </div>
+                    <p class="text-sm text-brand-text">Good experience overall. The application process could be streamlined a bit more, but the quality of candidates is consistently good.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+-->
+<style>
+    .checkbox-custom {
+        width: 16px;
+        height: 16px;
+        border: 2px solid #D1D5DB;
+        border-radius: 4px;
+        position: relative;
+    }
+    
+    input[type="checkbox"]:checked + .checkbox-custom {
+        background-color: #4F46E5;
+        border-color: #4F46E5;
+    }
+    
+    input[type="checkbox"]:checked + .checkbox-custom::after {
+        content: '✓';
+        color: white;
+        font-size: 10px;
+        position: absolute;
+        top: -2px;
+        left: 2px;
+    }
+    
+    .radio-custom {
+        width: 16px;
+        height: 16px;
+        border: 2px solid #D1D5DB;
+        border-radius: 50%;
+        position: relative;
+    }
+    
+    input[type="radio"]:checked + .radio-custom {
+        border-color: #4F46E5;
+    }
+    
+    input[type="radio"]:checked + .radio-custom::after {
+        content: '';
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #4F46E5;
+        position: absolute;
+        top: 2px;
+        left: 2px;
+    }
+    
+    .slider {
+        background: linear-gradient(to right, #4F46E5 0%, #4F46E5 50%, #E5E7EB 50%, #E5E7EB 100%);
+    }
+    
+    .slider::-webkit-slider-thumb {
+        appearance: none;
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        background: #4F46E5;
+        cursor: pointer;
+        border: 2px solid white;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+</style>
+
+<script>
+    let selectedRating = 0;
+
+    // Handle star rating
+    document.querySelectorAll('.rating-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            selectedRating = parseInt(this.dataset.rating);
+            document.getElementById('overallRating').value = selectedRating;
+            
+            // Update visual feedback
+            document.querySelectorAll('.rating-btn').forEach((b, index) => {
+                if (index < selectedRating) {
+                    b.classList.add('border-brand-primary', 'text-brand-primary');
+                    b.classList.remove('border-gray-300', 'text-gray-400');
+                } else {
+                    b.classList.remove('border-brand-primary', 'text-brand-primary');
+                    b.classList.add('border-gray-300', 'text-gray-400');
+                }
+            });
+        });
+    });
+
+    // Handle range sliders
+    document.querySelectorAll('.slider').forEach(slider => {
+        const valueDisplay = document.getElementById(slider.id + 'Value');
+        
+        slider.addEventListener('input', function() {
+            valueDisplay.textContent = this.value;
+            const percentage = (this.value - this.min) / (this.max - this.min) * 100;
+            this.style.background = `linear-gradient(to right, #4F46E5 0%, #4F46E5 ${percentage}%, #E5E7EB ${percentage}%, #E5E7EB 100%)`;
+        });
+        
+        // Initialize
+        const initialPercentage = (slider.value - slider.min) / (slider.max - slider.min) * 100;
+        slider.style.background = `linear-gradient(to right, #4F46E5 0%, #4F46E5 ${initialPercentage}%, #E5E7EB ${initialPercentage}%, #E5E7EB 100%)`;
+    });
+
+    // Handle checkbox styling
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                this.parentElement.classList.add('border-brand-primary', 'bg-brand-primary', 'bg-opacity-5');
+            } else {
+                this.parentElement.classList.remove('border-brand-primary', 'bg-brand-primary', 'bg-opacity-5');
+            }
+        });
+    });
+
+    // Handle radio button styling
+    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Remove selection from all radio buttons in the same group
+            document.querySelectorAll(`input[name="${this.name}"]`).forEach(r => {
+                r.parentElement.classList.remove('border-brand-primary', 'bg-brand-primary', 'bg-opacity-5');
+            });
+            
+            // Add selection to current radio button
+            if (this.checked) {
+                this.parentElement.classList.add('border-brand-primary', 'bg-brand-primary', 'bg-opacity-5');
+            }
+        });
+    });
+
+    function handleFeedbackSubmit(event) {
+        event.preventDefault();
+        
+        const formData = new FormData(event.target);
+        
+        // Validate required fields
+        if (!selectedRating) {
+            alert('Please provide an overall rating');
+            return;
+        }
+        
+        if (!formData.get('recommend')) {
+            alert('Please let us know if you would recommend InternConnect');
+            return;
+        }
+        
+        // Show success message
+        showSuccessMessage('Thank you for your feedback! Your input helps us improve our platform.');
+        
+        // Reset form
+        event.target.reset();
+        selectedRating = 0;
+        
+        // Reset star rating
+        document.querySelectorAll('.rating-btn').forEach(btn => {
+            btn.classList.remove('border-brand-primary', 'text-brand-primary');
+            btn.classList.add('border-gray-300', 'text-gray-400');
+        });
+        
+        // Reset checkboxes and radio buttons
+        document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => {
+            input.checked = false;
+            input.parentElement.classList.remove('border-brand-primary', 'bg-brand-primary', 'bg-opacity-5');
+        });
+        
+        // Reset sliders
+        document.querySelectorAll('.slider').forEach(slider => {
+            slider.value = 5;
+            document.getElementById(slider.id + 'Value').textContent = '5';
+            slider.style.background = 'linear-gradient(to right, #4F46E5 0%, #4F46E5 50%, #E5E7EB 50%, #E5E7EB 100%)';
+        });
+    }
+</script>
+
+<%- include('partials/footer') %>
