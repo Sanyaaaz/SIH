@@ -6,14 +6,14 @@ const mongoose = require('mongoose');
 const User = require('./models/User');
 const LocalStrategy = require('passport-local').Strategy;
 const Internship = require('./models/Internships');
-// ----------------- DB CONNECTION -----------------
+//----------------- DB CONNECTION -----------------
 mongoose.connect('mongodb://127.0.0.1:27017/IH', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
   .then(() => console.log('✅ MongoDB Connected'))
   .catch(err => console.error(err));
-
+ 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -83,11 +83,21 @@ app.get('/auth/login', (req, res) => {
   res.render('login', { error: null });
 });
 
-app.post('/auth/login', passport.authenticate('local', {
-  successRedirect: '/dashboard',
-  failureRedirect: '/auth/login',
-  // failureFlash: true
-}));
+// app.post('/auth/login', passport.authenticate('local', {
+//   successRedirect: '/dashboard',
+//   failureRedirect: '/auth/login',
+//   // failureFlash: true
+// }));
+app.post('/auth/login', passport.authenticate('local'), (req, res) => {
+  // Role-based redirection after successful login
+  if (req.user.role === 'industry') {
+    res.redirect('/industry/dashboard');
+  } else if (req.user.role === 'faculty') {
+    res.redirect('/faculty/dashboard');
+  } else {
+    res.redirect('/dashboard'); // Default to student dashboard
+  }
+});
 
 // Signup routes
 app.get('/auth/signup', (req, res) => {
@@ -131,7 +141,14 @@ app.post('/auth/signup', async (req, res) => {
         return res.redirect('/auth/login');
       }
       console.log('Auto-login successful, redirecting to dashboard');
-      res.redirect('/dashboard');
+      //res.redirect('/dashboard');
+      if (newUser.role === 'industry') {
+        res.redirect('/industry/dashboard');
+      } else if (newUser.role === 'faculty') {
+        res.redirect('/faculty/dashboard');
+      } else {
+        res.redirect('/dashboard'); 
+      }
     });
     
   } catch (error) {
@@ -265,7 +282,51 @@ app.get('/student', ensureAuthenticated, (req, res) => {
 app.get('/internships', (req, res) => {
   res.render('student/internships', { user: req.user || null });
 });
+app.get('/industry/dashboard', ensureAuthenticated, (req, res) => {
+  if (req.user.role !== 'industry') {
+    return res.redirect('/dashboard'); 
+  }
+  res.render('industry/dashboard', { user: req.user });
+});
 
+app.get('/post-internship', ensureAuthenticated, (req, res) => {
+  if (req.user.role !== 'industry') {
+    return res.redirect('/dashboard');
+  }
+  res.render('industry/post-internship', { user: req.user });
+});
+
+app.get('/manage-applications', ensureAuthenticated, (req, res) => {
+  if (req.user.role !== 'industry') {
+    return res.redirect('/dashboard');
+  }
+  res.render('industry/manage-applications', { user: req.user });
+});
+
+app.get('/analytics', ensureAuthenticated, (req, res) => {
+  if (req.user.role !== 'industry') {
+    return res.redirect('/dashboard');
+  }
+  res.render('industry/analytics', { user: req.user });
+});
+
+app.get('/feedback', ensureAuthenticated, (req, res) => {
+  if (req.user.role !== 'industry') {
+    return res.redirect('/dashboard');
+  }
+  res.render('industry/feedback', { user: req.user });
+});
+
+// Logout route
+app.get('/auth/logout', (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      console.error('Logout error:', err);
+      return res.redirect('/');
+    }
+    res.redirect('/');
+  });
+});
 // Internship detail
 app.get('/internship/:id', (req, res) => {
   res.render('student/internship-detail', { user: req.user || null });
