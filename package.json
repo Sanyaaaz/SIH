@@ -2,21 +2,24 @@
   "name": "internshiphub",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.19.2",
+    "@supabase/supabase-js": "^2.57.4",
+    "bcrypt": "^6.0.0",
     "ejs": "^3.1.10",
+    "express": "^4.19.2",
     "express-session": "^1.18.2",
-    "@supabase/supabase-js": "^2.57.4"
+    "mongoose": "^8.18.2",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.21",
     "nodemon": "^3.1.10",
-    "tailwindcss": "^3.4.17",
     "postcss": "^8.5.6",
-    "autoprefixer": "^10.4.21"
+    "tailwindcss": "^3.4.17"
   }
 }

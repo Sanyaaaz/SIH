@@ -1,205 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login - InternshipHub</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    
-    <!-- Tailwind CSS Configuration -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        indigo: {
-                            50: '#EEF2FF',
-                            600: '#4F46E5',
-                            700: '#4338CA'
-                        },
-                        red: {
-                            50: '#FEF2F2',
-                            200: '#FECACA',
-                            600: '#DC2626'
-                        },
-                        blue: {
-                            50: '#EFF6FF',
-                            200: '#BFDBFE',
-                            700: '#1D4ED8',
-                            800: '#1E40AF'
-                        },
-                        orange: {
-                            50: '#FFF7ED'
-                        },
-                        gray: {
-                            200: '#E5E7EB',
-                            300: '#D1D5DB',
-                            400: '#9CA3AF',
-                            600: '#4B5563',
-                            700: '#374151',
-                            900: '#111827'
-                        }
-                    },
-                    fontFamily: {
-                        inter: ['Inter', 'sans-serif'],
-                    },
-                },
-            }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Prashikshan</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#4F46E5',
+            secondary: '#F97316',
+          },
+          fontFamily: {
+            inter: ['Inter', 'sans-serif'],
+            poppins: ['Poppins', 'sans-serif'],
+          },
         }
-    </script>
-    
-    <!-- Custom Styles -->
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .content-auto {
-                content-visibility: auto;
-            }
-            .bg-gradient {
-                background-image: linear-gradient(to bottom right, #EEF2FF, #FFFFFF, #FFF7ED);
-            }
-            .transition-colors {
-                transition-property: background-color, border-color, color, fill, stroke;
-                transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-                transition-duration: 150ms;
-            }
-            .focus-ring {
-                @apply focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none;
-            }
-        }
-    </style>
+      }
+    }
+  </script>
 </head>
-<body class="font-inter">
-    <div class="min-h-screen bg-gradient flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-md w-full">
-            <!-- Header -->
-            <div class="text-center mb-8">
-                <div class="flex items-center justify-center space-x-2 mb-4">
-                    <div class="bg-indigo-600 p-2 rounded-lg">
-                        <i class="fa fa-briefcase text-white text-xl"></i>
-                    </div>
-                    <span class="text-2xl font-bold text-gray-900">InternshipHub</span>
-                </div>
-                <h2 class="text-3xl font-bold text-gray-900">Welcome back</h2>
-                <p class="text-gray-600 mt-2">Sign in to your account to continue</p>
-            </div>
+<body class="font-inter bg-white h-screen m-0">
 
-            <!-- Login Form -->
-            <div class="bg-white p-8 rounded-lg shadow-lg border border-gray-200">
-                <form action="/login" method="POST" class="space-y-6">
-                    <% if (error) { %>
-                    <div class="p-4 bg-red-50 border border-red-200 rounded-lg">
-                        <p class="text-red-600 text-sm"><%= error %></p>
-                    </div>
-                    <% } %>
+  <div class="h-screen w-screen grid grid-cols-1 md:grid-cols-2">
 
-                    <!-- Email -->
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
-                            Email Address
-                        </label>
-                        <div class="relative">
-                            <i class="fa fa-envelope absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                            <input
-                                id="email"
-                                type="email"
-                                name="email"
-                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus-ring transition-colors"
-                                placeholder="Enter your email"
-                                required
-                            />
-                        </div>
-                    </div>
-
-                    <!-- Password -->
-                    <div>
-                        <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
-                            Password
-                        </label>
-                        <div class="relative">
-                            <i class="fa fa-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                            <input
-                                id="password"
-                                type="password"
-                                name="password"
-                                class="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus-ring transition-colors"
-                                placeholder="Enter your password"
-                                required
-                            />
-                            <button
-                                type="button"
-                                id="togglePassword"
-                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                            >
-                                <i class="fa fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Remember me & Forgot password -->
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center">
-                            <input
-                                id="remember-me"
-                                name="remember-me"
-                                type="checkbox"
-                                class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                            />
-                            <label for="remember-me" class="ml-2 block text-sm text-gray-700">
-                                Remember me
-                            </label>
-                        </div>
-                        <a href="#" class="text-sm text-indigo-600 hover:text-indigo-700">
-                            Forgot password?
-                        </a>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <button
-                        type="submit"
-                        class="w-full py-3 px-4 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors"
-                    >
-                        Sign In
-                    </button>
-                </form>
-
-                <!-- Demo credentials -->
-                <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                    <p class="text-blue-800 text-sm font-medium mb-2">Demo Credentials:</p>
-                    <p class="text-blue-700 text-sm">Email: demo@example.com</p>
-                    <p class="text-blue-700 text-sm">Password: any password</p>
-                </div>
-
-                <!-- Sign up link -->
-                <div class="mt-6 text-center">
-                    <p class="text-gray-600 text-sm">
-                        Don't have an account? <a href="/signup" class="text-indigo-600 hover:text-indigo-700 font-medium">Sign up here</a>
-                    </p>
-                </div>
-            </div>
+    <!-- LEFT: Login Form, Full Height -->
+    <div class="flex flex-col justify-center px-8 md:px-24 py-12 bg-white h-full">
+      <h2 class="text-4xl font-bold mb-2 text-black">WELCOME BACK</h2>
+      <p class="text-gray-600 mb-8">Welcome back! Please enter your details.</p>
+      <form action="/auth/login" method="POST" class="space-y-6">
+        <!-- Email -->
+        <div>
+          <label for="email" class="block text-md font-semibold text-gray-700 mb-1">Email</label>
+          <input id="email" name="email" type="email" required
+            class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary outline-none font-inter"
+            placeholder="Enter your email" />
         </div>
+        <!-- Password -->
+        <div>
+          <label for="password" class="block text-md font-semibold text-gray-700 mb-1">Password</label>
+          <input id="password" name="password" type="password" required
+            class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary outline-none font-inter"
+            placeholder="***" />
+        </div>
+        <div class="flex items-center justify-between text-sm mt-1">
+          <label class="flex items-center">
+            <input type="checkbox" name="remember" class="mr-2" />
+            Remember me
+          </label>
+          <a href="#" class="text-secondary hover:text-secondary/80 font-medium">Forgot password?</a>
+        </div>
+        <button type="submit"
+          class="w-full py-3 bg-primary text-white font-semibold rounded-xl hover:bg-indigo-700 transition mt-3 font-inter">
+          Sign in
+        </button>
+        <button type="button"
+          class="w-full flex items-center justify-center py-3 border border-gray-200 rounded-xl bg-white hover:bg-gray-100 transition mt-2 shadow-sm">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png" alt="Google" class="h-6 w-6 mr-2" />
+          <span class="text-black font-medium">Sign in with Google</span>
+        </button>
+      </form>
+      <div class="mt-8 text-center text-sm">
+        Don’t have an account? <a href="/auth/signup" class="text-primary hover:underline font-semibold">Sign up to free!</a>
+      </div>
     </div>
 
-    <!-- JavaScript for password toggle -->
-    <script>
-        document.getElementById('togglePassword').addEventListener('click', function() {
-            const passwordInput = document.getElementById('password');
-            const icon = this.querySelector('i');
-            
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
-        });
-    </script>
+    <!-- RIGHT: Full Height Image Area -->
+    <div class="flex items-center justify-center bg-gray-50 h-full">
+      <!-- Use your image, for example /images/image.jpg if you placed it into public/images -->
+      <img src="/images/image.jpg" alt="Illustration" class="object-contain h-4/5 w-4/5" />
+    </div>
+  </div>
+
 </body>
 </html>

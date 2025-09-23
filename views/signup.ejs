@@ -1,254 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign Up - InternshipHub</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    
-    <!-- Tailwind CSS Configuration -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        indigo: {
-                            50: '#EEF2FF',
-                            600: '#4F46E5',
-                            700: '#4338CA'
-                        },
-                        red: {
-                            50: '#FEF2F2',
-                            200: '#FECACA',
-                            600: '#DC2626'
-                        },
-                        blue: {
-                            50: '#EFF6FF',
-                            200: '#BFDBFE',
-                            700: '#1D4ED8',
-                            800: '#1E40AF'
-                        },
-                        orange: {
-                            50: '#FFF7ED'
-                        },
-                        gray: {
-                            200: '#E5E7EB',
-                            300: '#D1D5DB',
-                            400: '#9CA3AF',
-                            600: '#4B5563',
-                            700: '#374151',
-                            900: '#111827'
-                        }
-                    },
-                    fontFamily: {
-                        inter: ['Inter', 'sans-serif'],
-                    },
-                },
-            }
-        }
-    </script>
-    
-    <!-- Custom Styles -->
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .content-auto {
-                content-visibility: auto;
-            }
-            .bg-gradient {
-                background-image: linear-gradient(to bottom right, #EEF2FF, #FFFFFF, #FFF7ED);
-            }
-            .transition-colors {
-                transition-property: background-color, border-color, color, fill, stroke;
-                transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-                transition-duration: 150ms;
-            }
-            .focus-ring {
-                @apply focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign Up | InternshipHub</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#4F46E5",
+            secondary: "#F97316",
+          },
+          fontFamily: {
+            inter: ["Inter", "sans-serif"],
+            poppins: ["Poppins", "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
 </head>
-<body class="font-inter">
-    <div class="min-h-screen bg-gradient flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-md w-full">
-            <!-- Header -->
-            <div class="text-center mb-8">
-                <div class="flex items-center justify-center space-x-2 mb-4">
-                    <div class="bg-indigo-600 p-2 rounded-lg">
-                        <i class="fa fa-briefcase text-white text-xl"></i>
-                    </div>
-                    <span class="text-2xl font-bold text-gray-900">InternshipHub</span>
-                </div>
-                <h2 class="text-3xl font-bold text-gray-900">Create your account</h2>
-                <p class="text-gray-600 mt-2">Join thousands of students finding their perfect internships</p>
-            </div>
+<body class="bg-gradient-to-br from-indigo-50 via-white to-orange-50 font-inter min-h-screen m-0">
 
-            <!-- Signup Form -->
-            <div class="bg-white p-8 rounded-lg shadow-lg border border-gray-200">
-                <form action="/signup" method="POST" class="space-y-6">
-                    <% if (error) { %>
-                    <div class="p-4 bg-red-50 border border-red-200 rounded-lg">
-                        <p class="text-red-600 text-sm"><%= error %></p>
-                    </div>
-                    <% } %>
+  <div class="grid grid-cols-1 md:grid-cols-2 min-h-screen">
 
-                    <!-- Name -->
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
-                            Full Name
-                        </label>
-                        <div class="relative">
-                            <i class="fa fa-user absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                            <input
-                                id="name"
-                                type="text"
-                                name="name"
-                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus-ring transition-colors"
-                                placeholder="Enter your full name"
-                                required
-                            />
-                        </div>
-                    </div>
-
-                    <!-- Email -->
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
-                            Email Address
-                        </label>
-                        <div class="relative">
-                            <i class="fa fa-envelope absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                            <input
-                                id="email"
-                                type="email"
-                                name="email"
-                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus-ring transition-colors"
-                                placeholder="Enter your email"
-                                required
-                            />
-                        </div>
-                    </div>
-
-                    <!-- Password -->
-                    <div>
-                        <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
-                            Password
-                        </label>
-                        <div class="relative">
-                            <i class="fa fa-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                            <input
-                                id="password"
-                                type="password"
-                                name="password"
-                                class="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus-ring transition-colors"
-                                placeholder="Create a password"
-                                required
-                            />
-                            <button
-                                type="button"
-                                id="togglePassword"
-                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                            >
-                                <i class="fa fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Confirm Password -->
-                    <div>
-                        <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-2">
-                            Confirm Password
-                        </label>
-                        <div class="relative">
-                            <i class="fa fa-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                            <input
-                                id="confirmPassword"
-                                type="password"
-                                name="confirmPassword"
-                                class="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus-ring transition-colors"
-                                placeholder="Confirm your password"
-                                required
-                            />
-                            <button
-                                type="button"
-                                id="toggleConfirmPassword"
-                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                            >
-                                <i class="fa fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Terms and conditions -->
-                    <div class="flex items-center">
-                        <input
-                            id="agree-terms"
-                            name="agreeTerms"
-                            type="checkbox"
-                            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                            required
-                        />
-                        <label for="agree-terms" class="ml-2 block text-sm text-gray-700">
-                            I agree to the <a href="#" class="text-indigo-600 hover:text-indigo-700">Terms and Conditions</a> and <a href="#" class="text-indigo-600 hover:text-indigo-700">Privacy Policy</a>
-                        </label>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <button
-                        type="submit"
-                        class="w-full py-3 px-4 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors"
-                    >
-                        Create Account
-                    </button>
-                </form>
-
-                <!-- Sign in link -->
-                <div class="mt-6 text-center">
-                    <p class="text-gray-600 text-sm">
-                        Already have an account? <a href="/login" class="text-indigo-600 hover:text-indigo-700 font-medium">Sign in here</a>
-                    </p>
-                </div>
-            </div>
+    <!-- LEFT SIDE: Signup form with reduced padding and controlled max height -->
+    <div class="flex flex-col justify-center px-6 md:px-16 py-8 max-h-screen overflow-auto bg-white">
+      <div class="text-center mb-6">
+        <div class="flex items-center justify-center space-x-2 mb-3">
+          <div class="bg-primary p-2 rounded-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
+            </svg>
+          </div>
+          <span class="text-xl font-bold text-gray-900">InternshipHub</span>
         </div>
+        <h2 class="text-2xl font-bold text-gray-900">Create your account</h2>
+        <p class="text-gray-600 mt-1 text-sm md:text-base">Join thousands of students finding their perfect internships</p>
+      </div>
+
+      <form action="/auth/signup" method="POST" class="space-y-4" autocomplete="off">
+        <!-- Full Name -->
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+          <div class="relative">
+            <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A9 9 0 1112 21a9 9 0 01-6.879-3.196z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 11a3 3 0 100-6 3 3 0 000 6z" />
+            </svg>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              required
+              placeholder="Enter your full name"
+              class="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-colors text-sm"
+            />
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+          <div class="relative">
+            <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 12H8m0 0v4m0-4V8m0 4h8" />
+            </svg>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              placeholder="Enter your email"
+              class="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-colors text-sm"
+            />
+          </div>
+        </div>
+
+        <!-- Role -->
+        <div>
+          <label for="role" class="block text-sm font-medium text-gray-700 mb-1">I am a</label>
+          <select
+            id="role"
+            name="role"
+            required
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-colors text-sm"
+          >
+            <option value="" disabled selected>Select your role</option>
+            <option value="student">Student - Looking for internships</option>
+            <option value="industry">Industry - Posting internships</option>
+            <option value="faculty">Faculty - Mentoring students</option>
+          </select>
+        </div>
+
+        <!-- ABC ID -->
+        <div>
+        <label for="abcId" class="block text-sm font-medium text-gray-700 mb-1">ABC ID</label>
+        <input
+            id="abcId"
+            name="abcId"
+            type="text"
+            placeholder="Enter your ABC ID"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-colors text-sm"
+        />
+        </div>
+
+
+        <!-- Password -->
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+          <div class="relative">
+            <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 11c1.38 0 2.5-1.12 2.5-2.5S13.38 6 12 6s-2.5 1.12-2.5 2.5 1.12 2.5 2.5 2.5z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 14s-.75 4-5 4-5-4-5-4" />
+            </svg>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              minlength="6"
+              required
+              placeholder="Create a password"
+              class="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-colors text-sm"
+            />
+          </div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div>
+          <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+          <div class="relative">
+            <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 11c1.38 0 2.5-1.12 2.5-2.5S13.38 6 12 6s-2.5 1.12-2.5 2.5 1.12 2.5 2.5 2.5z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 14s-.75 4-5 4-5-4-5-4" />
+            </svg>
+            <input
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              minlength="6"
+              required
+              placeholder="Confirm your password"
+              class="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-colors text-sm"
+            />
+          </div>
+        </div>
+
+        <!-- Terms -->
+        <div class="flex items-center text-xs">
+          <input id="agree-terms" name="agree-terms" type="checkbox" required class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded" />
+          <label for="agree-terms" class="ml-2 block text-gray-700">
+            I agree to the
+            <a href="#" class="text-primary hover:text-primary/80">Terms and Conditions</a> and
+            <a href="#" class="text-primary hover:text-primary/80">Privacy Policy</a>
+          </label>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="w-full py-2 px-4 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors text-sm">
+          Create Account
+        </button>
+      </form>
+
+      <!-- Link -->
+      <div class="mt-4 text-center text-xs md:text-sm">
+        <p class="text-gray-600">
+          Already have an account?
+          <a href="/auth/login" class="text-primary hover:text-primary/80 font-medium">Sign in here</a>
+        </p>
+      </div>
     </div>
 
-    <!-- JavaScript for password toggle -->
-    <script>
-        // Toggle password visibility
-        document.getElementById('togglePassword').addEventListener('click', function() {
-            const passwordInput = document.getElementById('password');
-            const icon = this.querySelector('i');
-            
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
-        });
+    <!-- RIGHT SIDE: Image scaled smaller -->
+    <div class="hidden md:flex items-center justify-center bg-gradient-to-br from-primary via-orange-50 to-secondary h-full">
+      <img src="/images/image.jpg" alt="Sign up Illustration" class="object-contain h-3/5 w-3/5" />
+    </div>
+  </div>
 
-        // Toggle confirm password visibility
-        document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
-            const confirmPasswordInput = document.getElementById('confirmPassword');
-            const icon = this.querySelector('i');
-            
-            if (confirmPasswordInput.type === 'password') {
-                confirmPasswordInput.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                confirmPasswordInput.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
-        });
-    </script>
+  <script>
+    // Password confirmation validator
+    document.getElementById('confirmPassword').addEventListener('input', function () {
+      const password = document.getElementById('password').value;
+      const confirmPassword = this.value;
+      if (password !== confirmPassword) {
+        this.setCustomValidity('Passwords do not match');
+      } else {
+        this.setCustomValidity('');
+      }
+    });
+  </script>
 </body>
 </html>
