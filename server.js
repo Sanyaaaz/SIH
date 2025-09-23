@@ -7,7 +7,7 @@ const User = require('./models/User');
 const LocalStrategy = require('passport-local').Strategy;
 
 // ----------------- DB CONNECTION -----------------
-mongoose.connect('mongodb://127.0.0.1:27017/IH', {
+mongoose.connect('mongodb://127.0.0.1:27017/ih', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
@@ -144,8 +144,53 @@ function ensureAuthenticated(req, res, next) {
 // Dashboard
 app.get('/dashboard', ensureAuthenticated, (req, res) => {
   res.render('student/dashboard', { user: req.user });
+});app.post('/api/internships', ensureAuthenticated, async (req, res) => {
+  try {
+    if (req.user.role !== 'industry') {
+      return res.status(403).json({ error: 'Only industry users can post internships' });
+    }
+
+    const { title, description, location, stipend, duration } = req.body;
+
+    if (!title || !description) {
+      return res.status(400).json({ error: 'Title and description are required' });
+    }
+
+    const newInternship = new Internship({
+      title,
+      description,
+      company: req.user._id,
+      location,
+      stipend,
+      duration
+    });
+
+    await newInternship.save();
+    res.status(201).json({ 
+      message: 'Internship posted successfully', 
+      internship: newInternship 
+    });
+
+  } catch (error) {
+    console.error('Error posting internship:', error);
+    res.status(500).json({ error: 'Failed to post internship' });
+  }
 });
 
+app.get('/api/internships', async (req, res) => {
+  try {
+    const internships = await Internship.find()
+      .populate('company', 'name email')
+      .populate('applicants', 'name email')
+      .sort({ postedAt: -1 });
+
+    res.json({ internships });
+
+  } catch (error) {
+    console.error('Error fetching internships:', error);
+    res.status(500).json({ error: 'Failed to fetch internships' });
+  }
+});
 // ----------------- START SERVER -----------------
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
