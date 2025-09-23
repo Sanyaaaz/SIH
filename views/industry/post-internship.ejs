@@ -163,7 +163,7 @@
 </style>
 
 <script>
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault();
         
         const formData = new FormData(event.target);
@@ -175,17 +175,46 @@
             return;
         }
         
-        // Show success message
-        showSuccessMessage('Internship posted successfully!');
-        
-        // Reset form
-        event.target.reset();
-        
-        // Remove radio button selections
-        document.querySelectorAll('input[type="radio"]').forEach(radio => {
-            radio.checked = false;
-            radio.parentElement.classList.remove('border-brand-primary', 'bg-brand-primary', 'bg-opacity-5');
-        });
+        try {
+            const internshipData = {
+                title: data.roleTitle,
+                description: data.description,
+                location: data.workMode, 
+                stipend: data.stipend || '0',
+                duration: data.duration + ' months'
+            };
+            
+            const response = await fetch('/api/internships', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(internshipData)
+            });
+            
+            const result = await response.json();
+            
+            if (response.ok) {
+                alert('Internship posted successfully!');
+                
+                event.target.reset();
+                
+                document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                    radio.checked = false;
+                    radio.parentElement.classList.remove('border-brand-primary', 'bg-brand-primary', 'bg-opacity-5');
+                });
+                
+                // Optionally redirect to dashboard
+                // window.location.href = '/industry/dashboard';
+                
+            } else {
+                alert('Error posting internship: ' + result.error);
+            }
+            
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error posting internship. Please try again.');
+        }
     }
 
     // Handle radio button styling
