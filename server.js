@@ -73,6 +73,11 @@ app.get('/', (req, res) => {
   res.render('student/home', { user: req.user || null });
 });
 
+// Redirect old resources path to new dashboard path (if used anywhere)
+app.get('/resources', (req, res) => {
+  res.redirect('/dashboard/resources');
+});
+
 // Login routes
 app.get('/auth/login', (req, res) => {
   res.render('login', { error: null });
@@ -144,7 +149,10 @@ function ensureAuthenticated(req, res, next) {
 // Dashboard
 app.get('/dashboard', ensureAuthenticated, (req, res) => {
   res.render('student/dashboard', { user: req.user });
-});app.post('/api/internships', ensureAuthenticated, async (req, res) => {
+});
+
+// Post internship (industry users)
+app.post('/api/internships', ensureAuthenticated, async (req, res) => {
   try {
     if (req.user.role !== 'industry') {
       return res.status(403).json({ error: 'Only industry users can post internships' });
@@ -177,6 +185,7 @@ app.get('/dashboard', ensureAuthenticated, (req, res) => {
   }
 });
 
+// Fetch internships API
 app.get('/api/internships', async (req, res) => {
   try {
     const internships = await Internship.find()
@@ -191,7 +200,37 @@ app.get('/api/internships', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch internships' });
   }
 });
+// Student Resources
+app.get('/dashboard/resources', ensureAuthenticated, (req, res) => {
+  res.render('student/resources', { title: 'Resources', page: 'resources', user: req.user, resources: [] });
+});
+
+// Student Progress
+app.get('/progress', ensureAuthenticated, (req, res) => {
+  res.render('student/resources', { title: 'Progress', page: 'progress', user: req.user });
+});
+
+// Student Bookmarks
+app.get('/bookmarks', ensureAuthenticated, (req, res) => {
+  res.render('student/resources', { title: 'Bookmarks', page: 'bookmarks', user: req.user });
+});
+
+// Student Index (uses same layout with index content)
+app.get('/student', ensureAuthenticated, (req, res) => {
+  res.render('student/resources', { title: 'Student', page: 'index', user: req.user });
+});
+
+// Internships list
+app.get('/internships', (req, res) => {
+  res.render('student/internships', { user: req.user || null });
+});
+
+// Internship detail
+app.get('/internship/:id', (req, res) => {
+  res.render('student/internship-detail', { user: req.user || null });
+});
 // ----------------- START SERVER -----------------
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+

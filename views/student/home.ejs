@@ -40,42 +40,7 @@
 </head>
 <body class="font-inter bg-gray-50 text-dark">
     <!-- Navigation -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <a href="/" class="flex-shrink-0 flex items-center">
-                        <div class="h-8 w-8 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold">
-                            IH
-                        </div>
-                        <span class="ml-2 text-xl font-bold text-dark">InternshipHub</span>
-                    </a>
-                    <nav class="ml-10 flex space-x-8">
-                        <a href="/" class="text-primary border-b-2 border-primary inline-flex items-center px-1 pt-1 text-sm font-medium">
-                            Home
-                        </a>
-                        <a href="/internships" class="text-gray-500 hover:text-dark inline-flex items-center px-1 pt-1 text-sm font-medium">
-                            Internships
-                        </a>
-                        <a href="#how-it-works" class="text-gray-500 hover:text-dark inline-flex items-center px-1 pt-1 text-sm font-medium">
-                            How It Works
-                        </a>
-                        <a href="#testimonials" class="text-gray-500 hover:text-dark inline-flex items-center px-1 pt-1 text-sm font-medium">
-                            Success Stories
-                        </a>
-                    </nav>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <a href="/auth/login" class="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors text-sm font-medium">
-                        Sign In
-                    </a>
-                    <a href="/auth/signup" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors text-sm font-medium">
-                        Join Now
-                    </a>
-                </div>
-            </div>
-        </div>
-    </header>
+    <%- include('partials/header', { user, active: 'home' }) %>
 
     <main>
         <!-- Hero Section -->
@@ -602,7 +567,7 @@
                         <li><a href="/internships" class="text-gray-400 hover:text-white transition-colors">Browse Internships</a></li>
                         <li><a href="#how-it-works" class="text-gray-400 hover:text-white transition-colors">How It Works</a></li>
                         <li><a href="#testimonials" class="text-gray-400 hover:text-white transition-colors">Success Stories</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Career Resources</a></li>
+                        <li><a href="/dashboard/resources" class="text-gray-400 hover:text-white transition-colors">Career Resources</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-white transition-colors">FAQ</a></li>
                     </ul>
                 </div>

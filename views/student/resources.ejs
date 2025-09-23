@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Internship Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#F97316',
+                        accent: '#22C55E',
+                        background: '#F9FAFB',
+                        heading: '#111827',
+                        body: '#374151'
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background font-inter">
+     Navigation 
+    <%- include('partials/header', { user, active: page || 'resources' }) %>
+
+     Main Content 
+    <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+         <% if (page === 'resources') { %>
+           <%- include('views/resources') %>
+         <% } else if (page === 'progress') { %>
+           <%- include('views/progress') %>
+         <% } else if (page === 'bookmarks') { %>
+           <%- include('views/bookmarks') %>
+         <% } else { %>
+           <%- include('views/index') %>
+         <% } %>
+    </main>
+
+     Footer 
+    <footer class="bg-white border-t border-gray-200 mt-12">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="text-center text-body text-sm">
+                <p>&copy; 2025 Internship Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple JavaScript for interactivity
+        function toggleBookmark(resourceId) {
+            const bookmarkBtn = document.querySelector(`[data-resource="${resourceId}"]`);
+            const isBookmarked = bookmarkBtn.classList.contains('bookmarked');
+            
+            if (isBookmarked) {
+                bookmarkBtn.classList.remove('bookmarked', 'text-secondary');
+                bookmarkBtn.classList.add('text-gray-400');
+                bookmarkBtn.innerHTML = '☆';
+                // Update localStorage
+                removeFromBookmarks(resourceId);
+            } else {
+                bookmarkBtn.classList.add('bookmarked', 'text-secondary');
+                bookmarkBtn.classList.remove('text-gray-400');
+                bookmarkBtn.innerHTML = '★';
+                // Update localStorage
+                addToBookmarks(resourceId);
+            }
+        }
+
+        function markProgress(resourceId, status) {
+            const progressBtn = document.querySelector(`[data-progress="${resourceId}"]`);
+            const statusText = progressBtn.querySelector('.status-text');
+            
+            if (status === 'completed') {
+                progressBtn.classList.remove('bg-gray-100', 'bg-yellow-100', 'text-gray-600', 'text-yellow-800');
+                progressBtn.classList.add('bg-accent', 'text-white');
+                statusText.textContent = 'Completed';
+            } else if (status === 'in-progress') {
+                progressBtn.classList.remove('bg-gray-100', 'bg-accent', 'text-gray-600', 'text-white');
+                progressBtn.classList.add('bg-yellow-100', 'text-yellow-800');
+                statusText.textContent = 'In Progress';
+            } else {
+                progressBtn.classList.remove('bg-accent', 'bg-yellow-100', 'text-white', 'text-yellow-800');
+                progressBtn.classList.add('bg-gray-100', 'text-gray-600');
+                statusText.textContent = 'Not Started';
+            }
+            
+            // Update localStorage
+            updateProgress(resourceId, status);
+        }
+
+        function filterResources() {
+            const searchTerm = document.getElementById('search').value.toLowerCase();
+            const subjectFilter = document.getElementById('subject-filter').value;
+            const typeFilter = document.getElementById('type-filter').value;
+            const difficultyFilter = document.getElementById('difficulty-filter') ? document.getElementById('difficulty-filter').value : '';
+            const resources = document.querySelectorAll('.resource-card');
+            let visibleCount = 0;
+
+            resources.forEach(resource => {
+                const title = resource.querySelector('.resource-title').textContent.toLowerCase();
+                const description = resource.querySelector('p').textContent.toLowerCase();
+                const facultyName = resource.querySelector('.text-body span') ? resource.querySelector('.text-body span').textContent.toLowerCase() : '';
+                const subject = resource.dataset.subject;
+                const type = resource.dataset.type;
+                const difficulty = resource.dataset.difficulty;
+
+                const matchesSearch = title.includes(searchTerm) || 
+                                   description.includes(searchTerm) || 
+                                   facultyName.includes(searchTerm);
+                const matchesSubject = !subjectFilter || subject === subjectFilter;
+                const matchesType = !typeFilter || type === typeFilter;
+                const matchesDifficulty = !difficultyFilter || difficulty === difficultyFilter;
+
+                if (matchesSearch && matchesSubject && matchesType && matchesDifficulty) {
+                    resource.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    resource.style.display = 'none';
+                }
+            });
+
+            // Update results count
+            updateResultsCount(visibleCount);
+        }
+
+        function updateResultsCount(count) {
+            const countElement = document.querySelector('.text-sm.text-body');
+            if (countElement) {
+                countElement.innerHTML = `<span class="font-medium">${count}</span> resources available`;
+            }
+        }
+
+        function addToBookmarks(resourceId) {
+            let bookmarks = JSON.parse(localStorage.getItem('bookmarks') || '[]');
+            if (!bookmarks.includes(resourceId)) {
+                bookmarks.push(resourceId);
+                localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+            }
+        }
+
+        function removeFromBookmarks(resourceId) {
+            let bookmarks = JSON.parse(localStorage.getItem('bookmarks') || '[]');
+            bookmarks = bookmarks.filter(id => id !== resourceId);
+            localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+        }
+
+        function updateProgress(resourceId, status) {
+            let progress = JSON.parse(localStorage.getItem('progress') || '{}');
+            progress[resourceId] = status;
+            localStorage.setItem('progress', JSON.stringify(progress));
+        }
+
+        function loadSavedData() {
+            // Load bookmarks
+            const bookmarks = JSON.parse(localStorage.getItem('bookmarks') || '[]');
+            bookmarks.forEach(resourceId => {
+                const bookmarkBtn = document.querySelector(`[data-resource="${resourceId}"]`);
+                if (bookmarkBtn) {
+                    bookmarkBtn.classList.add('bookmarked', 'text-secondary');
+                    bookmarkBtn.classList.remove('text-gray-400');
+                    bookmarkBtn.innerHTML = '★';
+                }
+            });
+
+            // Load progress
+            const progress = JSON.parse(localStorage.getItem('progress') || '{}');
+            Object.entries(progress).forEach(([resourceId, status]) => {
+                const progressBtn = document.querySelector(`[data-progress="${resourceId}"]`);
+                if (progressBtn) {
+                    markProgress(resourceId, status);
+                }
+            });
+        }
+
+        function filterByTag(tag) {
+            const searchInput = document.getElementById('search');
+            if (searchInput) {
+                searchInput.value = tag;
+                filterResources();
+            }
+        }
+
+        function filterByFaculty(facultyName) {
+            const searchInput = document.getElementById('search');
+            if (searchInput) {
+                searchInput.value = facultyName;
+                filterResources();
+            }
+        }
+
+        function showOnlyBookmarked() {
+            const bookmarks = JSON.parse(localStorage.getItem('bookmarks') || '[]');
+            const resources = document.querySelectorAll('.resource-card');
+            
+            resources.forEach(resource => {
+                const resourceId = resource.querySelector('[data-resource]').dataset.resource;
+                if (bookmarks.includes(resourceId)) {
+                    resource.style.display = 'block';
+                } else {
+                    resource.style.display = 'none';
+                }
+            });
+            
+            updateResultsCount(bookmarks.length);
+        }
+
+        function showByProgress(status) {
+            const progress = JSON.parse(localStorage.getItem('progress') || '{}');
+            const resources = document.querySelectorAll('.resource-card');
+            let count = 0;
+            
+            resources.forEach(resource => {
+                const resourceId = resource.querySelector('[data-progress]').dataset.progress;
+                const resourceStatus = progress[resourceId] || 'not-started';
+                
+                if (resourceStatus === status) {
+                    resource.style.display = 'block';
+                    count++;
+                } else {
+                    resource.style.display = 'none';
+                }
+            });
+            
+            updateResultsCount(count);
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedData();
+            
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'k') {
+                    e.preventDefault();
+                    const searchInput = document.getElementById('search');
+                    if (searchInput) {
+                        searchInput.focus();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
