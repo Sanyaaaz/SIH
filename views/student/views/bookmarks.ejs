@@ -1,0 +1,156 @@
+<div class="px-4 py-6 sm:px-6 lg:px-8">
+     Page Header 
+    <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+            <div class="mb-4 md:mb-0">
+                <h1 class="text-3xl font-bold text-heading mb-2">My Bookmarks</h1>
+                <p class="text-body">Resources you've saved for later reference</p>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button onclick="clearAllBookmarks()" class="text-sm text-red-600 hover:text-red-700 font-medium">
+                    Clear All Bookmarks
+                </button>
+            </div>
+        </div>
+    </div>
+
+     Filter Options 
+    <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+        <div class="flex flex-wrap gap-4">
+            <button onclick="filterBookmarksBySubject('')" class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
+                All Subjects
+            </button>
+            <button onclick="filterBookmarksBySubject('computer-science')" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
+                Computer Science
+            </button>
+            <button onclick="filterBookmarksBySubject('mathematics')" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
+                Mathematics
+            </button>
+            <button onclick="filterBookmarksBySubject('physics')" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
+                Physics
+            </button>
+            <button onclick="filterBookmarksBySubject('chemistry')" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
+                Chemistry
+            </button>
+        </div>
+    </div>
+
+    <div id="bookmarked-resources" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+         
+    </div>
+
+     Empty State 
+    <div id="empty-bookmarks" class="text-center py-12" style="display: none;">
+        <div class="w-24 h-24 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+            <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+            </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-heading mb-2">No Bookmarks Yet</h3>
+        <p class="text-body mb-6">Start bookmarking resources to access them quickly later.</p>
+        <a href="/resources" class="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-700 transition-colors">
+            Browse Resources
+        </a>
+    </div>
+</div>
+
+<script>
+    function loadBookmarkedResources() {
+        const bookmarks = JSON.parse(localStorage.getItem('bookmarks') || '[]');
+        const container = document.getElementById('bookmarked-resources');
+        const emptyState = document.getElementById('empty-bookmarks');
+        
+        if (bookmarks.length === 0) {
+            container.style.display = 'none';
+            emptyState.style.display = 'block';
+            return;
+        }
+        
+        container.style.display = 'grid';
+        emptyState.style.display = 'none';
+        
+        // For demo purposes, we'll show sample bookmarked resources
+        // In a real app, you'd fetch these from your backend
+        const sampleResources = [
+            {
+                id: 'math201',
+                title: 'Linear Algebra Fundamentals',
+                description: 'Video series covering matrix operations, vector spaces, and eigenvalues.',
+                type: 'Video',
+                subject: 'Mathematics',
+                faculty: 'Dr. Johnson',
+                date: 'Jan 12, 2025'
+            },
+            {
+                id: 'eng401',
+                title: 'Machine Learning Applications',
+                description: 'Advanced guide to ML algorithms and their real-world applications.',
+                type: 'PDF',
+                subject: 'Engineering',
+                faculty: 'Prof. Davis',
+                date: 'Jan 5, 2025'
+            }
+        ];
+        
+        container.innerHTML = sampleResources.map(resource => `
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow h-full flex flex-col">
+                <div class="flex items-start justify-between mb-4">
+                    <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">${resource.type}</span>
+                    <button onclick="toggleBookmark('${resource.id}')" data-resource="${resource.id}" class="text-secondary text-lg">★</button>
+                </div>
+                
+                <h3 class="font-semibold text-heading mb-2 text-lg">${resource.title}</h3>
+                <p class="text-sm text-body mb-3">${resource.description}</p>
+                
+                <div class="flex items-center space-x-2 mb-4">
+                    <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">${resource.subject}</span>
+                </div>
+                
+                <div class="flex items-center justify-between text-sm text-body mb-4">
+                    <span>${resource.faculty}</span>
+                    <span class="text-xs">${resource.date}</span>
+                </div>
+                
+                <div class="flex space-x-2 mt-auto">
+                    <button class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors flex-1">
+                        View Resource
+                    </button>
+                    <button onclick="removeBookmark('${resource.id}')" class="border border-red-300 text-red-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-50 transition-colors">
+                        Remove
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    function clearAllBookmarks() {
+        if (confirm('Are you sure you want to remove all bookmarks?')) {
+            localStorage.setItem('bookmarks', '[]');
+            loadBookmarkedResources();
+        }
+    }
+    
+    function removeBookmark(resourceId) {
+        let bookmarks = JSON.parse(localStorage.getItem('bookmarks') || '[]');
+        bookmarks = bookmarks.filter(id => id !== resourceId);
+        localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+        loadBookmarkedResources();
+    }
+    
+    function filterBookmarksBySubject(subject) {
+        // Update active button
+        document.querySelectorAll('button[onclick^="filterBookmarksBySubject"]').forEach(btn => {
+            btn.classList.remove('bg-primary', 'text-white');
+            btn.classList.add('bg-gray-100', 'text-gray-700');
+        });
+        event.target.classList.remove('bg-gray-100', 'text-gray-700');
+        event.target.classList.add('bg-primary', 'text-white');
+        
+        // Filter logic would go here
+        // For demo purposes, we'll just reload
+        loadBookmarkedResources();
+    }
+    
+    // Load bookmarks on page load
+    document.addEventListener('DOMContentLoaded', loadBookmarkedResources);
+</script>

@@ -1,0 +1,160 @@
+<div class="px-4 py-6 sm:px-6 lg:px-8">
+    <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold text-heading mb-2">Welcome back, Student!</h1>
+                <p class="text-body">Continue your learning journey with our curated resources.</p>
+            </div>
+            <div class="hidden md:block">
+                <div class="bg-primary/10 rounded-lg p-4">
+                    <div class="text-2xl font-bold text-primary">85%</div>
+                    <div class="text-sm text-body">Overall Progress</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-lg shadow-sm p-6">
+            <div class="flex items-center">
+                <div class="p-2 bg-primary/10 rounded-lg">
+                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <div class="text-2xl font-bold text-heading">124</div>
+                    <div class="text-sm text-body">Total Resources</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm p-6">
+            <div class="flex items-center">
+                <div class="p-2 bg-accent/10 rounded-lg">
+                    <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <div class="text-2xl font-bold text-heading">42</div>
+                    <div class="text-sm text-body">Completed</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm p-6">
+            <div class="flex items-center">
+                <div class="p-2 bg-yellow-100 rounded-lg">
+                    <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <div class="text-2xl font-bold text-heading">18</div>
+                    <div class="text-sm text-body">In Progress</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm p-6">
+            <div class="flex items-center">
+                <div class="p-2 bg-secondary/10 rounded-lg">
+                    <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <div class="text-2xl font-bold text-heading">23</div>
+                    <div class="text-sm text-body">Bookmarked</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-xl font-semibold text-heading">Recent Resources</h2>
+            <a href="/resources" class="text-primary hover:text-indigo-700 text-sm font-medium">View All →</a>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+            <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow h-full flex flex-col">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="flex items-center space-x-2">
+                        <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">PDF</span>
+                        <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">Computer Science</span>
+                    </div>
+                    <button onclick="toggleBookmark('res1')" data-resource="res1" class="text-gray-400 hover:text-secondary transition-colors">☆</button>
+                </div>
+                <h3 class="font-semibold text-heading mb-2 resource-title">Data Structures & Algorithms</h3>
+                <p class="text-sm text-body mb-3">Comprehensive guide to DSA concepts with practical examples.</p>
+                <div class="flex items-center justify-between text-xs text-body mt-auto">
+                    <span>By Prof. Smith</span>
+                    <div class="flex space-x-2">
+                        <button class="bg-primary text-white px-3 py-1 rounded text-xs hover:bg-indigo-700">View</button>
+                        <button onclick="markProgress('res1', 'in-progress')" data-progress="res1" class="bg-gray-100 text-gray-600 px-3 py-1 rounded text-xs">
+                            <span class="status-text">Not Started</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow h-full flex flex-col">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="flex items-center space-x-2">
+                        <span class="bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full">Video</span>
+                        <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">Mathematics</span>
+                    </div>
+                    <button onclick="toggleBookmark('res2')" data-resource="res2" class="text-secondary">★</button>
+                </div>
+                <h3 class="font-semibold text-heading mb-2 resource-title">Linear Algebra Fundamentals</h3>
+                <p class="text-sm text-body mb-3">Video series covering matrix operations and vector spaces.</p>
+                <div class="flex items-center justify-between text-xs text-body mt-auto">
+                    <span>By Dr. Johnson</span>
+                    <div class="flex space-x-2">
+                        <button class="bg-primary text-white px-3 py-1 rounded text-xs hover:bg-indigo-700">Watch</button>
+                        <button onclick="markProgress('res2', 'completed')" data-progress="res2" class="bg-accent text-white px-3 py-1 rounded text-xs">
+                            <span class="status-text">Completed</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow h-full flex flex-col">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="flex items-center space-x-2">
+                        <span class="bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full">Link</span>
+                        <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">Physics</span>
+                    </div>
+                    <button onclick="toggleBookmark('res3')" data-resource="res3" class="text-gray-400 hover:text-secondary transition-colors">☆</button>
+                </div>
+                <h3 class="font-semibold text-heading mb-2 resource-title">Quantum Mechanics Basics</h3>
+                <p class="text-sm text-body mb-3">Interactive online course with simulations and exercises.</p>
+                <div class="flex items-center justify-between text-xs text-body mt-auto">
+                    <span>By Prof. Wilson</span>
+                    <div class="flex space-x-2">
+                        <button class="bg-primary text-white px-3 py-1 rounded text-xs hover:bg-indigo-700">Open</button>
+                        <button onclick="markProgress('res3', 'in-progress')" data-progress="res3" class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded text-xs">
+                            <span class="status-text">In Progress</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+        <div class="bg-gradient-to-r from-primary to-indigo-600 rounded-lg p-6 text-white">
+            <h3 class="text-lg font-semibold mb-2">Explore New Resources</h3>
+            <p class="text-indigo-100 mb-4">Discover the latest learning materials added by faculty.</p>
+            <a href="/resources" class="bg-white text-primary px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors">Browse Resources</a>
+        </div>
+
+        <div class="bg-gradient-to-r from-secondary to-orange-600 rounded-lg p-6 text-white">
+            <h3 class="text-lg font-semibold mb-2">Track Your Progress</h3>
+            <p class="text-orange-100 mb-4">Monitor your learning journey and achievements.</p>
+            <a href="/progress" class="bg-white text-secondary px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors">View Progress</a>
+        </div>
+    </div>
+</div>

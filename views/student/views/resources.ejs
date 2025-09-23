@@ -1,0 +1,403 @@
+<div class="px-4 py-6 sm:px-6 lg:px-8">
+     Page Header 
+    <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+            <div class="mb-4 md:mb-0">
+                <h1 class="text-3xl font-bold text-heading mb-2">Learning Resources</h1>
+                <p class="text-body">Explore and access educational materials uploaded by faculty</p>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="text-sm text-body">
+                    <span class="font-medium">124</span> resources available
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+             Search Bar 
+            <div class="md:col-span-2 flex flex-col justify-end h-full">
+                <label for="search" class="block text-sm font-medium text-heading mb-2">Search Resources</label>
+                <div class="relative">
+                    <input 
+                        type="text" 
+                        id="search" 
+                        placeholder="Search by title, description, or faculty name..."
+                        class="w-full pl-10 pr-4 h-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                        onkeyup="filterResources()"
+                    >
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+             Subject Filter 
+            <div class="flex flex-col justify-end h-full">
+                <label for="subject-filter" class="block text-sm font-medium text-heading mb-2">Subject</label>
+                <select id="subject-filter" class="w-full px-3 h-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" onchange="filterResources()">
+                    <option value="">All Subjects</option>
+                    <option value="computer-science">Computer Science</option>
+                    <option value="mathematics">Mathematics</option>
+                    <option value="physics">Physics</option>
+                    <option value="chemistry">Chemistry</option>
+                    <option value="biology">Biology</option>
+                    <option value="engineering">Engineering</option>
+                </select>
+            </div>
+
+             Type Filter 
+            <div class="flex flex-col justify-end h-full">
+                <label for="type-filter" class="block text-sm font-medium text-heading mb-2">Type</label>
+                <select id="type-filter" class="w-full px-3 h-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" onchange="filterResources()">
+                    <option value="">All Types</option>
+                    <option value="pdf">PDF</option>
+                    <option value="video">Video</option>
+                    <option value="link">Link</option>
+                    <option value="presentation">Presentation</option>
+                </select>
+            </div>
+        </div>
+
+         Additional Filters 
+        <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+            <div class="flex items-end">
+                <div class="w-full">
+                    <label for="difficulty-filter" class="block text-sm font-medium text-heading mb-2">Difficulty</label>
+                    <select id="difficulty-filter" class="w-full px-3 h-10 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-transparent" onchange="filterResources()">
+                    <option value="">All</option>
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex items-end">
+                <div class="w-full">
+                    <label for="sort-filter" class="block text-sm font-medium text-heading mb-2">Sort by</label>
+                    <select id="sort-filter" class="w-full px-3 h-10 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-transparent" onchange="sortResources()">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="popular">Most Popular</option>
+                    <option value="alphabetical">A-Z</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex items-end">
+                <button onclick="clearFilters()" class="h-10 px-4 bg-white border border-gray-300 text-body rounded-lg text-sm font-medium hover:bg-gray-50">
+                    Clear All Filters
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="resources-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+        <div class="resource-card bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow h-full flex flex-col" 
+             data-subject="computer-science" data-type="pdf" data-difficulty="intermediate" data-date="2025-01-15">
+            <div class="flex items-start justify-between mb-4">
+                <div class="flex items-center space-x-2">
+                    <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">PDF</span>
+                    <span class="bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full">Intermediate</span>
+                </div>
+                <button onclick="toggleBookmark('cs101')" data-resource="cs101" class="text-gray-400 hover:text-secondary transition-colors text-lg">☆</button>
+            </div>
+            
+            <h3 class="resource-title font-semibold text-heading mb-2 text-lg">Data Structures & Algorithms</h3>
+            <p class="text-sm text-body mb-3">Comprehensive guide covering arrays, linked lists, trees, and sorting algorithms with practical examples.</p>
+            
+            <div class="flex items-center space-x-2 mb-4">
+                <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">Computer Science</span>
+                <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Semester 3</span>
+            </div>
+            
+            <div class="flex items-center justify-between text-sm text-body mb-4">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                        <span class="text-primary font-medium text-xs">PS</span>
+                    </div>
+                    <span>Prof. Smith</span>
+                </div>
+                <span class="text-xs">Jan 15, 2025</span>
+            </div>
+            
+            <div class="flex items-center justify-between mt-auto">
+                <div class="flex space-x-2">
+                    <button class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
+                        View PDF
+                    </button>
+                    <button class="border border-gray-300 text-body px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                        Preview
+                    </button>
+                </div>
+                <button onclick="markProgress('cs101', 'not-started')" data-progress="cs101" class="bg-gray-100 text-gray-600 px-3 py-1 rounded-lg text-xs font-medium">
+                    <span class="status-text">Not Started</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="resource-card bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow h-full flex flex-col" 
+             data-subject="mathematics" data-type="video" data-difficulty="beginner" data-date="2025-01-12">
+            <div class="flex items-start justify-between mb-4">
+                <div class="flex items-center space-x-2">
+                    <span class="bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full">Video</span>
+                    <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Beginner</span>
+                </div>
+                <button onclick="toggleBookmark('math201')" data-resource="math201" class="text-secondary text-lg">★</button>
+            </div>
+            
+            <h3 class="resource-title font-semibold text-heading mb-2 text-lg">Linear Algebra Fundamentals</h3>
+            <p class="text-sm text-body mb-3">Video series covering matrix operations, vector spaces, and eigenvalues with step-by-step explanations.</p>
+            
+            <div class="flex items-center space-x-2 mb-4">
+                <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">Mathematics</span>
+                <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Semester 2</span>
+            </div>
+            
+            <div class="flex items-center justify-between text-sm text-body mb-4">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                        <span class="text-primary font-medium text-xs">DJ</span>
+                    </div>
+                    <span>Dr. Johnson</span>
+                </div>
+                <span class="text-xs">Jan 12, 2025</span>
+            </div>
+            
+            <div class="flex items-center justify-between mt-auto">
+                <div class="flex space-x-2">
+                    <button class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
+                        Watch Video
+                    </button>
+                    <button class="border border-gray-300 text-body px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                        Transcript
+                    </button>
+                </div>
+                <button onclick="markProgress('math201', 'completed')" data-progress="math201" class="bg-accent text-white px-3 py-1 rounded-lg text-xs font-medium">
+                    <span class="status-text">Completed</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="resource-card bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow h-full flex flex-col" 
+             data-subject="physics" data-type="link" data-difficulty="advanced" data-date="2025-01-10">
+            <div class="flex items-start justify-between mb-4">
+                <div class="flex items-center space-x-2">
+                    <span class="bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full">Link</span>
+                    <span class="bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full">Advanced</span>
+                </div>
+                <button onclick="toggleBookmark('phy301')" data-resource="phy301" class="text-gray-400 hover:text-secondary transition-colors text-lg">☆</button>
+            </div>
+            
+            <h3 class="resource-title font-semibold text-heading mb-2 text-lg">Quantum Mechanics Simulator</h3>
+            <p class="text-sm text-body mb-3">Interactive online platform with quantum mechanics simulations and visualization tools.</p>
+            
+            <div class="flex items-center space-x-2 mb-4">
+                <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">Physics</span>
+                <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Semester 5</span>
+            </div>
+            
+            <div class="flex items-center justify-between text-sm text-body mb-4">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                        <span class="text-primary font-medium text-xs">MW</span>
+                    </div>
+                    <span>Prof. Wilson</span>
+                </div>
+                <span class="text-xs">Jan 10, 2025</span>
+            </div>
+            
+            <div class="flex items-center justify-between mt-auto">
+                <div class="flex space-x-2">
+                    <button class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
+                        Open Link
+                    </button>
+                    <button class="border border-gray-300 text-body px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                        Info
+                    </button>
+                </div>
+                <button onclick="markProgress('phy301', 'in-progress')" data-progress="phy301" class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-lg text-xs font-medium">
+                    <span class="status-text">In Progress</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="resource-card bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow h-full flex flex-col" 
+             data-subject="chemistry" data-type="presentation" data-difficulty="intermediate" data-date="2025-01-08">
+            <div class="flex items-start justify-between mb-4">
+                <div class="flex items-center space-x-2">
+                    <span class="bg-purple-100 text-purple-600 text-xs px-2 py-1 rounded-full">Presentation</span>
+                    <span class="bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full">Intermediate</span>
+                </div>
+                <button onclick="toggleBookmark('chem202')" data-resource="chem202" class="text-gray-400 hover:text-secondary transition-colors text-lg">☆</button>
+            </div>
+            
+            <h3 class="resource-title font-semibold text-heading mb-2 text-lg">Organic Chemistry Reactions</h3>
+            <p class="text-sm text-body mb-3">Detailed presentation covering major organic reactions with mechanisms and examples.</p>
+            
+            <div class="flex items-center space-x-2 mb-4">
+                <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">Chemistry</span>
+                <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Semester 4</span>
+            </div>
+            
+            <div class="flex items-center justify-between text-sm text-body mb-4">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                        <span class="text-primary font-medium text-xs">AB</span>
+                    </div>
+                    <span>Dr. Brown</span>
+                </div>
+                <span class="text-xs">Jan 8, 2025</span>
+            </div>
+            
+            <div class="flex items-center justify-between mt-auto">
+                <div class="flex space-x-2">
+                    <button class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
+                        View Slides
+                    </button>
+                    <button class="border border-gray-300 text-body px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                        Download
+                    </button>
+                </div>
+                <button onclick="markProgress('chem202', 'not-started')" data-progress="chem202" class="bg-gray-100 text-gray-600 px-3 py-1 rounded-lg text-xs font-medium">
+                    <span class="status-text">Not Started</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="resource-card bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow h-full flex flex-col" 
+             data-subject="engineering" data-type="pdf" data-difficulty="advanced" data-date="2025-01-05">
+            <div class="flex items-start justify-between mb-4">
+                <div class="flex items-center space-x-2">
+                    <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">PDF</span>
+                    <span class="bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full">Advanced</span>
+                </div>
+                <button onclick="toggleBookmark('eng401')" data-resource="eng401" class="text-secondary text-lg">★</button>
+            </div>
+            
+            <h3 class="resource-title font-semibold text-heading mb-2 text-lg">Machine Learning Applications</h3>
+            <p class="text-sm text-body mb-3">Advanced guide to ML algorithms and their real-world applications in engineering.</p>
+            
+            <div class="flex items-center space-x-2 mb-4">
+                <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">Engineering</span>
+                <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Semester 7</span>
+            </div>
+            
+            <div class="flex items-center justify-between text-sm text-body mb-4">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                        <span class="text-primary font-medium text-xs">RD</span>
+                    </div>
+                    <span>Prof. Davis</span>
+                </div>
+                <span class="text-xs">Jan 5, 2025</span>
+            </div>
+            
+            <div class="flex items-center justify-between mt-auto">
+                <div class="flex space-x-2">
+                    <button class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
+                        View PDF
+                    </button>
+                    <button class="border border-gray-300 text-body px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                        Preview
+                    </button>
+                </div>
+                <button onclick="markProgress('eng401', 'in-progress')" data-progress="eng401" class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-lg text-xs font-medium">
+                    <span class="status-text">In Progress</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="resource-card bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow h-full flex flex-col" 
+             data-subject="biology" data-type="video" data-difficulty="beginner" data-date="2025-01-03">
+            <div class="flex items-start justify-between mb-4">
+                <div class="flex items-center space-x-2">
+                    <span class="bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full">Video</span>
+                    <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Beginner</span>
+                </div>
+                <button onclick="toggleBookmark('bio101')" data-resource="bio101" class="text-gray-400 hover:text-secondary transition-colors text-lg">☆</button>
+            </div>
+            
+            <h3 class="resource-title font-semibold text-heading mb-2 text-lg">Cell Biology Basics</h3>
+            <p class="text-sm text-body mb-3">Introduction to cell structure, organelles, and basic cellular processes.</p>
+            
+            <div class="flex items-center space-x-2 mb-4">
+                <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">Biology</span>
+                <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Semester 1</span>
+            </div>
+            
+            <div class="flex items-center justify-between text-sm text-body mb-4">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                        <span class="text-primary font-medium text-xs">LG</span>
+                    </div>
+                    <span>Dr. Green</span>
+                </div>
+                <span class="text-xs">Jan 3, 2025</span>
+            </div>
+            
+            <div class="flex items-center justify-between mt-auto">
+                <div class="flex space-x-2">
+                    <button class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
+                        Watch Video
+                    </button>
+                    <button class="border border-gray-300 text-body px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                        Notes
+                    </button>
+                </div>
+                <button onclick="markProgress('bio101', 'not-started')" data-progress="bio101" class="bg-gray-100 text-gray-600 px-3 py-1 rounded-lg text-xs font-medium">
+                    <span class="status-text">Not Started</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+     Load More Button 
+    <div class="text-center mt-8">
+        <button class="bg-white border border-gray-300 text-body px-6 py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors">
+            Load More Resources
+        </button>
+    </div>
+</div>
+
+<script>
+    function clearFilters() {
+        document.getElementById('search').value = '';
+        document.getElementById('subject-filter').value = '';
+        document.getElementById('type-filter').value = '';
+        document.getElementById('difficulty-filter').value = '';
+        document.getElementById('sort-filter').value = 'newest';
+        filterResources();
+    }
+
+    function sortResources() {
+        const container = document.getElementById('resources-container');
+        const cards = Array.from(container.querySelectorAll('.resource-card'));
+        const sortBy = document.getElementById('sort-filter').value;
+
+        cards.sort((a, b) => {
+            switch(sortBy) {
+                case 'newest':
+                    return new Date(b.dataset.date) - new Date(a.dataset.date);
+                case 'oldest':
+                    return new Date(a.dataset.date) - new Date(b.dataset.date);
+                case 'alphabetical':
+                    const titleA = a.querySelector('.resource-title').textContent;
+                    const titleB = b.querySelector('.resource-title').textContent;
+                    return titleA.localeCompare(titleB);
+                case 'popular':
+                    // For demo purposes, sort by bookmarked status
+                    const bookmarkA = a.querySelector('[data-resource]').classList.contains('bookmarked');
+                    const bookmarkB = b.querySelector('[data-resource]').classList.contains('bookmarked');
+                    return bookmarkB - bookmarkA;
+                default:
+                    return 0;
+            }
+        });
+
+        // Re-append sorted cards
+        cards.forEach(card => container.appendChild(card));
+    }
+</script>
