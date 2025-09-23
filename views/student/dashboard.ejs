@@ -114,7 +114,7 @@
             <div class="p-6">
                 <div id="internships-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Server-side rendered internships -->
-                    <% if (internships && internships.length > 0) { %>
+                    <% if (typeof internships !== 'undefined' && internships && internships.length > 0) { %>
                         <% internships.forEach(internship => { %>
                             <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                                 <div class="flex justify-between items-start mb-3">
@@ -161,9 +161,14 @@
                         <% }) %>
                     <% } else { %>
                         <div class="col-span-full text-center py-12">
-                            <i class="fas fa-briefcase text-6xl text-gray-300 mb-4"></i>
-                            <h3 class="text-lg font-medium text-brand-heading mb-2">No internships available</h3>
-                            <p class="text-brand-text">Check back later for new opportunities!</p>
+                            <div class="max-w-md mx-auto">
+                                <i class="fas fa-briefcase text-6xl text-gray-300 mb-4"></i>
+                                <h3 class="text-lg font-medium text-brand-heading mb-2">No internships available right now</h3>
+                                <p class="text-brand-text mb-4">Don't worry! New opportunities are posted regularly. Check back soon or click "Load More" to refresh.</p>
+                                <button onclick="loadAllInternships()" class="bg-brand-primary text-white px-4 py-2 rounded-md hover:bg-brand-primary/90 transition-colors">
+                                    <i class="fas fa-refresh mr-2"></i>Refresh Internships
+                                </button>
+                            </div>
                         </div>
                     <% } %>
                 </div>
@@ -182,7 +187,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             const totalElement = document.getElementById('total-internships');
             if (totalElement) {
-                totalElement.textContent = '<%= internships.length %>';
+                const internshipsCount =  (typeof internships !== 'undefined' && internships && internships.length) ? internships.length : 0 ;
+                totalElement.textContent = internshipsCount;
             }
         });
 

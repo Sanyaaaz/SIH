@@ -7,7 +7,7 @@ const User = require('./models/User');
 const LocalStrategy = require('passport-local').Strategy;
 
 // ----------------- DB CONNECTION -----------------
-mongoose.connect('mongodb://127.0.0.1:27017/ih', {
+mongoose.connect('mongodb://127.0.0.1:27017/IH', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
@@ -147,10 +147,29 @@ function ensureAuthenticated(req, res, next) {
 }
 
 // Dashboard
-app.get('/dashboard', ensureAuthenticated, (req, res) => {
-  res.render('student/dashboard', { user: req.user });
+// app.get('/dashboard', ensureAuthenticated, (req, res) => {
+//   res.render('student/dashboard', { user: req.user });
+// });
+app.get('/dashboard', ensureAuthenticated, async (req, res) => {
+  try {
+    // Fetch recent internships for the dashboard
+    const internships = await Internship.find()
+      .populate('company', 'name email')
+      .sort({ postedAt: -1 })
+      .limit(6); // Show only 6 recent internships on dashboard
+      
+    res.render('student/dashboard', { 
+      user: req.user, 
+      internships: internships 
+    });
+  } catch (error) {
+    console.error('Error fetching internships:', error);
+    res.render('student/dashboard', { 
+      user: req.user, 
+      internships: [] 
+    });
+  }
 });
-
 // Post internship (industry users)
 app.post('/api/internships', ensureAuthenticated, async (req, res) => {
   try {
