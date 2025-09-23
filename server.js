@@ -6,64 +6,54 @@ const mongoose = require('mongoose');
 const User = require('./models/User');
 const LocalStrategy = require('passport-local').Strategy;
 
+// ----------------- DB CONNECTION -----------------
 mongoose.connect('mongodb://127.0.0.1:27017/IH', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-.then(() => console.log('MongoDB Connected'))
-.catch(err => console.error(err));
-
+  .then(() => console.log('✅ MongoDB Connected'))
+  .catch(err => console.error(err));
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Set EJS as the view engine
+// ----------------- VIEW ENGINE -----------------
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Session middleware
-app.use(session({
-    secret: 'your-secret-key',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        httpOnly: true,
-        secure: false, 
-        maxAge: 24 * 60 * 60 * 1000 
-    }
-}));
-
-// Middleware
+// ----------------- MIDDLEWARE -----------------
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//passport
-
-// Passport config
-passport.use(new LocalStrategy(
-  { usernameField: 'identifier', passReqToCallback: true },
-  async (req, identifier, password, done) => {
-    try {
-      
-      const user = await User.findOne({
-        $or: [{ email: identifier }, { abcId: identifier }]
-      });
-
-      if (!user) return done(null, false, { message: 'No user found with this Email/ABC ID' });
-
-      const isMatch = await user.comparePassword(password);
-      if (!isMatch) return done(null, false, { message: 'Incorrect password' });
-
-      return done(null, user);
-    } catch (err) {
-      return done(err);
-    }
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: false,
+    maxAge: 24 * 60 * 60 * 1000
   }
-));
+}));
 
+// ----------------- PASSPORT CONFIG -----------------
+passport.use(new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return done(null, false, { message: 'No user found' });
+
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) return done(null, false, { message: 'Incorrect password' });
+
+    return done(null, user);
+  } catch (err) {
+    return done(err);
+  }
+}));
 
 passport.serializeUser((user, done) => done(null, user.id));
+
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await User.findById(id);
@@ -73,135 +63,90 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-// Middleware for passport
 app.use(passport.initialize());
 app.use(passport.session());
 
+// ----------------- ROUTES -----------------
 
-// Login route - GET
+// Home route
+app.get('/', (req, res) => {
+  res.render('student/home', { user: req.user || null });
+});
+
+// Login routes
 app.get('/auth/login', (req, res) => {
   res.render('login', { error: null });
 });
 
+app.post('/auth/login', passport.authenticate('local', {
+  successRedirect: '/dashboard',
+  failureRedirect: '/auth/login',
+  // failureFlash: true
+}));
 
-app.post('/auth/login', (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
-    if (err) return next(err);
-    if (!user) return res.render('login', { error: info.message });
-
-    req.logIn(user, err => {
-      if (err) return next(err);
-
-      // Redirect based on role
-      if (user.role === 'student') return res.redirect('/student/dashboard');
-      if (user.role === 'faculty') return res.redirect('/faculty/dashboard');
-      if (user.role === 'industry') return res.redirect('/industry/dashboard');
-
-      return res.redirect('/dashboard'); // fallback
-    });
-  })(req, res, next);
-});
-
-
-// Signup route - GET
+// Signup routes
 app.get('/auth/signup', (req, res) => {
   res.render('signup', { error: null });
 });
 
-
 app.post('/auth/signup', async (req, res) => {
-  const { name, email, abcId, password, confirmPassword, role } = req.body;
+  console.log('Signup request received:', req.body);
+  
+  const { name, email, password, confirmPassword, role, abcId } = req.body;
 
   if (!name || !email || !password || !confirmPassword || !role) {
-    return res.render('signup', { error: 'Please fill all fields' });
+    console.log('Missing fields error');
+    return res.render('signup', { error: 'Please fill all required fields' });
   }
+  
   if (password !== confirmPassword) {
+    console.log('Password mismatch error');
     return res.render('signup', { error: 'Passwords do not match' });
   }
 
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.render('signup', { error: 'Email already registered' });
+      console.log('User already exists - redirecting to login');
+      // Option 1: Redirect to login with a message
+      return res.redirect('/auth/login?message=user-exists');
+      
+      // Option 2: Show error on signup page (current behavior)
+      // return res.render('signup', { error: 'Email already registered' });
     }
 
-    const newUser = new User({ name, email, abcId, role, password });
+    const newUser = new User({ name, email, role, password, abcId });
     await newUser.save();
+    console.log('User saved successfully:', newUser._id);
 
-    req.login(newUser, err => {
-      if (err) return res.render('signup', { error: 'Error logging in after signup' });
+    // Auto-login after successful signup
+    req.login(newUser, (err) => {
+      if (err) {
+        console.error('Login error after signup:', err);
+        return res.redirect('/auth/login');
+      }
+      console.log('Auto-login successful, redirecting to dashboard');
       res.redirect('/dashboard');
     });
+    
   } catch (error) {
+    console.error('Database error:', error);
     res.render('signup', { error: 'Something went wrong. Try again.' });
   }
 });
 
-//Home route
-app.get('/', (req, res) => {
-    res.render('student/home', {
-        user: req.session.user || null
-    });
-});
-
+// Protect routes
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) return next();
   res.redirect('/auth/login');
 }
 
+// Dashboard
 app.get('/dashboard', ensureAuthenticated, (req, res) => {
   res.render('student/dashboard', { user: req.user });
 });
 
-
-// // Dashboard route
-// app.get('/dashboard', (req, res) => {
-//     // In a real implementation, you would check if the user is authenticated
-//     if (!req.session.user) {
-//         return res.redirect('/login');
-//     }
-    
-//     res.render('dashboard', {
-//         user: req.session.user
-//     });
-// });
-
-// // Internships route
-// app.get('/internships', (req, res) => {
-//     res.render('internships', {
-//         user: req.session.user || null
-//     });
-// });
-
-// // Internship detail route
-// app.get('/internship/:id', (req, res) => {
-//     const internshipId = req.params.id;
-//     res.render('internship-detail', {
-//         user: req.session.user || null,
-//         internshipId: internshipId
-//     });
-// });
-
-
-//DASHBOARD - ROLE BASED - abhi bana nhi h dashboard , change baadme
-app.get('/student/dashboard', ensureAuthenticated, (req, res) => {
-  if (req.user.role !== 'student') return res.redirect('/auth/login');
-  res.render('student/dashboard', { user: req.user });
-});
-
-app.get('/faculty/dashboard', ensureAuthenticated, (req, res) => {
-  if (req.user.role !== 'faculty') return res.redirect('/auth/login');
-  res.render('faculty/dashboard', { user: req.user });
-});
-
-app.get('/industry/dashboard', ensureAuthenticated, (req, res) => {
-  if (req.user.role !== 'industry') return res.redirect('/auth/login');
-  res.render('industry/dashboard', { user: req.user });
-});
-
-
-
-// Start server
+// ----------------- START SERVER -----------------
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });

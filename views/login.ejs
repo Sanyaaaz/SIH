@@ -1,78 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - Prashikshan</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login | InternshipHub</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            primary: '#4F46E5',
-            secondary: '#F97316',
-          },
-          fontFamily: {
-            inter: ['Inter', 'sans-serif'],
-            poppins: ['Poppins', 'sans-serif'],
-          },
+            primary: "#4F46E5",
+            secondary: "#F97316",
+          }
         }
       }
-    }
+    };
   </script>
 </head>
-<body class="font-inter bg-white h-screen m-0">
-
-  <div class="h-screen w-screen grid grid-cols-1 md:grid-cols-2">
-
-    <!-- LEFT: Login Form, Full Height -->
-    <div class="flex flex-col justify-center px-8 md:px-24 py-12 bg-white h-full">
-      <h2 class="text-4xl font-bold mb-2 text-black">WELCOME BACK</h2>
-      <p class="text-gray-600 mb-8">Welcome back! Please enter your details.</p>
-      <form action="/auth/login" method="POST" class="space-y-6">
+<body class="bg-gray-50 font-sans">
+  <div class="min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+      <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
+      
+      <% if (error) { %>
+        <div class="bg-red-100 text-red-700 p-2 rounded mb-4"><%= error %></div>
+      <% } %>
+      
+      <script>
+        // Check for URL parameter and show message
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('message') === 'user-exists') {
+          const messageDiv = document.createElement('div');
+          messageDiv.className = 'bg-blue-100 text-blue-700 p-2 rounded mb-4';
+          messageDiv.textContent = 'An account with this email already exists. Please log in instead.';
+          document.querySelector('h2').after(messageDiv);
+        }
+      </script>
+      
+      <form action="/auth/login" method="POST" class="space-y-4">
         <!-- Email -->
         <div>
-          <label for="email" class="block text-md font-semibold text-gray-700 mb-1">Email</label>
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
           <input id="email" name="email" type="email" required
-            class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary outline-none font-inter"
-            placeholder="Enter your email" />
+                 class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none"/>
         </div>
         <!-- Password -->
         <div>
-          <label for="password" class="block text-md font-semibold text-gray-700 mb-1">Password</label>
+          <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
           <input id="password" name="password" type="password" required
-            class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary outline-none font-inter"
-            placeholder="***" />
+                 class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none"/>
         </div>
-        <div class="flex items-center justify-between text-sm mt-1">
-          <label class="flex items-center">
-            <input type="checkbox" name="remember" class="mr-2" />
-            Remember me
-          </label>
-          <a href="#" class="text-secondary hover:text-secondary/80 font-medium">Forgot password?</a>
+        <!-- Role -->
+        <div>
+          <label for="role" class="block text-sm font-medium text-gray-700 mb-1">Login as</label>
+          <select id="role" name="role" required
+                  class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none">
+            <option value="" disabled selected>Select your role</option>
+            <option value="student">Student</option>
+            <option value="faculty">Faculty</option>
+            <option value="industry">Industry</option>
+          </select>
         </div>
+        <!-- Submit -->
         <button type="submit"
-          class="w-full py-3 bg-primary text-white font-semibold rounded-xl hover:bg-indigo-700 transition mt-3 font-inter">
-          Sign in
-        </button>
-        <button type="button"
-          class="w-full flex items-center justify-center py-3 border border-gray-200 rounded-xl bg-white hover:bg-gray-100 transition mt-2 shadow-sm">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png" alt="Google" class="h-6 w-6 mr-2" />
-          <span class="text-black font-medium">Sign in with Google</span>
+                class="w-full bg-primary text-white py-2 rounded-lg hover:bg-primary/90 transition">
+          Login
         </button>
       </form>
-      <div class="mt-8 text-center text-sm">
-        Don’t have an account? <a href="/auth/signup" class="text-primary hover:underline font-semibold">Sign up to free!</a>
-      </div>
-    </div>
-
-    <!-- RIGHT: Full Height Image Area -->
-    <div class="flex items-center justify-center bg-gray-50 h-full">
-      <!-- Use your image, for example /images/image.jpg if you placed it into public/images -->
-      <img src="/images/image.jpg" alt="Illustration" class="object-contain h-4/5 w-4/5" />
+      <p class="mt-4 text-center text-sm">
+        Don't have an account? <a href="/auth/signup" class="text-primary font-medium">Sign up</a>
+      </p>
     </div>
   </div>
-
 </body>
 </html>
