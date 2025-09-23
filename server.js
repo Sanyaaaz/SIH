@@ -221,6 +221,7 @@ app.get('/student/dashboard', ensureAuthenticated, async (req, res) => {
       internships: [] 
     });
   }
+});
 // Student Resources
 app.get('/dashboard/resources', ensureAuthenticated, (req, res) => {
   res.render('student/resources', { title: 'Resources', page: 'resources', user: req.user, resources: [] });
