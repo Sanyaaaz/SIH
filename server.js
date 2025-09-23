@@ -7,7 +7,7 @@ const User = require('./models/User');
 const LocalStrategy = require('passport-local').Strategy;
 
 // ----------------- DB CONNECTION -----------------
-mongoose.connect('mongodb://127.0.0.1:27017/ih', {
+mongoose.connect('mongodb://127.0.0.1:27017/IH', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
