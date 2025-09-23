@@ -1,0 +1,358 @@
+<%- include('partials/header') %>
+
+<div class="space-y-6">
+    <!-- Page Header -->
+    <div class="flex justify-between items-center">
+        <div>
+            <h1 class="text-2xl font-bold text-textHeading">Analytics Dashboard</h1>
+            <p class="text-textBody">Visual insights into student progress and performance</p>
+        </div>
+        <button id="feedbackBtn" class="btn-primary">
+            <i class="fas fa-comment mr-2"></i>
+            Provide Feedback
+        </button>
+    </div>
+
+    <!-- Key Metrics -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-textBody">Success Rate</p>
+                    <p class="text-2xl font-bold text-textHeading">67%</p>
+                    <p class="text-xs text-accent">+12% from last month</p>
+                </div>
+                <div class="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-chart-line text-accent text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-textBody">Placement Rate</p>
+                    <p class="text-2xl font-bold text-textHeading">30%</p>
+                    <p class="text-xs text-secondary">45 of 150 students</p>
+                </div>
+                <div class="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-briefcase text-secondary text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-textBody">Avg. Certificates</p>
+                    <p class="text-2xl font-bold text-textHeading">2.8</p>
+                    <p class="text-xs text-purple-600">Per student</p>
+                </div>
+                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-certificate text-purple-600 text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-textBody">Active Courses</p>
+                    <p class="text-2xl font-bold text-textHeading">67</p>
+                    <p class="text-xs text-primary">Ongoing enrollments</p>
+                </div>
+                <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-book-open text-primary text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Monthly Progress Chart -->
+        <div class="card">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="font-semibold text-textHeading">Monthly Internship Progress</h3>
+                <select class="text-sm border border-gray-300 rounded px-3 py-1">
+                    <option>2024</option>
+                    <option>2023</option>
+                </select>
+            </div>
+            <div class="chart-container">
+                <canvas id="monthlyChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Student Distribution -->
+        <div class="card">
+            <h3 class="font-semibold text-textHeading mb-6">Student Status Distribution</h3>
+            <div class="chart-container">
+                <canvas id="distributionChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Department Performance -->
+    <div class="card">
+        <h3 class="font-semibold text-textHeading mb-6">Department Performance</h3>
+        <div class="chart-container">
+            <canvas id="departmentChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Top Performing Students -->
+    <div class="card">
+        <h3 class="font-semibold text-textHeading mb-6">Top Performing Students</h3>
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead>
+                    <tr class="border-b border-gray-200">
+                        <th class="text-left pb-4 text-sm font-medium text-textBody">Rank</th>
+                        <th class="text-left pb-4 text-sm font-medium text-textBody">Student</th>
+                        <th class="text-left pb-4 text-sm font-medium text-textBody">ABC ID</th>
+                        <th class="text-left pb-4 text-sm font-medium text-textBody">Internships</th>
+                        <th class="text-left pb-4 text-sm font-medium text-textBody">Certificates</th>
+                        <th class="text-left pb-4 text-sm font-medium text-textBody">Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% students.sort((a, b) => (b.internships * 3 + b.certificates * 2 + b.courses) - (a.internships * 3 + a.certificates * 2 + a.courses)).slice(0, 5).forEach((student, index) => { %>
+                        <tr class="border-b border-gray-100">
+                            <td class="py-4">
+                                <div class="flex items-center">
+                                    <% if (index === 0) { %>
+                                        <i class="fas fa-trophy text-secondary text-lg"></i>
+                                    <% } else if (index === 1) { %>
+                                        <i class="fas fa-medal text-gray-400 text-lg"></i>
+                                    <% } else if (index === 2) { %>
+                                        <i class="fas fa-award text-orange-400 text-lg"></i>
+                                    <% } else { %>
+                                        <span class="text-textBody font-medium"><%= index + 1 %></span>
+                                    <% } %>
+                                </div>
+                            </td>
+                            <td class="py-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                                        <span class="text-white text-sm font-semibold"><%= student.name.split(' ').map(n => n[0]).join('') %></span>
+                                    </div>
+                                    <span class="font-medium text-textHeading"><%= student.name %></span>
+                                </div>
+                            </td>
+                            <td class="py-4 text-textBody"><%= student.abcId %></td>
+                            <td class="py-4">
+                                <span class="px-2 py-1 bg-accent/10 text-accent text-sm rounded-full">
+                                    <%= student.internships %>
+                                </span>
+                            </td>
+                            <td class="py-4">
+                                <span class="px-2 py-1 bg-secondary/10 text-secondary text-sm rounded-full">
+                                    <%= student.certificates %>
+                                </span>
+                            </td>
+                            <td class="py-4">
+                                <span class="font-semibold text-textHeading">
+                                    <%= student.internships * 3 + student.certificates * 2 + student.courses %>
+                                </span>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Feedback Modal -->
+<div id="feedbackModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-lg font-semibold text-textHeading">Provide Feedback</h3>
+            <button id="closeFeedbackModal" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <form id="feedbackForm">
+            <div class="space-y-4">
+                <div>
+                    <label for="feedbackType" class="block text-sm font-medium text-textBody mb-2">Feedback Type</label>
+                    <select id="feedbackType" name="type" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
+                        <option value="">Select type</option>
+                        <option value="student_performance">Student Performance</option>
+                        <option value="system_improvement">System Improvement</option>
+                        <option value="resource_request">Resource Request</option>
+                        <option value="general">General Feedback</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="feedbackMessage" class="block text-sm font-medium text-textBody mb-2">Message</label>
+                    <textarea id="feedbackMessage" name="message" required rows="4" placeholder="Share your thoughts and suggestions..." class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary"></textarea>
+                </div>
+            </div>
+            
+            <div class="flex space-x-4 mt-6">
+                <button type="button" id="cancelFeedbackBtn" class="flex-1 btn-outline">Cancel</button>
+                <button type="submit" class="flex-1 btn-primary">Submit Feedback</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Chart configurations
+    const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    boxWidth: 12,
+                    padding: 20
+                }
+            }
+        }
+    };
+
+    // Monthly Progress Chart
+    const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
+    new Chart(monthlyCtx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [{
+                label: 'Internships Secured',
+                data: <%= JSON.stringify(analytics.monthlyData) %>,
+                borderColor: '#4F46E5',
+                backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            ...chartOptions,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: '#f3f4f6'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+
+    // Distribution Pie Chart
+    const distributionCtx = document.getElementById('distributionChart').getContext('2d');
+    new Chart(distributionCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['With Internships', 'With Certificates Only', 'In Courses', 'No Activity'],
+            datasets: [{
+                data: [45, 44, 67, 30],
+                backgroundColor: [
+                    '#22C55E',
+                    '#F97316',
+                    '#4F46E5',
+                    '#E5E7EB'
+                ],
+                borderWidth: 2,
+                borderColor: '#ffffff'
+            }]
+        },
+        options: chartOptions
+    });
+
+    // Department Performance Bar Chart
+    const departmentCtx = document.getElementById('departmentChart').getContext('2d');
+    new Chart(departmentCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Computer Science', 'Information Technology', 'Electronics', 'Mechanical', 'Civil'],
+            datasets: [
+                {
+                    label: 'Internships',
+                    data: [25, 15, 8, 12, 5],
+                    backgroundColor: '#4F46E5',
+                },
+                {
+                    label: 'Certificates',
+                    data: [40, 30, 15, 20, 10],
+                    backgroundColor: '#F97316',
+                }
+            ]
+        },
+        options: {
+            ...chartOptions,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: '#f3f4f6'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+
+    // Feedback Modal Logic
+    const feedbackBtn = document.getElementById('feedbackBtn');
+    const feedbackModal = document.getElementById('feedbackModal');
+    const closeFeedbackModal = document.getElementById('closeFeedbackModal');
+    const cancelFeedbackBtn = document.getElementById('cancelFeedbackBtn');
+    const feedbackForm = document.getElementById('feedbackForm');
+
+    // Show modal
+    feedbackBtn.addEventListener('click', () => {
+        feedbackModal.classList.remove('hidden');
+    });
+
+    // Hide modal
+    [closeFeedbackModal, cancelFeedbackBtn].forEach(btn => {
+        btn.addEventListener('click', () => {
+            feedbackModal.classList.add('hidden');
+            feedbackForm.reset();
+        });
+    });
+
+    // Hide modal when clicking outside
+    feedbackModal.addEventListener('click', (e) => {
+        if (e.target === feedbackModal) {
+            feedbackModal.classList.add('hidden');
+            feedbackForm.reset();
+        }
+    });
+
+    // Handle feedback form submission
+    feedbackForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(feedbackForm);
+        const data = {
+            type: formData.get('type'),
+            message: formData.get('message')
+        };
+        
+        // Simulate API call
+        setTimeout(() => {
+            feedbackModal.classList.add('hidden');
+            feedbackForm.reset();
+            showSuccessMessage('Feedback submitted successfully!');
+        }, 500);
+    });
+</script>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,174 @@
+<%- include('partials/header') %>
+
+<div class="space-y-6">
+    <!-- Page Header -->
+    <div class="flex justify-between items-center">
+        <div>
+            <h1 class="text-2xl font-bold text-textHeading">Faculty Dashboard</h1>
+            <p class="text-textBody">Overview of your activities and student progress</p>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-textBody">Total Students</p>
+                    <p class="text-2xl font-bold text-textHeading"><%= analytics.totalStudents %></p>
+                </div>
+                <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-user-graduate text-primary text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-textBody">Internships Secured</p>
+                    <p class="text-2xl font-bold text-textHeading"><%= analytics.internshipsSecured %></p>
+                </div>
+                <div class="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-briefcase text-accent text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-textBody">Certificates Issued</p>
+                    <p class="text-2xl font-bold text-textHeading"><%= analytics.certificatesIssued %></p>
+                </div>
+                <div class="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-certificate text-secondary text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-textBody">Ongoing Courses</p>
+                    <p class="text-2xl font-bold text-textHeading"><%= analytics.ongoingCourses %></p>
+                </div>
+                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-book-open text-purple-600 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="card">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-building text-primary text-2xl"></i>
+                </div>
+                <h3 class="font-semibold text-textHeading mb-2">Connect Companies</h3>
+                <p class="text-sm text-textBody mb-4">Invite companies, NGOs, and government institutes to your network</p>
+                <a href="/companies" class="btn-primary">View Connections</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-user-graduate text-accent text-2xl"></i>
+                </div>
+                <h3 class="font-semibold text-textHeading mb-2">Manage Students</h3>
+                <p class="text-sm text-textBody mb-4">Approve certificates, provide LORs, and track student progress</p>
+                <a href="/students" class="btn-primary">View Students</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-book text-secondary text-2xl"></i>
+                </div>
+                <h3 class="font-semibold text-textHeading mb-2">Upload Resources</h3>
+                <p class="text-sm text-textBody mb-4">Share learning resources and materials with students</p>
+                <a href="/resources" class="btn-primary">Manage Resources</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="card">
+            <h3 class="font-semibold text-textHeading mb-4">Recent Notifications</h3>
+            <div class="space-y-3">
+                <% notifications.slice(0, 3).forEach(notification => { %>
+                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
+                        <div class="flex-shrink-0 mt-1">
+                            <% if (notification.type === 'company_accept') { %>
+                                <i class="fas fa-handshake text-accent"></i>
+                            <% } else if (notification.type === 'lor_request') { %>
+                                <i class="fas fa-file-alt text-secondary"></i>
+                            <% } else { %>
+                                <i class="fas fa-certificate text-primary"></i>
+                            <% } %>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-textBody"><%= notification.message %></p>
+                            <p class="text-xs text-gray-500 mt-1"><%= notification.time %></p>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 class="font-semibold text-textHeading mb-4">Monthly Progress</h3>
+            <div class="chart-container">
+                <canvas id="monthlyChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Monthly Progress Chart
+    const ctx = document.getElementById('monthlyChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [{
+                label: 'Internships Secured',
+                data: <%= JSON.stringify(analytics.monthlyData) %>,
+                borderColor: '#4F46E5',
+                backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: '#f3f4f6'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,256 @@
+<%- include('partials/header') %>
+
+<div class="space-y-6">
+    <!-- Page Header -->
+    <div class="flex justify-between items-center">
+        <div>
+            <h1 class="text-2xl font-bold text-textHeading">Student Connections</h1>
+            <p class="text-textBody">Manage student certificates, LORs, and track their progress</p>
+        </div>
+        <button id="searchBtn" class="btn-primary">
+            <i class="fas fa-search mr-2"></i>
+            Search Student
+        </button>
+    </div>
+
+    <!-- Student Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="card">
+            <div class="text-center">
+                <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-users text-primary text-xl"></i>
+                </div>
+                <p class="text-2xl font-bold text-textHeading">150</p>
+                <p class="text-sm text-textBody">Total Students</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="text-center">
+                <div class="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-briefcase text-accent text-xl"></i>
+                </div>
+                <p class="text-2xl font-bold text-textHeading">45</p>
+                <p class="text-sm text-textBody">With Internships</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="text-center">
+                <div class="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-certificate text-secondary text-xl"></i>
+                </div>
+                <p class="text-2xl font-bold text-textHeading">89</p>
+                <p class="text-sm text-textBody">Certificates Issued</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="text-center">
+                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-file-alt text-purple-600 text-xl"></i>
+                </div>
+                <p class="text-2xl font-bold text-textHeading">12</p>
+                <p class="text-sm text-textBody">Pending LOR</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Students List -->
+    <div class="card">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="font-semibold text-textHeading">Your Students</h3>
+            <div class="flex space-x-2">
+                <button class="text-sm text-gray-600 hover:text-primary">Filter</button>
+                <button class="text-sm text-gray-600 hover:text-primary">Sort</button>
+            </div>
+        </div>
+        
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead>
+                    <tr class="border-b border-gray-200">
+                        <th class="text-left pb-4 text-sm font-medium text-textBody">Student</th>
+                        <th class="text-left pb-4 text-sm font-medium text-textBody">ABC ID</th>
+                        <th class="text-left pb-4 text-sm font-medium text-textBody">Internships</th>
+                        <th class="text-left pb-4 text-sm font-medium text-textBody">Certificates</th>
+                        <th class="text-left pb-4 text-sm font-medium text-textBody">Courses</th>
+                        <th class="text-left pb-4 text-sm font-medium text-textBody">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% students.forEach(student => { %>
+                        <tr class="border-b border-gray-100">
+                            <td class="py-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                                        <span class="text-white text-sm font-semibold"><%= student.name.split(' ').map(n => n[0]).join('') %></span>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-textHeading"><%= student.name %></p>
+                                        <p class="text-sm text-textBody">Student</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-4 text-textBody"><%= student.abcId %></td>
+                            <td class="py-4">
+                                <span class="px-2 py-1 bg-accent/10 text-accent text-sm rounded-full">
+                                    <%= student.internships %>
+                                </span>
+                            </td>
+                            <td class="py-4">
+                                <span class="px-2 py-1 bg-secondary/10 text-secondary text-sm rounded-full">
+                                    <%= student.certificates %>
+                                </span>
+                            </td>
+                            <td class="py-4">
+                                <span class="px-2 py-1 bg-purple-100 text-purple-600 text-sm rounded-full">
+                                    <%= student.courses %>
+                                </span>
+                            </td>
+                            <td class="py-4">
+                                <div class="flex space-x-2">
+                                    <button class="text-sm text-primary hover:bg-primary/10 px-2 py-1 rounded">
+                                        <i class="fas fa-certificate mr-1"></i>
+                                        Approve
+                                    </button>
+                                    <button class="text-sm text-secondary hover:bg-secondary/10 px-2 py-1 rounded">
+                                        <i class="fas fa-file-alt mr-1"></i>
+                                        LOR
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Search Student Modal -->
+<div id="searchModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-lg font-semibold text-textHeading">Search Student</h3>
+            <button id="closeSearchModal" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <form id="searchForm">
+            <div class="space-y-4">
+                <div>
+                    <label for="abcId" class="block text-sm font-medium text-textBody mb-2">ABC ID</label>
+                    <input type="text" id="abcId" name="abcId" required placeholder="Enter student's ABC ID" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
+                </div>
+            </div>
+            
+            <div class="flex space-x-4 mt-6">
+                <button type="button" id="cancelSearchBtn" class="flex-1 btn-outline">Cancel</button>
+                <button type="submit" class="flex-1 btn-primary">Search</button>
+            </div>
+        </form>
+        
+        <!-- Search Results -->
+        <div id="searchResults" class="hidden mt-6 pt-6 border-t border-gray-200">
+            <div id="studentInfo"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const searchBtn = document.getElementById('searchBtn');
+    const searchModal = document.getElementById('searchModal');
+    const closeSearchModal = document.getElementById('closeSearchModal');
+    const cancelSearchBtn = document.getElementById('cancelSearchBtn');
+    const searchForm = document.getElementById('searchForm');
+    const searchResults = document.getElementById('searchResults');
+    const studentInfo = document.getElementById('studentInfo');
+
+    // Show modal
+    searchBtn.addEventListener('click', () => {
+        searchModal.classList.remove('hidden');
+    });
+
+    // Hide modal
+    [closeSearchModal, cancelSearchBtn].forEach(btn => {
+        btn.addEventListener('click', () => {
+            searchModal.classList.add('hidden');
+            searchForm.reset();
+            searchResults.classList.add('hidden');
+        });
+    });
+
+    // Hide modal when clicking outside
+    searchModal.addEventListener('click', (e) => {
+        if (e.target === searchModal) {
+            searchModal.classList.add('hidden');
+            searchForm.reset();
+            searchResults.classList.add('hidden');
+        }
+    });
+
+    // Handle search form submission
+    searchForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(searchForm);
+        const abcId = formData.get('abcId');
+        
+        try {
+            const response = await fetch('/api/search-student', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ abcId }),
+            });
+            
+            const result = await response.json();
+            
+            if (result.student) {
+                const student = result.student;
+                studentInfo.innerHTML = `
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-white text-xl font-semibold">${student.name.split(' ').map(n => n[0]).join('')}</span>
+                        </div>
+                        <h4 class="font-semibold text-textHeading mb-2">${student.name}</h4>
+                        <p class="text-sm text-textBody mb-4">ABC ID: ${student.abcId}</p>
+                        
+                        <div class="grid grid-cols-3 gap-4 text-center">
+                            <div>
+                                <p class="text-lg font-bold text-accent">${student.internships}</p>
+                                <p class="text-xs text-textBody">Internships</p>
+                            </div>
+                            <div>
+                                <p class="text-lg font-bold text-secondary">${student.certificates}</p>
+                                <p class="text-xs text-textBody">Certificates</p>
+                            </div>
+                            <div>
+                                <p class="text-lg font-bold text-purple-600">${student.courses}</p>
+                                <p class="text-xs text-textBody">Courses</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex space-x-2 mt-4">
+                            <button class="btn-outline flex-1 text-sm">Approve Certificate</button>
+                            <button class="btn-primary flex-1 text-sm">Provide LOR</button>
+                        </div>
+                    </div>
+                `;
+                searchResults.classList.remove('hidden');
+            } else {
+                studentInfo.innerHTML = `
+                    <div class="text-center text-textBody">
+                        <i class="fas fa-user-slash text-4xl mb-4"></i>
+                        <p>No student found with ABC ID: ${abcId}</p>
+                    </div>
+                `;
+                searchResults.classList.remove('hidden');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+</script>
+
+<%- include('partials/footer') %>

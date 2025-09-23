@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Internship Hub Faculty</title>
+    <link href="/css/output.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-background font-inter">
+    <!-- Top Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-200 fixed w-full top-0 z-50">
+        <div class="px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                            <i class="fas fa-graduation-cap text-white text-sm"></i>
+                        </div>
+                        <h1 class="text-xl font-bold text-textHeading">Internship Hub</h1>
+                        <span class="text-sm text-textBody bg-gray-100 px-2 py-1 rounded">Faculty</span>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Notifications -->
+                    <div class="relative">
+                        <button id="notificationBtn" class="p-2 text-gray-600 hover:text-primary transition-colors relative">
+                            <i class="fas fa-bell text-lg"></i>
+                            <% if (notifications && notifications.filter(n => !n.read).length > 0) { %>
+                                <span class="notification-dot"><%= notifications.filter(n => !n.read).length %></span>
+                            <% } %>
+                        </button>
+                        
+                        <!-- Notification Dropdown -->
+                        <div id="notificationDropdown" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                            <div class="p-4 border-b border-gray-200">
+                                <h3 class="font-semibold text-textHeading">Notifications</h3>
+                            </div>
+                            <div class="max-h-64 overflow-y-auto">
+                                <% if (notifications && notifications.length > 0) { %>
+                                    <% notifications.forEach(notification => { %>
+                                        <div class="p-4 border-b border-gray-100 hover:bg-gray-50 <%= !notification.read ? 'bg-blue-50' : '' %>">
+                                            <div class="flex items-start space-x-3">
+                                                <div class="flex-shrink-0">
+                                                    <% if (notification.type === 'company_accept') { %>
+                                                        <i class="fas fa-handshake text-accent"></i>
+                                                    <% } else if (notification.type === 'lor_request') { %>
+                                                        <i class="fas fa-file-alt text-secondary"></i>
+                                                    <% } else { %>
+                                                        <i class="fas fa-certificate text-primary"></i>
+                                                    <% } %>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <p class="text-sm text-textBody"><%= notification.message %></p>
+                                                    <p class="text-xs text-gray-500 mt-1"><%= notification.time %></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <% }); %>
+                                <% } else { %>
+                                    <div class="p-4 text-center text-gray-500">
+                                        <i class="fas fa-bell-slash text-2xl mb-2"></i>
+                                        <p>No notifications</p>
+                                    </div>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile -->
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                            <span class="text-white text-sm font-semibold">FN</span>
+                        </div>
+                        <span class="text-sm font-medium text-textHeading">Faculty Name</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex pt-16">
+        <!-- Sidebar -->
+        <nav class="w-64 bg-white shadow-sm border-r border-gray-200 min-h-screen fixed left-0 top-16">
+            <div class="p-6">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="/" class="flex items-center space-x-3 p-3 rounded-lg text-textBody hover:bg-gray-50 transition-colors <%= title === 'Faculty Dashboard' ? 'sidebar-active text-primary' : '' %>">
+                            <i class="fas fa-chart-pie"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/companies" class="flex items-center space-x-3 p-3 rounded-lg text-textBody hover:bg-gray-50 transition-colors <%= title === 'Company Connections' ? 'sidebar-active text-primary' : '' %>">
+                            <i class="fas fa-building"></i>
+                            <span>Companies</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/students" class="flex items-center space-x-3 p-3 rounded-lg text-textBody hover:bg-gray-50 transition-colors <%= title === 'Student Connections' ? 'sidebar-active text-primary' : '' %>">
+                            <i class="fas fa-user-graduate"></i>
+                            <span>Students</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/resources" class="flex items-center space-x-3 p-3 rounded-lg text-textBody hover:bg-gray-50 transition-colors <%= title === 'Resources' ? 'sidebar-active text-primary' : '' %>">
+                            <i class="fas fa-book"></i>
+                            <span>Resources</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/analytics" class="flex items-center space-x-3 p-3 rounded-lg text-textBody hover:bg-gray-50 transition-colors <%= title === 'Analytics Dashboard' ? 'sidebar-active text-primary' : '' %>">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="flex-1 ml-64 p-6">

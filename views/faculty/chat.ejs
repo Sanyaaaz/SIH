@@ -1,0 +1,226 @@
+<%- include('partials/header') %>
+
+<div class="flex h-[calc(100vh-8rem)]">
+    <!-- Chat Container -->
+    <div class="flex-1 flex flex-col bg-white rounded-lg shadow-sm border border-gray-200">
+        <!-- Chat Header -->
+        <div class="flex items-center justify-between p-6 border-b border-gray-200">
+            <div class="flex items-center space-x-4">
+                <a href="/companies" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
+                    <span class="text-white font-semibold text-sm"><%= company.avatar %></span>
+                </div>
+                <div>
+                    <h2 class="font-semibold text-textHeading"><%= company.name %></h2>
+                    <p class="text-sm text-textBody flex items-center">
+                        <span class="w-2 h-2 bg-accent rounded-full mr-2"></span>
+                        Online
+                    </p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-2">
+                <button class="p-2 text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100">
+                    <i class="fas fa-phone"></i>
+                </button>
+                <button class="p-2 text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100">
+                    <i class="fas fa-video"></i>
+                </button>
+                <button class="p-2 text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Chat Messages -->
+        <div id="chatMessages" class="flex-1 p-6 overflow-y-auto space-y-4">
+            <!-- Company Message -->
+            <div class="flex items-start space-x-3">
+                <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                    <span class="text-white text-xs font-semibold"><%= company.avatar %></span>
+                </div>
+                <div class="bg-gray-100 rounded-lg p-4 max-w-md">
+                    <p class="text-textBody">Hello! Thank you for connecting with us. We're excited to explore internship opportunities for your students.</p>
+                    <span class="text-xs text-gray-500 mt-2 block">10:30 AM</span>
+                </div>
+            </div>
+
+            <!-- Faculty Message -->
+            <div class="flex items-start space-x-3 justify-end">
+                <div class="bg-primary rounded-lg p-4 max-w-md text-right">
+                    <p class="text-white">Great to hear from you! We have talented students in various domains. What kind of roles are you currently offering?</p>
+                    <span class="text-xs text-primary-200 mt-2 block">10:32 AM</span>
+                </div>
+                <div class="w-8 h-8 bg-secondary rounded-full flex items-center justify-center flex-shrink-0">
+                    <span class="text-white text-xs font-semibold">FN</span>
+                </div>
+            </div>
+
+            <!-- Company Message -->
+            <div class="flex items-start space-x-3">
+                <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                    <span class="text-white text-xs font-semibold"><%= company.avatar %></span>
+                </div>
+                <div class="bg-gray-100 rounded-lg p-4 max-w-md">
+                    <p class="text-textBody">We're looking for interns in:</p>
+                    <ul class="text-textBody mt-2 space-y-1">
+                        <li>• Software Development (React, Node.js)</li>
+                        <li>• Data Science & Analytics</li>
+                        <li>• UI/UX Design</li>
+                        <li>• Digital Marketing</li>
+                    </ul>
+                    <span class="text-xs text-gray-500 mt-2 block">10:35 AM</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Input -->
+        <div class="p-6 border-t border-gray-200">
+            <form id="chatForm" class="flex items-center space-x-4">
+                <button type="button" class="p-2 text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-paperclip"></i>
+                </button>
+                <div class="flex-1 relative">
+                    <input 
+                        type="text" 
+                        id="messageInput" 
+                        placeholder="Type your message..." 
+                        class="w-full p-3 pr-12 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary"
+                    >
+                    <button type="button" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-smile"></i>
+                    </button>
+                </div>
+                <button type="submit" class="btn-primary">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="w-80 bg-white rounded-lg shadow-sm border border-gray-200 ml-6">
+        <div class="p-6 border-b border-gray-200">
+            <h3 class="font-semibold text-textHeading">Company Details</h3>
+        </div>
+        
+        <div class="p-6 space-y-6">
+            <!-- Company Info -->
+            <div class="text-center">
+                <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-white font-semibold text-lg"><%= company.avatar %></span>
+                </div>
+                <h4 class="font-semibold text-textHeading mb-1"><%= company.name %></h4>
+                <p class="text-sm text-textBody"><%= company.type %></p>
+                <span class="px-2 py-1 bg-accent/10 text-accent text-xs rounded-full">
+                    <%= company.status.charAt(0).toUpperCase() + company.status.slice(1) %>
+                </span>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="space-y-3">
+                <button class="w-full btn-outline text-left justify-start">
+                    <i class="fas fa-users mr-3"></i>
+                    View Internship Positions
+                </button>
+                <button class="w-full btn-outline text-left justify-start">
+                    <i class="fas fa-file-alt mr-3"></i>
+                    Share Student Profiles
+                </button>
+                <button class="w-full btn-outline text-left justify-start">
+                    <i class="fas fa-calendar mr-3"></i>
+                    Schedule Meeting
+                </button>
+            </div>
+
+            <!-- Shared Files -->
+            <div>
+                <h5 class="font-medium text-textHeading mb-3">Shared Files</h5>
+                <div class="space-y-2">
+                    <div class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded">
+                        <div class="w-8 h-8 bg-red-100 rounded flex items-center justify-center">
+                            <i class="fas fa-file-pdf text-red-600 text-xs"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm font-medium text-textHeading">Company_Profile.pdf</p>
+                            <p class="text-xs text-textBody">2.1 MB</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded">
+                        <div class="w-8 h-8 bg-blue-100 rounded flex items-center justify-center">
+                            <i class="fas fa-file-word text-blue-600 text-xs"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm font-medium text-textHeading">Internship_Requirements.docx</p>
+                            <p class="text-xs text-textBody">1.5 MB</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const chatForm = document.getElementById('chatForm');
+    const messageInput = document.getElementById('messageInput');
+    const chatMessages = document.getElementById('chatMessages');
+
+    // Handle message sending
+    chatForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const message = messageInput.value.trim();
+        if (!message) return;
+
+        // Add message to chat
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'flex items-start space-x-3 justify-end chat-message';
+        messageDiv.innerHTML = `
+            <div class="bg-primary rounded-lg p-4 max-w-md text-right">
+                <p class="text-white">${message}</p>
+                <span class="text-xs text-primary-200 mt-2 block">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+            </div>
+            <div class="w-8 h-8 bg-secondary rounded-full flex items-center justify-center flex-shrink-0">
+                <span class="text-white text-xs font-semibold">FN</span>
+            </div>
+        `;
+        
+        chatMessages.appendChild(messageDiv);
+        
+        // Scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        // Clear input
+        messageInput.value = '';
+
+        // Simulate company response (optional)
+        setTimeout(() => {
+            const responseDiv = document.createElement('div');
+            responseDiv.className = 'flex items-start space-x-3 chat-message';
+            responseDiv.innerHTML = `
+                <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                    <span class="text-white text-xs font-semibold"><%= company.avatar %></span>
+                </div>
+                <div class="bg-gray-100 rounded-lg p-4 max-w-md">
+                    <p class="text-textBody">Thanks for that information. Let me review this with our team and get back to you.</p>
+                    <span class="text-xs text-gray-500 mt-2 block">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                </div>
+            `;
+            chatMessages.appendChild(responseDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, 2000);
+    });
+
+    // Enter key to send message
+    messageInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            chatForm.dispatchEvent(new Event('submit'));
+        }
+    });
+</script>
+
+<%- include('partials/footer') %>
