@@ -7,13 +7,15 @@ const User = require('./models/User');
 const LocalStrategy = require('passport-local').Strategy;
 const Internship = require('./models/Internships');
 //----------------- DB CONNECTION -----------------
-mongoose.connect('mongodb://127.0.0.1:27017/IH', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-  .then(() => console.log('✅ MongoDB Connected'))
-  .catch(err => console.error(err));
-
+// mongoose.connect('mongodb://127.0.0.1:27017/IH', {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// })
+//   .then(() => console.log('✅ MongoDB Connected'))
+//   .catch(err => console.error(err));
+mongoose.connect( 'mongodb+srv://saniyaarora2908_db_user:saniya-2908@cluster0.ylwkohw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+.then(() => console.log('MongoDB Atlas Connected'))
+.catch(err => console.error('MongoDB connection error:', err));
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -320,7 +322,78 @@ app.get('/feedback', ensureAuthenticated, (req, res) => {
   }
   res.render('industry/feedback', { user: req.user });
 });
+app.get('/faculty/dashboard', ensureAuthenticated, (req, res) => {
+  if (req.user.role !== 'faculty') {
+    return res.redirect('/dashboard'); 
+  }
 
+  const analytics = {
+    totalStudents: 45,
+    internshipsSecured: 23,
+    certificatesIssued: 18,
+    ongoingCourses: 3,
+    monthlyData: [2, 4, 3, 5, 7, 6, 8, 9, 7, 11, 8, 12]
+  };
+  
+  const notifications = [
+    {
+      type: 'company_accept',
+      message: 'TechCorp accepted your partnership request',
+      time: '2 hours ago'
+    },
+    {
+      type: 'lor_request',
+      message: 'Sarah Johnson requested a Letter of Recommendation',
+      time: '4 hours ago'
+    },
+    {
+      type: 'certificate_approve',
+      message: 'Certificate approval needed for 3 students',
+      time: '1 day ago'
+    }
+  ];
+  
+  res.render('faculty/dashboard', { 
+    user: req.user,
+    analytics: analytics,
+    notifications: notifications,
+    active: 'dashboard',
+    title: 'Faculty Dashboard'
+  });
+});
+
+app.get('/companies', ensureAuthenticated, (req, res) => {
+  if (req.user.role !== 'faculty') {
+    return res.redirect('/dashboard');
+  }
+  res.render('faculty/companies', { 
+    user: req.user, 
+    active: 'companies',
+    title: 'Companies'
+  });
+});
+
+app.get('/students', ensureAuthenticated, (req, res) => {
+  if (req.user.role !== 'faculty') {
+    return res.redirect('/dashboard');
+  }
+  res.render('faculty/students', { 
+    user: req.user, 
+    active: 'students',
+    title: 'Students'
+  });
+});
+
+app.get('/resources', ensureAuthenticated, (req, res) => {
+  if (req.user.role !== 'faculty') {
+    return res.redirect('/dashboard');
+  }
+  res.render('faculty/resources', { 
+    user: req.user, 
+    active: 'resources',
+    title: 'Resources'
+  });
+});
 // Logout route
 app.get('/auth/logout', (req, res) => {
   req.logout((err) => {
@@ -331,6 +404,7 @@ app.get('/auth/logout', (req, res) => {
     res.redirect('/');
   });
 });
+
 // Internship detail
 app.get('/internship/:id', (req, res) => {
   res.render('student/internship-detail', { user: req.user || null });
