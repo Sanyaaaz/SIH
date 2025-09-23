@@ -191,6 +191,28 @@ app.get('/api/internships', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch internships' });
   }
 });
+app.get('/student/dashboard', ensureAuthenticated, async (req, res) => {
+  if (req.user.role !== 'student') return res.redirect('/auth/login');
+  
+  try {
+    // Fetch recent internships for the dashboard
+    const internships = await Internship.find()
+      .populate('company', 'name email')
+      .sort({ postedAt: -1 })
+      .limit(6); // Show only 6 recent internships on dashboard
+      
+    res.render('student/dashboard', { 
+      user: req.user, 
+      internships: internships 
+    });
+  } catch (error) {
+    console.error('Error fetching internships:', error);
+    res.render('student/dashboard', { 
+      user: req.user, 
+      internships: [] 
+    });
+  }
+});
 // ----------------- START SERVER -----------------
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
