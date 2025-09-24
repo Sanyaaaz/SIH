@@ -14,6 +14,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/IH', {
   .then(() => console.log('✅ MongoDB Connected'))
   .catch(err => console.error(err));
 
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
