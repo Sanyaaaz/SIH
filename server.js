@@ -366,21 +366,119 @@ app.get('/companies', ensureAuthenticated, (req, res) => {
   if (req.user.role !== 'faculty') {
     return res.redirect('/dashboard');
   }
+
+  const notifications = [
+    {
+      type: 'company_accept',
+      message: 'TechCorp accepted your partnership request',
+      time: '2 hours ago',
+      read: false
+    },
+    {
+      type: 'lor_request',
+      message: 'Sarah Johnson requested a Letter of Recommendation',
+      time: '4 hours ago',
+      read: true
+    },
+    {
+      type: 'certificate_approve',
+      message: 'Certificate approval needed for 3 students',
+      time: '1 day ago',
+      read: false
+    }
+  ];
+
+  // Mock company data (replace with actual database query)
+  const companies = [
+    {
+      id: '1',
+      name: 'TechCorp',
+      type: 'Private Company',
+      status: 'connected',
+      avatar: 'TC'
+    },
+    {
+      id: '2',
+      name: 'GreenWorld NGO',
+      type: 'NGO',
+      status: 'pending',
+      avatar: 'GW'
+    },
+    {
+      id: '3',
+      name: 'GovTech',
+      type: 'Government Institute',
+      status: 'invited',
+      avatar: 'GT'
+    }
+  ];
+
   res.render('faculty/companies', { 
     user: req.user, 
     active: 'companies',
-    title: 'Companies'
+    title: 'Companies',
+    notifications: notifications, // Pass notifications to the view
+    companies: companies // Pass companies to the view
   });
 });
 
-app.get('/students', ensureAuthenticated, (req, res) => {
+app.get('/students', ensureAuthenticated, async (req, res) => {
   if (req.user.role !== 'faculty') {
     return res.redirect('/dashboard');
   }
+
+  const notifications = [
+    {
+      type: 'company_accept',
+      message: 'TechCorp accepted your partnership request',
+      time: '2 hours ago',
+      read: false
+    },
+    {
+      type: 'lor_request',
+      message: 'Sarah Johnson requested a Letter of Recommendation',
+      time: '4 hours ago',
+      read: true
+    },
+    {
+      type: 'certificate_approve',
+      message: 'Certificate approval needed for 3 students',
+      time: '1 day ago',
+      read: false
+    }
+  ];
+
+  // Mock student data (replace with actual database query)
+  const students = [
+    {
+      name: 'John Doe',
+      abcId: 'ABC123',
+      internships: 2,
+      certificates: 3,
+      courses: 1
+    },
+    {
+      name: 'Jane Smith',
+      abcId: 'ABC456',
+      internships: 1,
+      certificates: 2,
+      courses: 2
+    },
+    {
+      name: 'Alice Johnson',
+      abcId: 'ABC789',
+      internships: 3,
+      certificates: 4,
+      courses: 1
+    }
+  ];
+
   res.render('faculty/students', { 
     user: req.user, 
     active: 'students',
-    title: 'Students'
+    title: 'Students',
+    notifications: notifications, // Pass notifications to the view
+    students: students // Pass students to the view
   });
 });
 
